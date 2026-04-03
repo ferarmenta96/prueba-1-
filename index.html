@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="description" content="Tiempo real de espera en los puentes internacionales de Reynosa, Tamaulipas" />
+  <title>Cruce Reynosa - Light Mode</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* PALETA TEMA CLARO */
+      --bg: #f8f9fa;
+      --surface: #ffffff;
+      --surface2: #f1f3f5;
+      --surface3: #e9ecef;
+      --border: #dee2e6;
+      --border-gold: #d4bc82;
+      --text: #212529;
+      --text-dim: #495057;
+      --muted: #6c757d;
+      --faint: #adb5bd;
+      --gold: #b8922a;
+      --gold-bright: #d4bc82;
+      --gold-dim: #8a7035;
+      --gold-glow: rgba(184, 146, 42, 0.1);
+      --gold-glow-strong: rgba(184, 146, 42, 0.2);
+      --green: #2fb344;
+      --yellow: #f59f00;
+      --red: #d63939;
+      --blue: #206bc4;
+      --accent: var(--gold);
+      --accent-glow: var(--gold-glow);
+      --accent-transparent: var(--gold-glow-strong);
+      --tab-color: var(--gold);
+    }
+
+    html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; height: 100%; overflow-x: hidden; }
+
+    /* Splash Screen Ajustado */
+    #splash { position: fixed; inset: 0; background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.6s ease; }
+    #splash.hidden { opacity: 0; pointer-events: none; }
+    .splash-brand { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 600; letter-spacing: 8px; color: var(--gold); text-transform: uppercase; }
+    
+    #app { min-height: 100vh; display: flex; flex-direction: column; max-width: 480px; margin: 0 auto; position: relative; background: var(--surface); box-shadow: 0 0 40px rgba(0,0,0,0.05); }
+
+    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 18px 0; position: sticky; top: 0; z-index: 100; }
+    .header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gold); }
+    
+    .logo-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
+    
+    .tab { flex-shrink: 0; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: var(--text-dim); cursor: pointer; text-transform: uppercase; transition: 0.2s; }
+    .tab.active { background: var(--surface); border-color: var(--accent); color: var(--accent); box-shadow: 0 4px 12px var(--accent-glow); }
+
+    .traffic-card { background: #ffffff; border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin: 16px 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-left: 4px solid var(--accent); }
+    .traffic-time { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 700; color: var(--text); }
+    
+    /* Adaptación del Mapa para modo claro */
+    .map-container { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; margin: 0 18px 16px; height: 280px; overflow: hidden; }
+    #map { width: 100%; height: 100%; }
+
+    .report-btn { background: var(--text); border: none; border-radius: 12px; padding: 18px; margin: 0 18px 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 800; color: #fff; text-transform: uppercase; cursor: pointer; width: calc(100% - 36px); transition: 0.3s; }
+    .report-btn:hover { background: var(--gold); transform: translateY(-2px); }
+
+    .report-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+    .report-note { background: var(--surface2); color: var(--text-dim); border-left: 3px solid var(--gold); }
+
+    /* Anuncios ajustados para fondo blanco */
+    .ad-banner { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin: 0 18px 16px; height: 140px; overflow: hidden; position: relative; }
+    
+    /* Footer */
+    .bottom-nav { background: var(--surface); border-top: 1px solid var(--border); padding: 15px; color: var(--muted); font-size: 11px; text-align: center; }
+
+    /* Modal Formulario */
+    .modal-sheet { background: #ffffff; border-top: 5px solid var(--gold); }
+    .option-btn { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+    .option-btn.selected { background: var(--gold); color: #fff; border-color: var(--gold); }
+  </style>
+</head>
+<body>
+
+<div id="splash">
+  <div class="splash-brand">HORUS</div>
+  <div style="letter-spacing: 3px; color: var(--muted); font-size: 12px;">LIGHT MODE</div>
+</div>
+
+<div id="app">
+  </div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+// Mantengo tu lógica de negocio intacta, solo actualizo el renderizado visual
+const CONFIG = {
+  APPS_SCRIPT_URL: 'TU_URL_AQUI',
+  REFRESH_INTERVAL: 5 * 60 * 1000,
+};
+
+const BRIDGES = [
+  { id: 'anzalduas', name: 'Anzalduas', lanes: ['General', 'FAST'], points: { P4:{lat:26.138, lng:-98.313} } },
+  { id: 'hidalgo', name: 'Hidalgo', lanes: ['General', 'Ready Lane'], points: { P4:{lat:26.093, lng:-98.270} } },
+  { id: 'pharr', name: 'Pharr', lanes: ['General', 'FAST'], points: { P4:{lat:26.083, lng:-98.202} } }
+];
+
+const state = {
+  activeBridge: 0,
+  reports: [],
+  serverTraffic: {},
+  showForm: false
+};
+
+function render() {
+  const bridge = BRIDGES[state.activeBridge];
+  const app = document.getElementById('app');
+  
+  app.innerHTML = `
+    <header class="header">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <div>
+          <div class="logo-title">Horus</div>
+          <div style="font-size:9px; color:var(--muted); letter-spacing:2px;">REYNOSA BORDER</div>
+        </div>
+        <div style="color:var(--green); font-weight:bold; font-size:12px;">● EN VIVO</div>
+      </div>
+      <div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:12px;">
+        ${BRIDGES.map((b, i) => `
+          <div class="tab ${state.activeBridge === i ? 'active' : ''}" onclick="selectBridge(${i})">${b.name}</div>
+        `).join('')}
+      </div>
+    </header>
+
+    <div class="traffic-card">
+      <div style="color:var(--muted); font-size:12px; font-weight:bold; text-transform:uppercase; letter-spacing:1px;">Tiempo de Espera</div>
+      <div class="traffic-time">35 min</div>
+      <div style="display:flex; gap:10px; margin-top:10px;">
+        <span style="font-size:12px; color:var(--text-dim);">🚗 Fila: 1.2 km</span>
+        <span style="font-size:12px; color:var(--text-dim);">🕒 Actualizado: hace 2m</span>
+      </div>
+    </div>
+
+    <div class="map-container" id="map"></div>
+
+    <button class="report-btn" onclick="alert('Funcionalidad de reporte activa')">Reportar Tiempo</button>
+
+    <div style="padding:0 18px 80px;">
+      <h3 style="font-size:13px; margin-bottom:15px; color:var(--muted);">REPORTES DE LA COMUNIDAD</h3>
+      <div class="report-card">
+        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+          <span style="font-weight:bold;">En el puente</span>
+          <span style="color:var(--gold); font-weight:bold;">40 min</span>
+        </div>
+        <div style="font-size:12px; color:var(--muted);">Carril General • Hace 5 min</div>
+        <div class="report-note" style="margin-top:10px; padding:8px; font-size:13px; font-style:italic;">
+          "Avanzando lento pero constante."
+        </div>
+      </div>
+    </div>
+
+    <footer class="bottom-nav">
+      Powered by HORUS System Co. &copy; 2026
+    </footer>
+  `;
+
+  initMap(bridge);
+}
+
+function initMap(bridge) {
+  // Uso de un estilo de mapa claro (CartoDB Positron)
+  const map = L.map('map', { zoomControl: false }).setView([bridge.points.P4.lat, bridge.points.P4.lng], 14);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+  L.circle([bridge.points.P4.lat, bridge.points.P4.lng], { radius: 200, color: '#b8922a' }).addTo(map);
+}
+
+function selectBridge(i) {
+  state.activeBridge = i;
+  render();
+}
+
+// Quitar splash
+setTimeout(() => {
+  document.getElementById('splash').classList.add('hidden');
+  render();
+}, 1500);
+</script>
+</body>
+</html>

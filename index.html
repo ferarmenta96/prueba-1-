@@ -122,7 +122,7 @@
     .traffic-meta { display: flex; gap: 16px; font-family: 'Barlow', sans-serif; font-size: 13px; color: var(--text-dim); margin-top: 12px; }
     .meta-item { display: flex; align-items: center; gap: 6px; }
 
-    /* ── SMALL AD BANNER ── */
+    /* -- SMALL AD BANNER -- */
     .ad-banner { border-radius: 12px; margin: 0 18px 16px; overflow: hidden; height: 148px; position: relative; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; }
     .ad-banner:hover { transform: translateY(-2px); }
     .ad-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.7s ease; display: flex; align-items: stretch; }
@@ -583,12 +583,12 @@ function setBridgeVars(bridge) {
   document.documentElement.style.setProperty('--tab-color', color);
 }
 
-// ── Small banner state ──
+// -- Small banner state --
 const AD_DOT_CLASS = ['on-light', 'on-dark', 'on-dark', 'on-light', 'on-dark', 'on-light'];
 const AD_COUNT = 6;
 let adIndex = 0;
 
-// ── Premium banner state ──
+// -- Premium banner state --
 const AD_PREMIUM_COUNT = 2;
 const AD_PREMIUM_DOT_THEME = ['theme-dark', 'theme-light'];
 let adPremiumIndex = 0;
@@ -863,7 +863,7 @@ function attachPremiumBannerClick() {
   });
 }
 
-// ✅ FIX 1: renderForm uses only string concatenation — no template literals with embedded backtick blocks
+// FIX 1: renderForm - string concatenation only, no template literals
 function renderForm(bridge) {
   const f = state.formData;
   const canSubmit = f.position && f.lane && f.estimatedTime && !state.submitting;
@@ -930,7 +930,7 @@ window.closeFormIfOutside = function(e) { if (e.target.classList.contains(‘mod
 window.setField     = function(key, val) { state.formData[key] = val; render(); };
 window.setNote      = function(val) { state.formData.note = val; };
 
-// ✅ FIX 2: spread operator uses real ASCII three dots (…)
+// FIX 2: spread operator - real ASCII three dots (…)
 window.handleSubmit = async function() {
 if (!state.formData.position || !state.formData.lane || !state.formData.estimatedTime) return;
 state.submitting = true; render();
@@ -977,7 +977,7 @@ state.installPrompt = e;
 if (!localStorage.getItem(‘install-dismissed’)) { state.showInstallBanner = true; render(); }
 });
 
-// ── Small banner rotation ──
+// – Small banner rotation –
 setInterval(function() {
 adIndex = (adIndex + 1) % AD_COUNT;
 syncAdBanner();
@@ -995,7 +995,7 @@ dot.className = ‘ad-dot ’ + dotClass + (i === adIndex ? ’ active’ : ‘�
 }
 }
 
-// ── Premium banner rotation ──
+// – Premium banner rotation –
 setInterval(function() {
 adPremiumIndex = (adPremiumIndex + 1) % AD_PREMIUM_COUNT;
 syncAdBannerPremium();

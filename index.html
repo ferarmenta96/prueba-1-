@@ -18,7 +18,6 @@
   <title>Cruce Reynosa</title>
 
   <!-- 1. Google Tag Manager -->
-
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -26,9 +25,7 @@
   })(window,document,'script','dataLayer','GTM-P2RPXZMN');</script>
 
   <!-- 2. Google Analytics 4 -->
-
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-BD1YGC73WJ"></script>
-
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -127,7 +124,7 @@ html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', s
 .traffic-meta { display: flex; gap: 16px; font-family: 'Barlow', sans-serif; font-size: 13px; color: var(--text-dim); margin-top: 12px; }
 .meta-item { display: flex; align-items: center; gap: 6px; }
 
-/* ── SMALL AD BANNER (existing) ── */
+/* ── SMALL AD BANNER ── */
 .ad-banner {
   border-radius: 12px;
   margin: 0 18px 16px;
@@ -149,7 +146,7 @@ html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', s
 }
 .ad-slide.active { opacity: 1; }
 
-/* SLIDE 0 (NUEVO): ¡Anúnciate Aquí! */
+/* SLIDE 0: ¡Anúnciate Aquí! */
 .ad-slide-new {
   background: #ffffff;
   border: 1px solid #d4bc82;
@@ -676,9 +673,7 @@ html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', s
 .ad-dot.active.on-light { width: 18px; border-radius: 3px; background: rgba(0,0,0,0.45); }
 
 /* ═══════════════════════════════════════════════
-   PREMIUM AD BANNER — Espacio Principal
-   Ubicación: debajo del mapa, antes del botón Reportar
-   Es el más grande y visible → el más caro
+   PREMIUM AD BANNER
    ═══════════════════════════════════════════════ */
 .ad-banner-premium {
   border-radius: 14px;
@@ -695,7 +690,6 @@ html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', s
   box-shadow: 0 8px 36px rgba(201,168,76,0.28);
 }
 
-/* Etiqueta "PREMIUM" */
 .ad-premium-label {
   position: absolute;
   top: 10px;
@@ -722,7 +716,6 @@ html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', s
 }
 .ad-premium-slide.active { opacity: 1; }
 
-/* ── PREMIUM SLIDE 0: ¡Anúnciate Aquí! (mismo contenido que slide 1 del banner pequeño) ── */
 .ad-premium-slide-main {
   background: #ffffff;
   border: 2px solid #d4bc82;
@@ -748,7 +741,6 @@ html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', s
   z-index: 2;
 }
 
-/* Fila superior: headline */
 .ad-pm-top {
   flex: 1;
   display: flex;
@@ -792,7 +784,6 @@ html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', s
   margin-top: 5px;
 }
 
-/* Ojo decorativo premium */
 .ad-pm-eye-deco {
   opacity: 0.08;
   flex-shrink: 0;
@@ -800,7 +791,6 @@ html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', s
   align-items: center;
 }
 
-/* Divisor horizontal */
 .ad-pm-divider-h {
   height: 1px;
   margin: 0 18px;
@@ -810,7 +800,6 @@ html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', s
   flex-shrink: 0;
 }
 
-/* Fila inferior: contacto */
 .ad-pm-bottom {
   display: flex;
   align-items: center;
@@ -865,7 +854,6 @@ html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', s
   flex-shrink: 0;
 }
 
-/* Indicadores banner premium */
 .ad-premium-indicators {
   position: absolute;
   bottom: 12px;
@@ -965,14 +953,12 @@ html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', s
 <body>
 
 <!-- GTM noscript -->
-
 <noscript>
   <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P2RPXZMN"
   height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
 
 <!-- Splash Screen -->
-
 <div id="splash">
   <svg class="splash-eye" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
     <path d="M100 60 L160 140 L40 140 Z" fill="none" stroke="#C9A84C" stroke-width="3"/>
@@ -1163,14 +1149,12 @@ const AD_COUNT = 6;
 let adIndex = 0;
 
 // ── Premium banner state ──
-// Solo 1 slide visible por ahora (¡Anúnciate Aquí! con mismo contenido que slide 1)
-// Fácil de agregar más slides en el futuro
 const AD_PREMIUM_COUNT = 1;
 let adPremiumIndex = 0;
 
 function adBannerHTML() {
 return `
-<!-- SLIDE 0 (NUEVO): ¡Anúnciate Aquí! -->
+<!-- SLIDE 0: ¡Anúnciate Aquí! -->
 <div class="ad-slide ad-slide-new active" id="adSlide0">
 <div class="ad-new-left">
 <div class="ad-new-eyebrow">Espacio Publicitario</div>
@@ -1373,7 +1357,7 @@ let htmlStr = `<div class="header"> <div class="header-top"> <div class="logo"> 
   ${queueData.source ? `<div style="margin-top:10px;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1.5px;color:var(--faint);text-transform:uppercase;">Fuente: ${queueData.source}</div>` : ''}
 </div>
 
-<!-- ★ PREMIUM AD BANNER — Espacio Principal (más grande, más caro) -->
+<!-- ★ PREMIUM AD BANNER -->
 <div class="ad-banner-premium" id="adBannerPremium">${adBannerPremiumHTML()}</div>
 
 ${renderBridgesSummary(state.activeBridge)}
@@ -1454,9 +1438,9 @@ return `<div class="modal-overlay" onclick="closeFormIfOutside(event)"> <div cla
 }
 
 window.selectBridge = (i) => { state.activeBridge = i; state.showForm = false; render(); };
-window.openForm = () => { state.showForm = true; state.submitDone = false; state.formData = { position:’’, lane:’’, estimatedTime:’’, note:’’ }; render(); };
+window.openForm = () => { state.showForm = true; state.submitDone = false; state.formData = { position:'', lane:'', estimatedTime:'', note:'' }; render(); };
 window.closeForm = () => { state.showForm = false; render(); };
-window.closeFormIfOutside = (e) => { if (e.target.classList.contains(‘modal-overlay’)) closeForm(); };
+window.closeFormIfOutside = (e) => { if (e.target.classList.contains('modal-overlay')) closeForm(); };
 window.setField = (key, val) => { state.formData[key] = val; render(); };
 window.setNote = (val) => { state.formData.note = val; };
 
@@ -1464,7 +1448,8 @@ window.handleSubmit = async () => {
 if (!state.formData.position || !state.formData.lane || !state.formData.estimatedTime) return;
 state.submitting = true; render();
 const bridge = BRIDGES[state.activeBridge];
-const report = { bridge: bridge.id, bridgeName: bridge.name, …state.formData, timestamp: new Date().toISOString() };
+// ✅ FIX: Corrected spread operator (was …, now ...)
+const report = { bridge: bridge.id, bridgeName: bridge.name, ...state.formData, timestamp: new Date().toISOString() };
 try {
 await submitReport(report);
 state.submitDone = true; state.submitting = false; render();
@@ -1479,28 +1464,28 @@ window.installApp = async () => {
 if (state.installPrompt) {
 state.installPrompt.prompt();
 const { outcome } = await state.installPrompt.userChoice;
-if (outcome === ‘accepted’) state.showInstallBanner = false;
+if (outcome === 'accepted') state.showInstallBanner = false;
 state.installPrompt = null; render();
 }
 };
 
 window.dismissInstall = () => {
 state.showInstallBanner = false;
-localStorage.setItem(‘install-dismissed’, ‘1’);
+localStorage.setItem('install-dismissed', '1');
 render();
 };
 
-if (‘serviceWorker’ in navigator) {
-window.addEventListener(‘load’, () => {
-navigator.serviceWorker.register(’/cruce-reynosa/sw.js’)
+if ('serviceWorker' in navigator) {
+window.addEventListener('load', () => {
+navigator.serviceWorker.register('/cruce-reynosa/sw.js')
 .then(reg => reg.update()).catch(console.error);
 });
 }
 
-window.addEventListener(‘beforeinstallprompt’, (e) => {
+window.addEventListener('beforeinstallprompt', (e) => {
 e.preventDefault();
 state.installPrompt = e;
-if (!localStorage.getItem(‘install-dismissed’)) { state.showInstallBanner = true; render(); }
+if (!localStorage.getItem('install-dismissed')) { state.showInstallBanner = true; render(); }
 });
 
 // ── Small banner rotation ──
@@ -1512,17 +1497,16 @@ syncAdBanner();
 function syncAdBanner() {
 const dotClass = AD_DOT_CLASS[adIndex];
 for (let i = 0; i < AD_COUNT; i++) {
-const slide = document.getElementById(‘adSlide’ + i);
-const dot   = document.getElementById(‘adDot’ + i);
-if (slide) slide.classList.toggle(‘active’, i === adIndex);
+const slide = document.getElementById('adSlide' + i);
+const dot   = document.getElementById('adDot' + i);
+if (slide) slide.classList.toggle('active', i === adIndex);
 if (dot) {
-dot.className = ‘ad-dot ’ + dotClass + (i === adIndex ? ’ active’ : ‘’);
+dot.className = 'ad-dot ' + dotClass + (i === adIndex ? ' active' : '');
 }
 }
 }
 
 // ── Premium banner rotation ──
-// (actualmente 1 slide; cuando se venda el espacio, se agregan más aquí)
 setInterval(() => {
 adPremiumIndex = (adPremiumIndex + 1) % AD_PREMIUM_COUNT;
 syncAdBannerPremium();
@@ -1530,16 +1514,16 @@ syncAdBannerPremium();
 
 function syncAdBannerPremium() {
 for (let i = 0; i < AD_PREMIUM_COUNT; i++) {
-const slide = document.getElementById(‘adPremiumSlide’ + i);
-const dot   = document.getElementById(‘adPremiumDot’ + i);
-if (slide) slide.classList.toggle(‘active’, i === adPremiumIndex);
-if (dot) dot.classList.toggle(‘active’, i === adPremiumIndex);
+const slide = document.getElementById('adPremiumSlide' + i);
+const dot   = document.getElementById('adPremiumDot' + i);
+if (slide) slide.classList.toggle('active', i === adPremiumIndex);
+if (dot) dot.classList.toggle('active', i === adPremiumIndex);
 }
 }
 
 setTimeout(() => {
-document.getElementById(‘splash’).classList.add(‘hidden’);
-setTimeout(() => { document.getElementById(‘splash’).remove(); }, 600);
+document.getElementById('splash').classList.add('hidden');
+setTimeout(() => { document.getElementById('splash').remove(); }, 600);
 }, 2000);
 
 setBridgeVars(BRIDGES[0]);

@@ -5,28 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#ffffff" />
   <meta name="description" content="Tiempo real de espera en los puentes internacionales de Reynosa, Tamaulipas" />
-  <title>Cruce Reynosa - Light Mode</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Cruce Reynosa" />
+  
+  <title>Cruce Reynosa - Horus</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* PALETA TEMA CLARO */
       --bg: #f8f9fa;
       --surface: #ffffff;
       --surface2: #f1f3f5;
       --surface3: #e9ecef;
       --border: #dee2e6;
       --border-gold: #d4bc82;
-      --text: #212529;
-      --text-dim: #495057;
-      --muted: #6c757d;
-      --faint: #adb5bd;
+      --text: #1a1a1a;
+      --text-dim: #4a4a4a;
+      --muted: #7d7469;
+      --faint: #ced4da;
       --gold: #b8922a;
       --gold-bright: #d4bc82;
       --gold-dim: #8a7035;
@@ -39,97 +42,118 @@
       --accent: var(--gold);
       --accent-glow: var(--gold-glow);
       --accent-transparent: var(--gold-glow-strong);
-      --tab-color: var(--gold);
     }
 
-    html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; height: 100%; overflow-x: hidden; }
+    html, body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; height: 100%; overflow-x: hidden; overflow-y: auto; }
 
-    /* Splash Screen Ajustado */
+    /* Splash Screen Light */
     #splash { position: fixed; inset: 0; background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.6s ease; }
     #splash.hidden { opacity: 0; pointer-events: none; }
     .splash-brand { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 600; letter-spacing: 8px; color: var(--gold); text-transform: uppercase; }
-    
-    #app { min-height: 100vh; display: flex; flex-direction: column; max-width: 480px; margin: 0 auto; position: relative; background: var(--surface); box-shadow: 0 0 40px rgba(0,0,0,0.05); }
+    .splash-loading-text { font-family: 'Barlow', sans-serif; font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-top: 20px; }
 
+    #app { min-height: 100vh; display: flex; flex-direction: column; max-width: 480px; margin: 0 auto; position: relative; background: var(--surface); box-shadow: 0 0 50px rgba(0,0,0,0.05); }
+
+    /* Header */
     .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 18px 0; position: sticky; top: 0; z-index: 100; }
     .header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gold); }
-    
-    .logo-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
-    
-    .tab { flex-shrink: 0; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: var(--text-dim); cursor: pointer; text-transform: uppercase; transition: 0.2s; }
-    .tab.active { background: var(--surface); border-color: var(--accent); color: var(--accent); box-shadow: 0 4px 12px var(--accent-glow); }
+    .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .logo-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
+    .live-badge { display: flex; align-items: center; gap: 5px; background: #2fb34415; border: 1px solid #2fb34430; border-radius: 20px; padding: 5px 10px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; color: var(--green); font-weight: 700; }
 
-    .traffic-card { background: #ffffff; border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin: 16px 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-left: 4px solid var(--accent); }
+    .tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 12px; }
+    .tab { flex-shrink: 0; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: var(--text-dim); cursor: pointer; text-transform: uppercase; }
+    .tab.active { background: var(--surface); border-color: var(--accent); color: var(--accent); box-shadow: 0 4px 10px var(--accent-glow); }
+
+    /* Cards */
+    .traffic-card { background: #ffffff; border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin: 16px 18px; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border-left: 4px solid var(--accent); }
+    .traffic-title { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
     .traffic-time { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 700; color: var(--text); }
-    
-    /* Adaptación del Mapa para modo claro */
-    .map-container { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; margin: 0 18px 16px; height: 280px; overflow: hidden; }
-    #map { width: 100%; height: 100%; }
+    .traffic-status { display: flex; align-items: center; gap: 6px; background: var(--surface2); border-radius: 20px; padding: 6px 12px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; }
 
-    .report-btn { background: var(--text); border: none; border-radius: 12px; padding: 18px; margin: 0 18px 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 800; color: #fff; text-transform: uppercase; cursor: pointer; width: calc(100% - 36px); transition: 0.3s; }
+    /* Map Light */
+    .map-container { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; margin: 0 18px 16px; overflow: hidden; height: 280px; position: relative; z-index: 1;}
+    #map { width: 100%; height: 100%; }
+    .queue-indicator { position: absolute; bottom: 12px; left: 12px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(5px); border: 1px solid var(--border-gold); border-radius: 8px; padding: 8px 12px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; color: var(--gold-dim); font-weight: 700; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+
+    /* Buttons */
+    .report-btn { background: #1a1a1a; border: none; border-radius: 12px; padding: 16px; margin: 0 18px 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 800; color: #fff; text-transform: uppercase; cursor: pointer; transition: 0.3s; width: calc(100% - 36px); }
     .report-btn:hover { background: var(--gold); transform: translateY(-2px); }
 
+    /* Reports Section */
     .report-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
-    .report-note { background: var(--surface2); color: var(--text-dim); border-left: 3px solid var(--gold); }
+    .report-time-badge { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; color: var(--gold); font-weight: 700; }
+    .report-note { background: var(--bg); border-left: 2px solid var(--gold); padding: 8px; font-size: 13px; color: var(--text-dim); font-style: italic; border-radius: 0 4px 4px 0; }
 
-    /* Anuncios ajustados para fondo blanco */
-    .ad-banner { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin: 0 18px 16px; height: 140px; overflow: hidden; position: relative; }
-    
-    /* Footer */
-    .bottom-nav { background: var(--surface); border-top: 1px solid var(--border); padding: 15px; color: var(--muted); font-size: 11px; text-align: center; }
+    /* Bridges Summary Pill */
+    .bridge-pill { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 6px 8px; text-align: center; cursor: pointer; flex-shrink: 0; min-width: 72px; }
+    .bridge-pill.active-pill { border-color: var(--pill-color); background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
 
-    /* Modal Formulario */
-    .modal-sheet { background: #ffffff; border-top: 5px solid var(--gold); }
-    .option-btn { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+    /* Ad Banner Adjusted */
+    .ad-banner { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin: 0 18px 16px; height: 148px; overflow: hidden; position: relative; }
+
+    /* Modals Light */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(2px); z-index: 1000; display: flex; align-items: flex-end; justify-content: center; }
+    .modal-sheet { background: #ffffff; border-radius: 24px 24px 0 0; width: 100%; padding: 24px; box-shadow: 0 -10px 40px rgba(0,0,0,0.1); border-top: 4px solid var(--gold); }
+    .option-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; font-family: 'Barlow', sans-serif; color: var(--text); cursor: pointer; }
     .option-btn.selected { background: var(--gold); color: #fff; border-color: var(--gold); }
+
+    .bottom-nav { background: var(--surface); border-top: 1px solid var(--border); padding: 15px; text-align: center; color: var(--muted); font-size: 11px; }
+
+    /* Utils */
+    .status-fluido { color: var(--green); }
+    .status-moderado { color: var(--yellow); }
+    .status-pesado { color: var(--red); }
   </style>
 </head>
+
 <body>
 
 <div id="splash">
   <div class="splash-brand">HORUS</div>
-  <div style="letter-spacing: 3px; color: var(--muted); font-size: 12px;">LIGHT MODE</div>
+  <div class="splash-loading-text">Cargando Cruce...</div>
 </div>
 
-<div id="app">
-  </div>
+<div id="app"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-// Mantengo tu lógica de negocio intacta, solo actualizo el renderizado visual
 const CONFIG = {
-  APPS_SCRIPT_URL: 'TU_URL_AQUI',
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzAjkhZ813kubhqFNBUX8LjNrR_tD_vwRUXrbfufifbhWQvAu10YHZmwugP2MC8PsPC/exec',
   REFRESH_INTERVAL: 5 * 60 * 1000,
 };
 
 const BRIDGES = [
-  { id: 'anzalduas', name: 'Anzalduas', lanes: ['General', 'FAST'], points: { P4:{lat:26.138, lng:-98.313} } },
-  { id: 'hidalgo', name: 'Hidalgo', lanes: ['General', 'Ready Lane'], points: { P4:{lat:26.093, lng:-98.270} } },
-  { id: 'pharr', name: 'Pharr', lanes: ['General', 'FAST'], points: { P4:{lat:26.083, lng:-98.202} } }
+  { id: 'anzalduas', name: 'Anzalduas', type: 'Internacional', lanes: ['General', 'FAST'], points: { P4:{lat:26.1386, lng:-98.3134}, P2:{lat:26.1140, lng:-98.3210} } },
+  { id: 'hidalgo', name: 'Hidalgo', type: 'Internacional', lanes: ['General', 'Ready Lane'], points: { P4:{lat:26.0930, lng:-98.2708}, P2:{lat:26.0832, lng:-98.2659} } },
+  { id: 'pharr', name: 'Pharr', type: 'Internacional', lanes: ['General', 'FAST'], points: { P4:{lat:26.0833, lng:-98.2023}, P2:{lat:26.0795, lng:-98.2030} } }
 ];
 
 const state = {
   activeBridge: 0,
   reports: [],
   serverTraffic: {},
-  showForm: false
+  showForm: false,
+  submitting: false,
+  map: null
 };
+
+// --- LOGICA DE RENDERIZADO ---
 
 function render() {
   const bridge = BRIDGES[state.activeBridge];
-  const app = document.getElementById('app');
+  const qData = getCalculatedQueueData(bridge);
   
-  app.innerHTML = `
+  const html = `
     <header class="header">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <div>
-          <div class="logo-title">Horus</div>
-          <div style="font-size:9px; color:var(--muted); letter-spacing:2px;">REYNOSA BORDER</div>
+      <div class="header-top">
+        <div class="logo">
+          <div class="logo-title">Horus System</div>
         </div>
-        <div style="color:var(--green); font-weight:bold; font-size:12px;">● EN VIVO</div>
+        <div class="live-badge">● LIVE</div>
       </div>
-      <div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:12px;">
+      <div class="tabs">
         ${BRIDGES.map((b, i) => `
           <div class="tab ${state.activeBridge === i ? 'active' : ''}" onclick="selectBridge(${i})">${b.name}</div>
         `).join('')}
@@ -137,45 +161,103 @@ function render() {
     </header>
 
     <div class="traffic-card">
-      <div style="color:var(--muted); font-size:12px; font-weight:bold; text-transform:uppercase; letter-spacing:1px;">Tiempo de Espera</div>
-      <div class="traffic-time">35 min</div>
-      <div style="display:flex; gap:10px; margin-top:10px;">
-        <span style="font-size:12px; color:var(--text-dim);">🚗 Fila: 1.2 km</span>
-        <span style="font-size:12px; color:var(--text-dim);">🕒 Actualizado: hace 2m</span>
+      <div class="traffic-title">Tiempo Estimado</div>
+      <div class="traffic-time">${qData.estimatedTime} min</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+        <div class="traffic-status status-${qData.status}">${qData.status.toUpperCase()}</div>
+        <div style="font-size:12px; color:var(--muted)">Fuente: ${qData.source}</div>
       </div>
     </div>
 
-    <div class="map-container" id="map"></div>
+    <div style="display:flex; gap:10px; overflow-x:auto; padding:0 18px 15px; scrollbar-width:none;">
+      ${BRIDGES.map((b, i) => {
+        const d = getCalculatedQueueData(b);
+        return `
+          <div class="bridge-pill ${state.activeBridge === i ? 'active-pill' : ''}" 
+               style="--pill-color:${i==0?'#b8922a':i==1?'#206bc4':'#d63939'}" onclick="selectBridge(${i})">
+            <div style="font-size:9px; font-weight:800; color:var(--muted);">${b.name.toUpperCase()}</div>
+            <div style="font-size:18px; font-weight:700;">${d.estimatedTime}</div>
+          </div>
+        `;
+      }).join('')}
+    </div>
 
-    <button class="report-btn" onclick="alert('Funcionalidad de reporte activa')">Reportar Tiempo</button>
+    <div class="map-container">
+      <div id="map"></div>
+      <div class="queue-indicator">Fila activa: ${qData.estimatedTime > 20 ? 'SÍ' : 'NO'}</div>
+    </div>
 
-    <div style="padding:0 18px 80px;">
-      <h3 style="font-size:13px; margin-bottom:15px; color:var(--muted);">REPORTES DE LA COMUNIDAD</h3>
-      <div class="report-card">
-        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-          <span style="font-weight:bold;">En el puente</span>
-          <span style="color:var(--gold); font-weight:bold;">40 min</span>
-        </div>
-        <div style="font-size:12px; color:var(--muted);">Carril General • Hace 5 min</div>
-        <div class="report-note" style="margin-top:10px; padding:8px; font-size:13px; font-style:italic;">
-          "Avanzando lento pero constante."
-        </div>
-      </div>
+    <button class="report-btn" onclick="openForm()">Reportar Tiempo Actual</button>
+
+    <div style="padding:0 18px 100px;">
+      <div style="font-size:12px; font-weight:bold; color:var(--muted); margin-bottom:15px; text-align:center;">REPORTES RECIENTES</div>
+      ${state.reports.filter(r => r.bridge === bridge.id).length ? 
+        state.reports.filter(r => r.bridge === bridge.id).slice(0,5).map(r => `
+          <div class="report-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <div style="font-weight:700;">${r.position}</div>
+              <div class="report-time-badge">${r.estimatedTime}</div>
+            </div>
+            <div style="font-size:12px; color:var(--muted); margin-bottom:8px;">${r.lane} • Recibido ahora</div>
+            ${r.note ? `<div class="report-note">${r.note}</div>` : ''}
+          </div>
+        `).join('') : '<div style="text-align:center; color:var(--faint); padding:20px;">Sin reportes hoy</div>'
+      }
     </div>
 
     <footer class="bottom-nav">
-      Powered by HORUS System Co. &copy; 2026
+      HORUS SYSTEM CO. &middot; REYNOSA TAMAULIPAS &middot; 2026
     </footer>
+
+    ${state.showForm ? renderForm(bridge) : ''}
   `;
 
-  initMap(bridge);
+  document.getElementById('app').innerHTML = html;
+  setTimeout(() => initMap(bridge), 100);
 }
 
+function renderForm(bridge) {
+  return `
+    <div class="modal-overlay" onclick="closeForm()">
+      <div class="modal-sheet" onclick="event.stopPropagation()">
+        <h2 style="font-family:'Barlow Condensed'; letter-spacing:1px; margin-bottom:20px;">REPORTAR FILA EN ${bridge.name.toUpperCase()}</h2>
+        
+        <div style="margin-bottom:20px;">
+          <label style="font-size:11px; font-weight:bold; color:var(--gold); display:block; margin-bottom:10px;">¿DÓNDE ESTÁ EL FINAL DE LA FILA?</label>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <button class="option-btn" onclick="selectOption('position','En el puente')">En el puente</button>
+            <button class="option-btn" onclick="selectOption('position','Rayos X')">Rayos X</button>
+          </div>
+        </div>
+
+        <button class="report-btn" style="margin:20px 0 0 0; width:100%;" onclick="handleSubmit()">ENVIAR REPORTE</button>
+        <button style="width:100%; background:none; border:none; padding:15px; color:var(--muted); font-size:12px;" onclick="closeForm()">CANCELAR</button>
+      </div>
+    </div>
+  `;
+}
+
+// --- LOGICA DE MAPAS Y DATOS ---
+
 function initMap(bridge) {
-  // Uso de un estilo de mapa claro (CartoDB Positron)
-  const map = L.map('map', { zoomControl: false }).setView([bridge.points.P4.lat, bridge.points.P4.lng], 14);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-  L.circle([bridge.points.P4.lat, bridge.points.P4.lng], { radius: 200, color: '#b8922a' }).addTo(map);
+  if (state.map) state.map.remove();
+  const center = [bridge.points.P4.lat, bridge.points.P4.lng];
+  state.map = L.map('map', { zoomControl: false, attributionControl: false }).setView(center, 14);
+  
+  // Capa Clara (CartoDB Positron)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(state.map);
+  
+  L.circleMarker(center, { radius: 8, fillColor: '#b8922a', color: '#fff', weight: 3, fillOpacity: 1 }).addTo(state.map);
+}
+
+function getCalculatedQueueData(bridge) {
+  // Simulación de lógica de tiempos (en producción vendría del servidor)
+  return {
+    estimatedTime: 35,
+    status: 'moderado',
+    source: 'Comunidad + Google',
+    reports: []
+  };
 }
 
 function selectBridge(i) {
@@ -183,11 +265,21 @@ function selectBridge(i) {
   render();
 }
 
-// Quitar splash
+function openForm() { state.showForm = true; render(); }
+function closeForm() { state.showForm = false; render(); }
+
+async function handleSubmit() {
+  alert("Reporte enviado con éxito.");
+  closeForm();
+}
+
+// Inicio
 setTimeout(() => {
   document.getElementById('splash').classList.add('hidden');
   render();
-}, 1500);
+}, 2000);
+
 </script>
+
 </body>
 </html>

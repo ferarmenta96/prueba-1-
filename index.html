@@ -912,114 +912,111 @@ function renderForm(bridge) {
     + '<label class="form-label">Comentario (opcional)</label>'
     + '<textarea class="form-textarea" rows="2" placeholder="Ej: Estan revisando mucho..." oninput="setNote(this.value)">' + (f.note || '') + '</textarea>'
 
-```
-+ '</div>'
-+ '<button class="submit-btn" ' + (canSubmit ? '' : 'disabled') + ' onclick="handleSubmit()">'
-+ (state.submitting ? 'Enviando...' : 'Publicar Reporte')
-+ '</button>'
-+ '<button onclick="closeForm()" style="width:100%;background:none;border:none;color:var(--muted);font-size:13px;letter-spacing:1px;margin-top:12px;cursor:pointer;padding:8px;font-family:\'Barlow Condensed\',sans-serif;text-transform:uppercase">Cancelar</button>'
-+ '</div></div>';
-```
-
+    + '</div>'
+    + '<button class="submit-btn" ' + (canSubmit ? '' : 'disabled') + ' onclick="handleSubmit()">'
+    + (state.submitting ? 'Enviando...' : 'Publicar Reporte')
+    + '</button>'
+    + '<button onclick="closeForm()" style="width:100%;background:none;border:none;color:var(--muted);font-size:13px;letter-spacing:1px;margin-top:12px;cursor:pointer;padding:8px;font-family:\'Barlow Condensed\',sans-serif;text-transform:uppercase">Cancelar</button>'
+    + '</div></div>';
 }
 
 window.selectBridge = function(i) { state.activeBridge = i; state.showForm = false; render(); };
-window.openForm     = function() { state.showForm = true; state.submitDone = false; state.formData = { position:’’, lane:’’, estimatedTime:’’, note:’’ }; render(); };
+window.openForm     = function() { state.showForm = true; state.submitDone = false; state.formData = { position: '', lane: '', estimatedTime: '', note: '' }; render(); };
 window.closeForm    = function() { state.showForm = false; render(); };
-window.closeFormIfOutside = function(e) { if (e.target.classList.contains(‘modal-overlay’)) closeForm(); };
+window.closeFormIfOutside = function(e) { if (e.target.classList.contains('modal-overlay')) closeForm(); };
 window.setField     = function(key, val) { state.formData[key] = val; render(); };
 window.setNote      = function(val) { state.formData.note = val; };
 
-// FIX 2: spread operator - real ASCII three dots (…)
+// FIX 2: spread operator - real ASCII three dots (...)
 window.handleSubmit = async function() {
-if (!state.formData.position || !state.formData.lane || !state.formData.estimatedTime) return;
-state.submitting = true; render();
-const bridge = BRIDGES[state.activeBridge];
-const report = Object.assign(
-{ bridge: bridge.id, bridgeName: bridge.name, timestamp: new Date().toISOString() },
-state.formData
-);
-try {
-await submitReport(report);
-state.submitDone = true; state.submitting = false; render();
-setTimeout(async function() { await fetchReports(); closeForm(); }, 1500);
-} catch (e) {
-state.submitting = false; state.submitDone = true; render();
-setTimeout(closeForm, 2000);
-}
+  if (!state.formData.position || !state.formData.lane || !state.formData.estimatedTime) return;
+  state.submitting = true; render();
+  const bridge = BRIDGES[state.activeBridge];
+  const report = Object.assign(
+    { bridge: bridge.id, bridgeName: bridge.name, timestamp: new Date().toISOString() },
+    state.formData
+  );
+  try {
+    await submitReport(report);
+    state.submitDone = true; state.submitting = false; render();
+    setTimeout(async function() { await fetchReports(); closeForm(); }, 1500);
+  } catch (e) {
+    state.submitting = false; state.submitDone = true; render();
+    setTimeout(closeForm, 2000);
+  }
 };
 
 window.installApp = async function() {
-if (state.installPrompt) {
-state.installPrompt.prompt();
-const result = await state.installPrompt.userChoice;
-if (result.outcome === ‘accepted’) state.showInstallBanner = false;
-state.installPrompt = null; render();
-}
+  if (state.installPrompt) {
+    state.installPrompt.prompt();
+    const result = await state.installPrompt.userChoice;
+    if (result.outcome === 'accepted') state.showInstallBanner = false;
+    state.installPrompt = null; render();
+  }
 };
 
 window.dismissInstall = function() {
-state.showInstallBanner = false;
-localStorage.setItem(‘install-dismissed’, ‘1’);
-render();
+  state.showInstallBanner = false;
+  localStorage.setItem('install-dismissed', '1');
+  render();
 };
 
-if (‘serviceWorker’ in navigator) {
-window.addEventListener(‘load’, function() {
-navigator.serviceWorker.register(’/cruce-reynosa/sw.js’)
-.then(function(reg) { reg.update(); }).catch(console.error);
-});
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/cruce-reynosa/sw.js')
+      .then(function(reg) { reg.update(); }).catch(console.error);
+  });
 }
 
-window.addEventListener(‘beforeinstallprompt’, function(e) {
-e.preventDefault();
-state.installPrompt = e;
-if (!localStorage.getItem(‘install-dismissed’)) { state.showInstallBanner = true; render(); }
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  state.installPrompt = e;
+  if (!localStorage.getItem('install-dismissed')) { state.showInstallBanner = true; render(); }
 });
 
-// – Small banner rotation –
+// -- Small banner rotation --
 setInterval(function() {
-adIndex = (adIndex + 1) % AD_COUNT;
-syncAdBanner();
+  adIndex = (adIndex + 1) % AD_COUNT;
+  syncAdBanner();
 }, 6000);
 
 function syncAdBanner() {
-const dotClass = AD_DOT_CLASS[adIndex];
-for (let i = 0; i < AD_COUNT; i++) {
-const slide = document.getElementById(‘adSlide’ + i);
-const dot   = document.getElementById(‘adDot’ + i);
-if (slide) slide.classList.toggle(‘active’, i === adIndex);
-if (dot) {
-dot.className = ‘ad-dot ’ + dotClass + (i === adIndex ? ’ active’ : ‘’);
-}
-}
+  const dotClass = AD_DOT_CLASS[adIndex];
+  for (let i = 0; i < AD_COUNT; i++) {
+    const slide = document.getElementById('adSlide' + i);
+    const dot   = document.getElementById('adDot' + i);
+    if (slide) slide.classList.toggle('active', i === adIndex);
+    if (dot) {
+      dot.className = 'ad-dot ' + dotClass + (i === adIndex ? ' active' : '');
+    }
+  }
 }
 
-// – Premium banner rotation –
+// -- Premium banner rotation --
 setInterval(function() {
-adPremiumIndex = (adPremiumIndex + 1) % AD_PREMIUM_COUNT;
-syncAdBannerPremium();
+  adPremiumIndex = (adPremiumIndex + 1) % AD_PREMIUM_COUNT;
+  syncAdBannerPremium();
 }, 7000);
 
 function syncAdBannerPremium() {
-const dotTheme = AD_PREMIUM_DOT_THEME[adPremiumIndex];
-for (let i = 0; i < AD_PREMIUM_COUNT; i++) {
-const slide = document.getElementById(‘adPremiumSlide’ + i);
-const dot   = document.getElementById(‘adPremiumDot’ + i);
-if (slide) slide.classList.toggle(‘active’, i === adPremiumIndex);
-if (dot) {
-dot.className = ‘ad-premium-dot ’ + dotTheme + (i === adPremiumIndex ? ’ active’ : ‘’);
-}
-}
+  const dotTheme = AD_PREMIUM_DOT_THEME[adPremiumIndex];
+  for (let i = 0; i < AD_PREMIUM_COUNT; i++) {
+    const slide = document.getElementById('adPremiumSlide' + i);
+    const dot   = document.getElementById('adPremiumDot' + i);
+    if (slide) slide.classList.toggle('active', i === adPremiumIndex);
+    if (dot) {
+      dot.className = 'ad-premium-dot ' + dotTheme + (i === adPremiumIndex ? ' active' : '');
+    }
+  }
 }
 
 // Init
 setTimeout(function() {
-document.getElementById(‘splash’).classList.add(‘hidden’);
-setTimeout(function() {
-const s = document.getElementById(‘splash’);
-if (s) s.remove();
-}, 600);
+  document.getElementById('splash').classList.add('hidden');
+  setTimeout(function() {
+    const s = document.getElementById('splash');
+    if (s) s.remove();
+  }, 600);
 }, 2000);
 
 setBridgeVars(BRIDGES[0]);

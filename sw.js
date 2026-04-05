@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cruce-reynosa-v13';
+const CACHE_NAME = 'cruce-reynosa-v14';
 const STATIC_ASSETS = [
   '/cruce-reynosa/',
   '/cruce-reynosa/index.html',

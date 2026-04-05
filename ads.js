@@ -524,7 +524,7 @@ function smallBannerHTML() {
     // ── Slide 1: Dark gold HORUS ─────────────────────────────────
     + '<div class="ad-slide ad-slide-0" id="adSlide1">'
     +   '<div class="ad-s0-left">'
-    +     '<div class="ad-s0-eyebrow">Tecnologia de Frontera</div>'
+    +     '<div class="ad-s0-eyebrow">Incrementa tus ingresos</div>'
     +     '<div class="ad-s0-brand">HORUS</div>'
     +     '<div class="ad-s0-sub">System Co. &mdash; Automatizacion Empresarial</div>'
     +   '</div>'

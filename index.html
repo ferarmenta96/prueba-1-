@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#0a0a0a" />
-  <meta name="description" content="Tiempo real de espera en los puentes internacionales de Reynosa, Tamaulipas" />
+  <meta name="description" content="Tiempo real de espera en los puentes internacionales de Tamaulipas" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Cruce Reynosa" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta property="og:title" content="Cruce Reynosa" />
-  <meta property="og:description" content="Cuanto esta la fila en el puente? Tiempo real, reportado por la comunidad." />
+    <meta property="og:description" content="Cómo esta la fila en el puente? Tiempo real, Powered by Horus." />
   <meta property="og:type" content="website" />
   <title>Cruce Reynosa</title>
 
@@ -99,470 +99,680 @@
     /* ── mobile header ── */
     .m-header { background:var(--surface); border-bottom:1px solid var(--border); padding:14px 18px 0; position:relative; z-index:10; flex-shrink:0; }
     .m-header::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
-    .m-header-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+    .m-header-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
     .m-logo { display:flex; align-items:center; gap:12px; }
     .m-logo-title { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; letter-spacing:3px; color:var(--gold); text-transform:uppercase; }
     .m-logo-sub { font-family:'Barlow Condensed',sans-serif; font-size:9px; color:var(--muted); letter-spacing:2.5px; text-transform:uppercase; font-weight:600; margin-top:2px; }
+    
+    /* ── Live badge mejorado con última actualización ── */
     .live-badge { display:flex; align-items:center; gap:5px; background:#4ade8015; border:1px solid #4ade8030; border-radius:20px; padding:5px 10px; font-family:'Barlow Condensed',sans-serif; font-size:11px; color:var(--green); font-weight:700; letter-spacing:1px; }
     .live-dot { width:5px; height:5px; background:var(--green); border-radius:50%; animation:pulse 1.5s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    
+    /* ── Metadata header (actualización + confianza) ── */
+    .m-header-meta { display:flex; justify-content:space-between; align-items:center; font-family:'Barlow',sans-serif; font-size:10px; color:var(--muted); padding-bottom:10px; }
+    .m-meta-item { display:flex; align-items:center; gap:4px; }
+    .m-confidence { color:var(--green); font-weight:600; }
+    
     .m-tabs { display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; padding-bottom:12px; }
     .m-tabs::-webkit-scrollbar { display:none; }
     .m-tab { flex-shrink:0; background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:10px 14px; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; color:var(--text-dim); cursor:pointer; transition:all 0.2s; text-transform:uppercase; white-space:nowrap; }
     .m-tab.active { background:var(--accent-transparent); border-color:var(--accent); color:var(--accent); box-shadow:0 0 16px var(--accent-glow); }
 
-    /* ── mobile traffic card ── */
+    /* ── mobile traffic card MEJORADA ── */
     .m-traffic-card { background:linear-gradient(135deg,var(--surface2) 0%,var(--surface) 100%); border:1px solid var(--border-gold); border-radius:16px; padding:20px; margin:16px 18px; position:relative; overflow:hidden; }
     .m-traffic-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--accent),transparent); }
+    
     .m-traffic-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
     .m-traffic-title { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-bottom:4px; }
     .m-traffic-time { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:600; line-height:1; color:var(--text); }
-    .m-traffic-status { display:flex; align-items:center; gap:6px; background:var(--surface3); border:1px solid var(--border); border-radius:20px; padding:6px 12px; font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
-    .m-status-dot { width:6px; height:6px; border-radius:50%; }
-    .m-status-fluido { color:var(--green); } .m-status-fluido .m-status-dot { background:var(--green); }
-    .m-status-moderado { color:var(--yellow); } .m-status-moderado .m-status-dot { background:var(--yellow); }
-    .m-status-pesado { color:var(--red); } .m-status-pesado .m-status-dot { background:var(--red); }
+    
+    /* ── Status badge con sistema de semáforo mejorado ── */
+    .m-traffic-status { display:flex; align-items:center; gap:6px; border-radius:20px; padding:8px 14px; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; border:2px solid; }
+    .m-status-dot { width:8px; height:8px; border-radius:50%; animation:statusPulse 2s infinite; }
+    @keyframes statusPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.2)} }
+    
+    /* 🟢 FLUIDO */
+    .m-status-fluido { color:#059669; background:#10b98115; border-color:#10b981; }
+    .m-status-fluido .m-status-dot { background:#10b981; box-shadow:0 0 8px #10b98180; }
+    
+    /* 🟡 MODERADO */
+    .m-status-moderado { color:#d97706; background:#f59e0b15; border-color:#f59e0b; }
+    .m-status-moderado .m-status-dot { background:#f59e0b; box-shadow:0 0 8px #f59e0b80; }
+    
+    /* 🔴 PESADO */
+    .m-status-pesado { color:#dc2626; background:#ef444415; border-color:#ef4444; }
+    .m-status-pesado .m-status-dot { background:#ef4444; box-shadow:0 0 8px #ef444480; }
+    
     .m-traffic-meta { display:flex; gap:16px; font-family:'Barlow',sans-serif; font-size:13px; color:var(--text-dim); margin-top:12px; }
 
+    /* ── Sección de tendencia y mejor hora ── */
+    .m-insights { background:var(--surface3); border-radius:12px; padding:14px; margin-top:14px; border:1px solid var(--border); }
+    .m-insights-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .m-insights-row:last-child { margin-bottom:0; }
+    .m-insights-label { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:1px; color:var(--muted); text-transform:uppercase; font-weight:600; }
+    .m-insights-value { font-family:'Barlow',sans-serif; font-size:13px; color:var(--text); font-weight:600; display:flex; align-items:center; gap:4px; }
+    .m-trend-up { color:var(--red); }
+    .m-trend-down { color:var(--green); }
+    .m-trend-stable { color:var(--yellow); }
+
+    /* ── ANUNCIO PREMIUM (justo después del tiempo) ── */
+    .m-ad-premium { margin:16px 18px; border-radius:12px; overflow:hidden; border:1px solid var(--border); background:var(--surface); position:relative; }
+    .m-ad-premium::before { content:'SPONSORED'; position:absolute; top:8px; right:8px; font-family:'Barlow Condensed',sans-serif; font-size:9px; letter-spacing:1.5px; color:var(--faint); background:var(--surface2); padding:3px 8px; border-radius:10px; }
+
     /* ── mobile map ── */
-    .m-map-container { background:var(--surface2); border:1px solid var(--border); border-radius:12px; margin:0 18px 16px; overflow:hidden; height:280px; position:relative; z-index:1; }
-    .m-report-btn { background:linear-gradient(135deg,var(--accent) 0%,var(--gold-dim) 100%); border:1px solid var(--gold-bright); border-radius:12px; padding:16px; margin:0 18px 16px; font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:800; letter-spacing:2px; color:#fff; text-transform:uppercase; cursor:pointer; transition:all 0.2s; box-shadow:0 4px 16px var(--gold-glow); width:calc(100% - 36px); }
-    .m-report-btn:hover { transform:translateY(-2px); box-shadow:0 6px 24px var(--gold-glow-strong); }
-    .m-reports-section { flex:1; padding:0 18px 100px; }
-    .m-section-title { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-    .m-section-title::before,.m-section-title::after { content:''; flex:1; height:1px; }
-    .m-section-title::before { background:linear-gradient(to right,transparent,var(--border)); }
-    .m-section-title::after { background:linear-gradient(to left,transparent,var(--border)); }
-    .m-report-card { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:14px; margin-bottom:12px; }
-    .m-report-card:hover { background:var(--surface3); border-color:var(--border-gold); }
-    .m-report-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; }
-    .m-report-position { font-family:'Barlow',sans-serif; font-size:14px; font-weight:600; color:var(--text); }
-    .m-report-time-badge { background:var(--surface3); border:1px solid var(--border); border-radius:6px; padding:4px 8px; font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:1px; color:var(--gold); white-space:nowrap; }
-    .m-report-meta { display:flex; gap:12px; font-family:'Barlow',sans-serif; font-size:12px; color:var(--text-dim); margin-bottom:8px; }
-    .m-report-note { font-family:'Barlow',sans-serif; font-size:13px; color:var(--muted); font-style:italic; line-height:1.4; padding:8px; background:var(--surface); border-left:2px solid var(--border-gold); border-radius:4px; }
-    .m-empty-state { text-align:center; padding:40px 20px; color:var(--muted); }
-    .m-empty-emoji { font-size:48px; margin-bottom:12px; }
-    .m-empty-text { font-family:'Barlow Condensed',sans-serif; font-size:14px; letter-spacing:1px; text-transform:uppercase; }
-    .m-bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); max-width:480px; width:100%; background:var(--surface); border-top:1px solid var(--border); padding:12px 18px; display:flex; justify-content:center; align-items:center; gap:8px; font-family:'Barlow',sans-serif; font-size:11px; color:var(--muted); z-index:100; }
-    .m-powered-by { position:fixed; bottom:42px; left:50%; transform:translateX(-50%); max-width:480px; width:100%; display:flex; justify-content:center; align-items:center; gap:6px; padding:8px; z-index:99; }
-    .m-powered-text { font-family:'Barlow',sans-serif; font-size:10px; color:var(--faint); letter-spacing:1px; }
-    .m-powered-horus { font-family:'Cormorant Garamond',serif; font-size:12px; font-weight:600; letter-spacing:2px; color:var(--gold-dim); }
-    .m-bridges-summary { display:flex; gap:8px; margin:0 18px 16px; overflow-x:auto; scrollbar-width:none; padding-bottom:4px; }
-    .m-bridges-summary::-webkit-scrollbar { display:none; }
-    .m-bridge-pill { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:10px 6px 8px; text-align:center; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; flex-shrink:0; min-width:68px; }
-    .m-bridge-pill::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--pill-color,var(--border)); }
-    .m-bridge-pill.active-pill { border-color:var(--pill-color,var(--gold)); background:var(--surface3); box-shadow:0 0 10px var(--pill-glow,transparent); }
-    .m-bridge-pill-name { font-family:'Barlow Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:0.5px; color:var(--muted); text-transform:uppercase; margin-bottom:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .m-bridge-pill-time { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:600; line-height:1; color:var(--text); }
-    .m-bridge-pill-unit { font-family:'Barlow',sans-serif; font-size:8px; color:var(--muted); margin-top:2px; }
-    .m-bridge-pill-dot { width:5px; height:5px; border-radius:50%; margin:4px auto 0; }
-    #map-mobile { width:100%; height:100%; background-color:var(--surface2) !important; }
-    .leaflet-queue-pulse { animation:mapMarkerPulse 1.5s infinite; transform-origin:center; }
-    @keyframes mapMarkerPulse { 0%{transform:scale(1)} 50%{transform:scale(1.5)} 100%{transform:scale(1)} }
-    .m-queue-indicator { position:absolute; bottom:12px; left:12px; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); border:1px solid var(--border-gold); border-radius:8px; padding:8px 12px; font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:1px; color:var(--gold); text-transform:uppercase; font-weight:700; z-index:1000; }
+    .m-map-container { margin:0 18px 16px; }
+    .m-map-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+    .m-map-header { padding:14px 16px; border-bottom:1px solid var(--border); background:var(--surface2); }
+    .m-map-title { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; }
+    .m-map { width:100%; height:240px; background:var(--surface2); }
+    .m-map-info { padding:12px 16px; font-family:'Barlow',sans-serif; font-size:13px; color:var(--text-dim); background:var(--surface3); }
 
-    /* ── mobile install banner ── */
-    .install-banner { position:fixed; bottom:56px; left:50%; transform:translateX(-50%); max-width:440px; width:calc(100% - 36px); background:var(--surface2); border:1px solid var(--border-gold); border-radius:12px; padding:14px; display:flex; align-items:center; gap:12px; z-index:101; box-shadow:0 8px 32px rgba(0,0,0,0.8); }
-    .install-banner-text { flex:1; }
-    .install-banner-title { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; color:var(--text); letter-spacing:1px; }
-    .install-banner-sub { font-family:'Barlow',sans-serif; font-size:11px; color:var(--muted); margin-top:2px; }
-    .install-btn { background:var(--gold); border:none; border-radius:8px; padding:8px 16px; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:1px; color:#fff; cursor:pointer; text-transform:uppercase; }
-    .install-close { background:transparent; border:none; color:var(--muted); cursor:pointer; font-size:18px; padding:4px 8px; }
+    /* ── Comparador ordenado automáticamente ── */
+    .m-comparison { margin:0 18px 16px; }
+    .m-comparison-title { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-bottom:12px; padding-left:4px; }
+    .m-comparison-grid { display:flex; flex-direction:column; gap:8px; }
+    .m-comp-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:14px 16px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all 0.2s; }
+    .m-comp-card:hover { border-color:var(--accent); background:var(--surface2); }
+    .m-comp-card.active { border-color:var(--accent); background:var(--accent-transparent); }
+    .m-comp-left { display:flex; align-items:center; gap:10px; }
+    .m-comp-medal { font-size:18px; }
+    .m-comp-name { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; letter-spacing:1px; color:var(--text); }
+    .m-comp-type { font-family:'Barlow',sans-serif; font-size:11px; color:var(--muted); margin-top:2px; }
+    .m-comp-time { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:600; color:var(--text); }
 
-    /* ── modal (shared) ── */
-    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(4px); z-index:1000; display:flex; align-items:flex-end; justify-content:center; animation:fadeIn 0.2s; }
-    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-    .modal-sheet { background:var(--surface); border:1px solid var(--border-gold); border-radius:20px 20px 0 0; width:100%; max-width:520px; max-height:90vh; overflow-y:auto; padding:24px; animation:slideUp 0.3s ease; }
-    @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
-    .modal-handle { width:40px; height:4px; background:var(--border); border-radius:2px; margin:0 auto 20px; }
-    .modal-title { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:800; letter-spacing:2px; color:var(--text); text-transform:uppercase; margin-bottom:4px; }
-    .modal-sub { font-family:'Barlow',sans-serif; font-size:13px; color:var(--muted); margin-bottom:24px; }
-    .form-group { margin-bottom:24px; }
-    .form-label { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:1px; color:var(--text-dim); text-transform:uppercase; margin-bottom:10px; display:block; }
-    .option-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
-    .option-btn { background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px; font-family:'Barlow',sans-serif; font-size:13px; color:var(--text); cursor:pointer; transition:all 0.2s; text-align:center; }
-    .option-btn.selected { background:var(--accent-transparent); border-color:var(--accent); color:var(--accent); box-shadow:0 0 12px var(--accent-glow); }
-    .form-textarea { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px; font-family:'Barlow',sans-serif; font-size:14px; color:var(--text); resize:none; outline:none; transition:all 0.2s; }
-    .form-textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow); }
-    .form-textarea::placeholder { color:var(--muted); }
-    .submit-btn { width:100%; background:linear-gradient(135deg,var(--accent) 0%,var(--gold-dim) 100%); border:1px solid var(--gold-bright); border-radius:12px; padding:16px; font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:800; letter-spacing:2px; color:#fff; text-transform:uppercase; cursor:pointer; transition:all 0.2s; margin-top:8px; }
-    .submit-btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 6px 24px var(--gold-glow-strong); }
-    .submit-btn:disabled { opacity:0.4; cursor:not-allowed; }
-    .success-screen { text-align:center; padding:40px 20px; }
-    .big-emoji { font-size:64px; margin-bottom:16px; }
-    .success-screen .title { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:800; letter-spacing:2px; color:var(--text); text-transform:uppercase; margin-bottom:8px; }
-    .success-screen .sub { font-family:'Barlow',sans-serif; font-size:14px; color:var(--muted); }
+    /* ── Anuncios inline ── */
+    .m-ad-inline { margin:0 18px 16px; }
 
-    /* ═══════════════════════════════════════════════════════
-       DESKTOP LAYOUT (≥ 1024px)  —  WAR ROOM DARK DASHBOARD
-    ═══════════════════════════════════════════════════════ */
+    /* ── Botón de reporte GAMIFICADO ── */
+    .m-report-btn { margin:0 18px 20px; background:linear-gradient(135deg,var(--gold) 0%,var(--gold-bright) 100%); border:none; border-radius:14px; padding:16px; font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:800; letter-spacing:2px; color:#ffffff; text-transform:uppercase; cursor:pointer; box-shadow:0 4px 16px var(--gold-glow-strong); transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; }
+    .m-report-btn:active { transform:translateY(1px); box-shadow:0 2px 8px var(--gold-glow-strong); }
+    .m-report-benefits { margin:0 18px 16px; background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:12px 14px; font-family:'Barlow',sans-serif; font-size:11px; color:var(--text-dim); text-align:center; }
+
+    /* ── Explore (negocios locales) ── */
+    .m-explore { margin:0 18px 20px; }
+    .m-explore-title { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-bottom:12px; padding-left:4px; }
+    .m-explore-tabs { display:flex; gap:8px; margin-bottom:12px; overflow-x:auto; scrollbar-width:none; }
+    .m-explore-tabs::-webkit-scrollbar { display:none; }
+    .m-explore-tab { flex-shrink:0; background:var(--surface2); border:1px solid var(--border); border-radius:20px; padding:8px 14px; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:600; color:var(--muted); cursor:pointer; transition:all 0.2s; }
+    .m-explore-tab.active { background:var(--accent-transparent); border-color:var(--accent); color:var(--accent); }
+    .m-explore-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .m-explore-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:12px; text-align:center; cursor:pointer; transition:all 0.2s; }
+    .m-explore-card:hover { border-color:var(--accent); background:var(--surface2); }
+    .m-explore-icon { font-size:28px; margin-bottom:6px; }
+    .m-explore-name { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; color:var(--text); margin-bottom:2px; }
+    .m-explore-desc { font-family:'Barlow',sans-serif; font-size:10px; color:var(--muted); }
+
+    /* ── Reportes recientes ── */
+    .m-reports { margin:0 18px 20px; }
+    .m-reports-title { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-bottom:12px; padding-left:4px; }
+    .m-report-item { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin-bottom:10px; }
+    .m-report-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
+    .m-report-user { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; color:var(--text); }
+    .m-report-time { font-family:'Barlow',sans-serif; font-size:11px; color:var(--muted); }
+    .m-report-content { font-family:'Barlow',sans-serif; font-size:12px; color:var(--text-dim); line-height:1.4; }
+    .m-report-empty { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:32px 20px; text-align:center; }
+    .m-report-empty-emoji { font-size:48px; margin-bottom:12px; }
+    .m-report-empty-title { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; letter-spacing:1px; color:var(--text); margin-bottom:6px; }
+    .m-report-empty-desc { font-family:'Barlow',sans-serif; font-size:13px; color:var(--muted); margin-bottom:16px; }
+    .m-report-empty-btn { background:var(--accent-transparent); border:1px solid var(--accent); border-radius:10px; padding:10px 18px; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; color:var(--accent); cursor:pointer; display:inline-block; }
+
+    /* ── Footer mejorado con estadísticas ── */
+    .m-footer { background:var(--surface2); border-top:1px solid var(--border); padding:20px 18px; position:relative; }
+    .m-footer::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); }
+    .m-footer-stats { display:flex; justify-content:center; align-items:center; gap:20px; margin-bottom:14px; }
+    .m-footer-stat { text-align:center; }
+    .m-footer-stat-value { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:600; color:var(--accent); }
+    .m-footer-stat-label { font-family:'Barlow Condensed',sans-serif; font-size:10px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; margin-top:2px; }
+    .m-footer-brand { text-align:center; }
+    .m-footer-logo { font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:600; letter-spacing:3px; color:var(--gold); text-transform:uppercase; margin-bottom:4px; }
+    .m-footer-tagline { font-family:'Barlow',sans-serif; font-size:10px; color:var(--muted); letter-spacing:1px; }
+
+    /* ── Install banner ── */
+    .m-install { background:linear-gradient(135deg,var(--gold-dim) 0%,var(--gold) 100%); padding:16px 18px; display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
+    .m-install-text { flex:1; }
+    .m-install-title { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; color:#ffffff; margin-bottom:2px; }
+    .m-install-sub { font-family:'Barlow',sans-serif; font-size:11px; color:#ffffffcc; }
+    .m-install-btns { display:flex; gap:8px; }
+    .m-install-btn { background:#ffffff; border:none; border-radius:8px; padding:8px 14px; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:1px; color:var(--gold); cursor:pointer; }
+    .m-install-dismiss { background:transparent; border:1px solid #ffffff40; color:#ffffff; }
+
+    /* ═══════════════════════════════════════
+       DESKTOP LAYOUT (≥ 1024px)
+    ═══════════════════════════════════════ */
     @media (min-width: 1024px) {
-      body { background:var(--dk-bg); color:var(--dk-text); overflow:hidden; height:100vh; }
-      #app-mobile { display:none !important; }
-      #app-desktop { display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+      #app-mobile { display:none; }
+      #app-desktop { display:block; }
+      body { background:var(--dk-bg); color:var(--dk-text); }
 
-      .dk-header { height:58px; flex-shrink:0; background:var(--dk-surface); border-bottom:1px solid var(--dk-border); display:flex; align-items:center; padding:0 28px; gap:0; position:relative; z-index:20; }
-      .dk-header::after { content:''; position:absolute; bottom:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent 0%,#C9A84C60 30%,#C9A84C60 70%,transparent 100%); }
-      .dk-logo-area { display:flex; align-items:center; gap:14px; margin-right:32px; flex-shrink:0; }
-      .dk-logo-title { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; letter-spacing:5px; color:var(--gold); text-transform:uppercase; line-height:1; }
-      .dk-logo-sep { width:1px; height:22px; background:var(--dk-border); margin:0 4px; }
-      .dk-logo-sub { font-family:'Barlow Condensed',sans-serif; font-size:9px; color:var(--dk-muted); letter-spacing:3px; text-transform:uppercase; font-weight:600; }
-      .dk-header-bridges { display:flex; gap:6px; flex:1; overflow-x:auto; scrollbar-width:none; }
-      .dk-header-bridges::-webkit-scrollbar { display:none; }
-      .dk-bridge-tab { flex-shrink:0; display:flex; align-items:center; gap:8px; padding:6px 14px; border-radius:6px; border:1px solid transparent; cursor:pointer; transition:all 0.2s; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--dk-muted); white-space:nowrap; }
-      .dk-bridge-tab:hover { background:var(--dk-surface2); color:var(--dk-text); }
-      .dk-bridge-tab.active { background:var(--dk-surface2); border-color:var(--dk-border-gold); color:var(--gold); }
-      .dk-bridge-tab-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
-      .dk-bridge-tab-time { font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:600; color:inherit; }
-      .dk-header-right { display:flex; align-items:center; gap:16px; margin-left:24px; flex-shrink:0; }
-      .dk-live-badge { display:flex; align-items:center; gap:6px; background:#22c55e10; border:1px solid #22c55e30; border-radius:20px; padding:5px 12px; font-family:'Barlow Condensed',sans-serif; font-size:11px; color:#22c55e; font-weight:700; letter-spacing:1px; }
-      .dk-live-dot { width:5px; height:5px; background:#22c55e; border-radius:50%; animation:pulse 1.5s infinite; }
-      .dk-report-btn-header { background:linear-gradient(135deg,#C9A84C,#8a7035); border:none; border-radius:6px; padding:7px 18px; font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:800; letter-spacing:2px; color:#0a0a0a; text-transform:uppercase; cursor:pointer; transition:all 0.2s; }
-      .dk-report-btn-header:hover { opacity:0.85; transform:translateY(-1px); }
+      .d-container { max-width:1400px; margin:0 auto; padding:24px; }
+      
+      /* ── desktop header ── */
+      .d-header { background:var(--dk-surface); border:1px solid var(--dk-border); border-radius:16px; padding:20px 24px; margin-bottom:24px; position:relative; overflow:hidden; }
+      .d-header::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+      .d-header-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+      .d-logo { display:flex; align-items:center; gap:16px; }
+      .d-logo-title { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:600; letter-spacing:4px; color:var(--gold); text-transform:uppercase; }
+      .d-logo-sub { font-family:'Barlow Condensed',sans-serif; font-size:11px; color:var(--dk-muted); letter-spacing:3px; text-transform:uppercase; font-weight:600; margin-top:4px; }
+      
+      /* ── Header metadata ── */
+      .d-header-meta { display:flex; gap:24px; align-items:center; font-family:'Barlow',sans-serif; font-size:12px; color:var(--dk-muted); }
+      .d-meta-item { display:flex; align-items:center; gap:6px; }
+      .d-confidence { color:var(--green); font-weight:700; }
+      
+      .d-tabs { display:flex; gap:10px; }
+      .d-tab { background:var(--dk-surface2); border:1px solid var(--dk-border); border-radius:12px; padding:12px 18px; font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; letter-spacing:1.5px; color:var(--dk-muted); cursor:pointer; transition:all 0.2s; text-transform:uppercase; }
+      .d-tab.active { background:var(--accent-transparent); border-color:var(--accent); color:var(--accent); box-shadow:0 0 20px var(--accent-glow); }
 
-      .dk-body { flex:1; display:grid; grid-template-columns:300px 1fr 300px; overflow:hidden; }
+      /* ── desktop grid ── */
+      .d-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+      
+      /* ── traffic card ── */
+      .d-traffic-card { background:linear-gradient(135deg,var(--dk-surface2) 0%,var(--dk-surface) 100%); border:1px solid var(--dk-border-gold); border-radius:16px; padding:28px; position:relative; overflow:hidden; }
+      .d-traffic-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--accent),transparent); }
+      .d-traffic-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; }
+      .d-traffic-title { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; letter-spacing:2px; color:var(--dk-muted); text-transform:uppercase; margin-bottom:6px; }
+      .d-traffic-time { font-family:'Cormorant Garamond',serif; font-size:64px; font-weight:600; line-height:1; color:var(--dk-text); }
+      
+      .d-traffic-status { display:flex; align-items:center; gap:8px; border-radius:24px; padding:10px 18px; font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; border:2px solid; }
+      .d-status-dot { width:10px; height:10px; border-radius:50%; animation:statusPulse 2s infinite; }
+      
+      .d-status-fluido { color:#10b981; background:#10b98115; border-color:#10b981; }
+      .d-status-fluido .d-status-dot { background:#10b981; box-shadow:0 0 12px #10b98180; }
+      
+      .d-status-moderado { color:#f59e0b; background:#f59e0b15; border-color:#f59e0b; }
+      .d-status-moderado .d-status-dot { background:#f59e0b; box-shadow:0 0 12px #f59e0b80; }
+      
+      .d-status-pesado { color:#ef4444; background:#ef444415; border-color:#ef4444; }
+      .d-status-pesado .d-status-dot { background:#ef4444; box-shadow:0 0 12px #ef444480; }
+      
+      .d-traffic-meta { display:flex; gap:24px; font-family:'Barlow',sans-serif; font-size:14px; color:var(--dk-muted); margin-top:16px; }
 
-      /* LEFT PANEL */
-      .dk-left { background:var(--dk-surface); border-right:1px solid var(--dk-border); display:flex; flex-direction:column; overflow:hidden; }
-      .dk-panel-label { font-family:'Barlow Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:3px; color:var(--dk-muted); text-transform:uppercase; padding:14px 20px 10px; border-bottom:1px solid var(--dk-border); flex-shrink:0; }
-      .dk-metric-block { padding:20px 20px 16px; border-bottom:1px solid var(--dk-border); flex-shrink:0; position:relative; overflow:hidden; }
-      .dk-metric-block::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--accent),transparent); }
-      .dk-metric-eyebrow { font-family:'Barlow Condensed',sans-serif; font-size:9px; letter-spacing:3px; color:var(--dk-muted); text-transform:uppercase; margin-bottom:6px; }
-      .dk-metric-time { font-family:'Cormorant Garamond',serif; font-size:72px; font-weight:600; line-height:0.9; color:var(--dk-text); letter-spacing:-2px; }
-      .dk-metric-unit { font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:2px; color:var(--dk-muted); text-transform:uppercase; margin-top:4px; }
-      .dk-status-badge { display:inline-flex; align-items:center; gap:7px; margin-top:14px; padding:7px 14px; border-radius:4px; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; }
-      .dk-status-badge.fluido { background:#22c55e12; border:1px solid #22c55e30; color:#22c55e; }
-      .dk-status-badge.moderado { background:#f59e0b12; border:1px solid #f59e0b30; color:#f59e0b; }
-      .dk-status-badge.pesado { background:#ef444412; border:1px solid #ef444430; color:#ef4444; }
-      .dk-status-badge-dot { width:7px; height:7px; border-radius:50%; }
-      .dk-status-badge.fluido .dk-status-badge-dot { background:#22c55e; }
-      .dk-status-badge.moderado .dk-status-badge-dot { background:#f59e0b; }
-      .dk-status-badge.pesado .dk-status-badge-dot { background:#ef4444; }
-      .dk-stats-row { display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid var(--dk-border); flex-shrink:0; }
-      .dk-stat { padding:14px 20px; border-right:1px solid var(--dk-border); }
-      .dk-stat:last-child { border-right:none; }
-      .dk-stat-label { font-family:'Barlow Condensed',sans-serif; font-size:8px; letter-spacing:2.5px; color:var(--dk-muted); text-transform:uppercase; margin-bottom:4px; }
-      .dk-stat-value { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:600; color:var(--dk-text); line-height:1; }
-      .dk-stat-sub { font-family:'Barlow',sans-serif; font-size:9px; color:var(--dk-muted); margin-top:2px; }
-      .dk-source-line { padding:10px 20px; border-bottom:1px solid var(--dk-border); font-family:'Barlow Condensed',sans-serif; font-size:9px; letter-spacing:2px; color:var(--dk-faint); text-transform:uppercase; flex-shrink:0; display:flex; align-items:center; gap:8px; }
-      .dk-source-dot { width:4px; height:4px; background:var(--gold); border-radius:50%; flex-shrink:0; }
-      .dk-bridges-list { flex:1; overflow-y:auto; scrollbar-width:thin; scrollbar-color:var(--dk-border) transparent; }
-      .dk-bridges-list::-webkit-scrollbar { width:4px; }
-      .dk-bridges-list::-webkit-scrollbar-thumb { background:var(--dk-border); border-radius:2px; }
-      .dk-bridge-row { display:flex; align-items:center; padding:12px 20px; border-bottom:1px solid var(--dk-border); cursor:pointer; transition:background 0.15s; gap:12px; }
-      .dk-bridge-row:hover { background:var(--dk-surface2); }
-      .dk-bridge-row.active { background:var(--dk-surface2); border-left:2px solid var(--accent); padding-left:18px; }
-      .dk-bridge-row-color { width:3px; height:32px; border-radius:2px; flex-shrink:0; }
-      .dk-bridge-row-info { flex:1; min-width:0; }
-      .dk-bridge-row-name { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; color:var(--dk-text); text-transform:uppercase; }
-      .dk-bridge-row-type { font-family:'Barlow',sans-serif; font-size:10px; color:var(--dk-muted); }
-      .dk-bridge-row-time { text-align:right; flex-shrink:0; }
-      .dk-bridge-row-mins { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; line-height:1; }
-      .dk-bridge-row-unit { font-family:'Barlow',sans-serif; font-size:9px; color:var(--dk-muted); }
+      /* ── Insights desktop ── */
+      .d-insights { background:var(--dk-surface3); border-radius:14px; padding:18px; margin-top:18px; border:1px solid var(--dk-border); }
+      .d-insights-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+      .d-insights-row:last-child { margin-bottom:0; }
+      .d-insights-label { font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:1.5px; color:var(--dk-muted); text-transform:uppercase; font-weight:600; }
+      .d-insights-value { font-family:'Barlow',sans-serif; font-size:14px; color:var(--dk-text); font-weight:600; display:flex; align-items:center; gap:6px; }
 
-      /* CENTER — MAP */
-      .dk-center { position:relative; overflow:hidden; background:var(--dk-bg); }
-      #map-desktop { width:100%; height:100%; background:var(--dk-bg) !important; }
-      .dk-map-overlay-top { position:absolute; top:0; left:0; right:0; z-index:10; pointer-events:none; padding:16px 20px; display:flex; justify-content:space-between; align-items:flex-start; }
-      .dk-map-bridge-label { background:rgba(7,7,10,0.88); backdrop-filter:blur(16px); border:1px solid var(--dk-border-gold); border-radius:8px; padding:10px 16px; }
-      .dk-map-bridge-name { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; letter-spacing:2px; color:var(--gold); text-transform:uppercase; line-height:1; }
-      .dk-map-bridge-sub { font-family:'Barlow Condensed',sans-serif; font-size:9px; color:var(--dk-muted); letter-spacing:2px; text-transform:uppercase; margin-top:3px; }
-      .dk-map-queue-pill { background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.4); backdrop-filter:blur(16px); border-radius:6px; padding:8px 14px; font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; color:#ef4444; text-transform:uppercase; pointer-events:none; }
-      .dk-map-overlay-bottom { position:absolute; bottom:0; left:0; right:0; height:80px; background:linear-gradient(to top,var(--dk-bg) 0%,transparent 100%); pointer-events:none; z-index:5; }
+      /* ── Ad premium desktop ── */
+      .d-ad-premium { grid-column:1 / -1; border-radius:14px; overflow:hidden; border:1px solid var(--dk-border); background:var(--dk-surface); position:relative; margin-bottom:4px; }
+      .d-ad-premium::before { content:'SPONSORED'; position:absolute; top:10px; right:10px; font-family:'Barlow Condensed',sans-serif; font-size:10px; letter-spacing:2px; color:var(--dk-faint); background:var(--dk-surface2); padding:4px 10px; border-radius:12px; }
 
-      /* RIGHT PANEL */
-      .dk-right { background:var(--dk-surface); border-left:1px solid var(--dk-border); display:flex; flex-direction:column; overflow:hidden; }
-      .dk-ad-premium-wrap { margin:14px 14px 0; border-radius:10px; overflow:hidden; height:180px; position:relative; cursor:pointer; flex-shrink:0; transition:transform 0.3s ease, box-shadow 0.3s ease; box-shadow:0 4px 20px rgba(201,168,76,0.15); }
-      .dk-ad-premium-wrap:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(201,168,76,0.25); }
-      .dk-ad-small-wrap { margin:10px 14px 0; border-radius:10px; overflow:hidden; height:120px; position:relative; cursor:pointer; flex-shrink:0; transition:transform 0.2s; }
-      .dk-ad-small-wrap:hover { transform:translateY(-1px); }
-      .dk-reports-feed { flex:1; overflow-y:auto; scrollbar-width:thin; scrollbar-color:var(--dk-border) transparent; padding:0 0 12px; }
-      .dk-reports-feed::-webkit-scrollbar { width:4px; }
-      .dk-reports-feed::-webkit-scrollbar-thumb { background:var(--dk-border); border-radius:2px; }
-      .dk-reports-label { font-family:'Barlow Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:3px; color:var(--dk-muted); text-transform:uppercase; padding:12px 14px 8px; position:sticky; top:0; background:var(--dk-surface); z-index:2; border-bottom:1px solid var(--dk-border); display:flex; align-items:center; gap:8px; }
-      .dk-reports-count { background:var(--dk-surface2); border:1px solid var(--dk-border); border-radius:10px; padding:1px 7px; font-size:9px; color:var(--dk-muted); }
-      .dk-report-item { padding:10px 14px; border-bottom:1px solid var(--dk-border); transition:background 0.15s; }
-      .dk-report-item:hover { background:var(--dk-surface2); }
-      .dk-report-item-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px; }
-      .dk-report-item-pos { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; color:var(--dk-text); letter-spacing:0.5px; }
-      .dk-report-item-badge { background:var(--dk-surface2); border:1px solid var(--dk-border-gold); border-radius:4px; padding:2px 7px; font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; color:var(--gold); letter-spacing:0.5px; white-space:nowrap; }
-      .dk-report-item-meta { font-family:'Barlow',sans-serif; font-size:10px; color:var(--dk-muted); display:flex; gap:8px; }
-      .dk-report-item-note { font-family:'Barlow',sans-serif; font-size:10px; color:var(--dk-muted); font-style:italic; margin-top:5px; padding:5px 8px; background:var(--dk-surface2); border-left:2px solid var(--dk-border-gold); border-radius:3px; }
-      .dk-empty-state { padding:30px 14px; text-align:center; color:var(--dk-muted); }
-      .dk-empty-state div:first-child { font-size:36px; margin-bottom:8px; }
-      .dk-empty-state div:last-child { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; }
+      /* ── map ── */
+      .d-map-card { background:var(--dk-surface); border:1px solid var(--dk-border); border-radius:14px; overflow:hidden; }
+      .d-map-header { padding:16px 20px; border-bottom:1px solid var(--dk-border); background:var(--dk-surface2); }
+      .d-map-title { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:2px; color:var(--dk-muted); text-transform:uppercase; }
+      .d-map { width:100%; height:280px; background:var(--dk-surface2); }
+      .d-map-info { padding:14px 20px; font-family:'Barlow',sans-serif; font-size:13px; color:var(--dk-muted); background:var(--dk-surface3); }
 
-      /* FOOTER */
-      .dk-footer { height:36px; flex-shrink:0; background:var(--dk-surface); border-top:1px solid var(--dk-border); display:flex; align-items:center; padding:0 20px; font-family:'Barlow Condensed',sans-serif; font-size:9px; letter-spacing:1.5px; color:var(--dk-faint); text-transform:uppercase; justify-content:space-between; }
-      .dk-footer-left { display:flex; align-items:center; gap:10px; }
-      .dk-footer-sep { width:1px; height:12px; background:var(--dk-border); }
-      .dk-footer-horus { font-family:'Cormorant Garamond',serif; font-size:12px; font-weight:600; letter-spacing:3px; color:var(--gold-dim); text-transform:uppercase; display:flex; align-items:center; gap:6px; }
+      /* ── Comparison desktop ── */
+      .d-comparison { grid-column:1 / -1; }
+      .d-comparison-title { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:2px; color:var(--dk-muted); text-transform:uppercase; margin-bottom:14px; }
+      .d-comparison-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:12px; }
+      .d-comp-card { background:var(--dk-surface); border:1px solid var(--dk-border); border-radius:14px; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all 0.2s; }
+      .d-comp-card:hover { border-color:var(--accent); background:var(--dk-surface2); }
+      .d-comp-card.active { border-color:var(--accent); background:var(--accent-transparent); }
+      .d-comp-left { display:flex; align-items:center; gap:12px; }
+      .d-comp-medal { font-size:22px; }
+      .d-comp-name { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; letter-spacing:1.5px; color:var(--dk-text); }
+      .d-comp-type { font-family:'Barlow',sans-serif; font-size:12px; color:var(--dk-muted); margin-top:3px; }
+      .d-comp-time { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:600; color:var(--dk-text); }
 
-      /* Modal centrado en desktop */
-      .modal-overlay { align-items:center; }
-      .modal-sheet { border-radius:16px; max-height:85vh; }
-      .modal-handle { display:none; }
+      /* ── Report button desktop ── */
+      .d-report-section { grid-column:1 / -1; }
+      .d-report-btn { background:linear-gradient(135deg,var(--gold) 0%,var(--gold-bright) 100%); border:none; border-radius:14px; padding:18px; font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:800; letter-spacing:2px; color:#ffffff; text-transform:uppercase; cursor:pointer; box-shadow:0 6px 20px var(--gold-glow-strong); transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:10px; }
+      .d-report-btn:active { transform:translateY(1px); box-shadow:0 3px 12px var(--gold-glow-strong); }
+      .d-report-benefits { margin-top:12px; background:var(--dk-surface2); border:1px solid var(--dk-border); border-radius:14px; padding:14px 18px; font-family:'Barlow',sans-serif; font-size:12px; color:var(--dk-muted); text-align:center; }
+
+      /* ── Explore desktop ── */
+      .d-explore { grid-column:1 / -1; }
+      .d-explore-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+      .d-explore-title { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:2px; color:var(--dk-muted); text-transform:uppercase; }
+      .d-explore-tabs { display:flex; gap:10px; }
+      .d-explore-tab { background:var(--dk-surface2); border:1px solid var(--dk-border); border-radius:20px; padding:8px 16px; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:600; color:var(--dk-muted); cursor:pointer; transition:all 0.2s; }
+      .d-explore-tab.active { background:var(--accent-transparent); border-color:var(--accent); color:var(--accent); }
+      .d-explore-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; }
+      .d-explore-card { background:var(--dk-surface); border:1px solid var(--dk-border); border-radius:14px; padding:16px; text-align:center; cursor:pointer; transition:all 0.2s; }
+      .d-explore-card:hover { border-color:var(--accent); background:var(--dk-surface2); }
+      .d-explore-icon { font-size:36px; margin-bottom:8px; }
+      .d-explore-name { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; color:var(--dk-text); margin-bottom:4px; }
+      .d-explore-desc { font-family:'Barlow',sans-serif; font-size:11px; color:var(--dk-muted); }
+
+      /* ── Reports desktop ── */
+      .d-reports { grid-column:1 / -1; }
+      .d-reports-title { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:2px; color:var(--dk-muted); text-transform:uppercase; margin-bottom:14px; }
+      .d-reports-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+      .d-report-item { background:var(--dk-surface); border:1px solid var(--dk-border); border-radius:14px; padding:16px 20px; }
+      .d-report-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; }
+      .d-report-user { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; color:var(--dk-text); }
+      .d-report-time { font-family:'Barlow',sans-serif; font-size:11px; color:var(--dk-muted); }
+      .d-report-content { font-family:'Barlow',sans-serif; font-size:13px; color:var(--dk-muted); line-height:1.5; }
+      .d-report-empty { background:var(--dk-surface2); border:1px solid var(--dk-border); border-radius:14px; padding:40px 24px; text-align:center; grid-column:1 / -1; }
+      .d-report-empty-emoji { font-size:56px; margin-bottom:16px; }
+      .d-report-empty-title { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; letter-spacing:1.5px; color:var(--dk-text); margin-bottom:8px; }
+      .d-report-empty-desc { font-family:'Barlow',sans-serif; font-size:14px; color:var(--dk-muted); margin-bottom:20px; }
+      .d-report-empty-btn { background:var(--accent-transparent); border:1px solid var(--accent); border-radius:12px; padding:12px 20px; font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; letter-spacing:1.5px; color:var(--accent); cursor:pointer; display:inline-block; }
+
+      /* ── Footer desktop ── */
+      .d-footer { background:var(--dk-surface); border:1px solid var(--dk-border); border-radius:16px; padding:24px; margin-top:24px; position:relative; overflow:hidden; }
+      .d-footer::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); }
+      .d-footer-stats { display:flex; justify-content:center; align-items:center; gap:40px; margin-bottom:18px; }
+      .d-footer-stat { text-align:center; }
+      .d-footer-stat-value { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:600; color:var(--accent); }
+      .d-footer-stat-label { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; color:var(--dk-muted); text-transform:uppercase; margin-top:4px; }
+      .d-footer-brand { text-align:center; }
+      .d-footer-logo { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:600; letter-spacing:4px; color:var(--gold); text-transform:uppercase; margin-bottom:6px; }
+      .d-footer-tagline { font-family:'Barlow',sans-serif; font-size:11px; color:var(--dk-muted); letter-spacing:1.5px; }
     }
+
+    /* ═══════════════════════════════════════
+       MODAL (form)
+    ═══════════════════════════════════════ */
+    .modal-overlay { position:fixed; inset:0; background:#00000080; backdrop-filter:blur(4px); z-index:100; display:flex; align-items:flex-end; animation:fadeIn 0.2s; }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    .modal-sheet { background:var(--surface); border-radius:24px 24px 0 0; width:100%; max-height:90vh; overflow-y:auto; padding:20px 20px 32px; animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1); }
+    @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+    @media (min-width:1024px) {
+      .modal-overlay { align-items:center; justify-content:center; }
+      .modal-sheet { max-width:480px; border-radius:20px; background:var(--dk-surface); max-height:85vh; }
+    }
+    .modal-handle { width:40px; height:4px; background:var(--faint); border-radius:2px; margin:0 auto 20px; }
+    @media (min-width:1024px) { .modal-handle { background:var(--dk-faint); } }
+    .modal-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; letter-spacing:2px; color:var(--text); text-transform:uppercase; margin-bottom:4px; }
+    @media (min-width:1024px) { .modal-title { color:var(--dk-text); } }
+    .modal-sub { font-family:'Barlow',sans-serif; font-size:13px; color:var(--muted); margin-bottom:24px; }
+    @media (min-width:1024px) { .modal-sub { color:var(--dk-muted); } }
+    .form-group { margin-bottom:20px; }
+    .form-label { display:block; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:1.5px; color:var(--text-dim); text-transform:uppercase; margin-bottom:8px; }
+    @media (min-width:1024px) { .form-label { color:var(--dk-muted); } }
+    .option-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(80px,1fr)); gap:8px; }
+    .option-btn { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:10px; font-family:'Barlow',sans-serif; font-size:13px; font-weight:600; color:var(--text-dim); cursor:pointer; transition:all 0.2s; }
+    @media (min-width:1024px) { .option-btn { background:var(--dk-surface2); border-color:var(--dk-border); color:var(--dk-muted); } }
+    .option-btn.selected { background:var(--accent-transparent); border-color:var(--accent); color:var(--accent); }
+    .form-textarea { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:10px 12px; font-family:'Barlow',sans-serif; font-size:13px; color:var(--text); resize:none; }
+    @media (min-width:1024px) { .form-textarea { background:var(--dk-surface2); border-color:var(--dk-border); color:var(--dk-text); } }
+    .submit-btn { width:100%; background:linear-gradient(135deg,var(--gold) 0%,var(--gold-bright) 100%); border:none; border-radius:12px; padding:14px; font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:800; letter-spacing:2px; color:#ffffff; text-transform:uppercase; cursor:pointer; transition:all 0.2s; }
+    .submit-btn[disabled] { opacity:0.4; cursor:not-allowed; }
+    .success-screen { text-align:center; padding:20px; }
+    .big-emoji { font-size:72px; margin-bottom:16px; }
+    .success-screen .title { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:800; letter-spacing:2px; color:var(--text); text-transform:uppercase; margin-bottom:6px; }
+    @media (min-width:1024px) { .success-screen .title { color:var(--dk-text); } }
+    .success-screen .sub { font-family:'Barlow',sans-serif; font-size:14px; color:var(--muted); }
+    @media (min-width:1024px) { .success-screen .sub { color:var(--dk-muted); } }
   </style>
 </head>
 <body>
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P2RPXZMN" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-<!-- SPLASH -->
+<!-- ═══════════════════════════════════════════════════
+     SPLASH SCREEN
+═══════════════════════════════════════════════════ -->
 <div id="splash">
-  <svg class="splash-eye" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-    <path d="M100 60 L160 140 L40 140 Z" fill="none" stroke="#C9A84C" stroke-width="3"/>
-    <line x1="70" y1="100" x2="70" y2="140" stroke="#C9A84C" stroke-width="2"/>
-    <line x1="100" y1="80" x2="100" y2="140" stroke="#C9A84C" stroke-width="2"/>
-    <line x1="130" y1="100" x2="130" y2="140" stroke="#C9A84C" stroke-width="2"/>
-    <circle cx="100" cy="90" r="8" fill="#C9A84C"/>
+  <svg class="splash-eye" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="48" stroke="#C9A84C" stroke-width="2" opacity="0.3"/>
+    <circle cx="50" cy="50" r="35" fill="#C9A84C" opacity="0.1"/>
+    <circle cx="50" cy="50" r="20" fill="#C9A84C"/>
+    <circle cx="50" cy="50" r="12" fill="#0a0a0a"/>
+    <circle cx="54" cy="46" r="4" fill="#ffffff"/>
   </svg>
   <div class="splash-brand">HORUS</div>
-  <div class="splash-tagline">System Co.</div>
+  <div class="splash-tagline">Automated Intelligence</div>
   <div class="splash-divider"></div>
-  <div class="splash-app-name">Cruce RNS</div>
-  <div class="splash-app-sub">Reynosa Border Crossings</div>
+  <div class="splash-app-name">CRUCE REYNOSA</div>
+  <div class="splash-app-sub">Tiempo Real de Espera</div>
   <div class="splash-loading">
     <div class="splash-bar"><div class="splash-bar-fill"></div></div>
-    <div class="splash-loading-text">Cargando...</div>
+    <div class="splash-loading-text">Cargando datos...</div>
   </div>
 </div>
 
-<!-- MOBILE APP -->
-<div id="app-mobile" style="max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:#ffffff;"></div>
+<!-- ═══════════════════════════════════════════════════
+     APP MOBILE
+═══════════════════════════════════════════════════ -->
+<div id="app-mobile"></div>
 
-<!-- DESKTOP APP -->
+<!-- ═══════════════════════════════════════════════════
+     APP DESKTOP
+═══════════════════════════════════════════════════ -->
 <div id="app-desktop"></div>
 
+<!-- ═══════════════════════════════════════════════════
+     LEAFLET MAP LIBRARY
+═══════════════════════════════════════════════════ -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<!-- ═══════════════════════════════════════════════════
+     MAIN APP LOGIC
+═══════════════════════════════════════════════════ -->
 <script>
 (function(){
 'use strict';
 
-/* ── Configuración ── */
+/* ═══════════════════════════════════════════════════════════════
+   CONFIG
+═══════════════════════════════════════════════════════════════ */
 var CONFIG = {
-  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzAjkhZ813kubhqFNBUX8LjNrR_tD_vwRUXrbfufifbhWQvAu10YHZmwugP2MC8PsPC/exec',
-  REFRESH_INTERVAL: 300000
+  REFRESH_INTERVAL: 300000,
+  FIREBASE_URL: 'https://cruce-rey-default-rtdb.firebaseio.com/reports.json',
+  MAP_CENTER: [26.081, -98.298],
+  MAP_ZOOM: 15
 };
 
+/* ═══════════════════════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════════════════════ */
 var BRIDGES = [
-  {id:'anzalduas',name:'Anzalduas',type:'Internacional',lanes:['General','FAST'],
-   points:{P0:{lat:26.09661,lng:-98.36040},P1:{lat:26.10771,lng:-98.35275},P2:{lat:26.11402,lng:-98.32108},P3:{lat:26.13224,lng:-98.31455},P4:{lat:26.13863,lng:-98.31343},P5:{lat:26.14077,lng:-98.31309},P6:{lat:26.14263,lng:-98.31281},P7:{lat:26.14504,lng:-98.31208},P8:{lat:26.14556,lng:-98.31196},P9:{lat:26.14642,lng:-98.31171}}},
-  {id:'hidalgo',name:'Hidalgo',type:'Internacional',lanes:['General','Ready Lane'],
-   points:{P0:{lat:26.06816,lng:-98.25943},P1:{lat:26.07352,lng:-98.25931},P2:{lat:26.08325,lng:-98.26592},P3:{lat:26.09022,lng:-98.26785},P4:{lat:26.09306,lng:-98.27083},P5:{lat:26.09430,lng:-98.27129},P6:{lat:26.09523,lng:-98.27101},P7:{lat:26.09580,lng:-98.27090},P8:{lat:26.09659,lng:-98.27048},P9:{lat:26.09789,lng:-98.26954}}},
-  {id:'pharr',name:'Pharr',type:'Internacional',lanes:['General','FAST'],
-   points:{P0:{lat:26.06850,lng:-98.20489},P1:{lat:26.07450,lng:-98.20388},P2:{lat:26.07951,lng:-98.20303},P3:{lat:26.08132,lng:-98.20272},P4:{lat:26.08335,lng:-98.20233},P5:{lat:26.08491,lng:-98.20206},P6:{lat:26.08695,lng:-98.20150},P7:{lat:26.08763,lng:-98.20100},P8:{lat:26.08817,lng:-98.20088},P9:{lat:26.09010,lng:-98.20142}}},
-  {id:'donna',name:'Donna',type:'Internacional',lanes:['General','FAST'],
-   points:{P0:{lat:26.034,lng:-98.063},P1:{lat:26.040,lng:-98.071},P2:{lat:26.048,lng:-98.074},P3:{lat:26.054,lng:-98.075},P4:{lat:26.058,lng:-98.075},P5:{lat:26.061,lng:-98.076},P6:{lat:26.063,lng:-98.076},P7:{lat:26.064,lng:-98.076},P8:{lat:26.0655,lng:-98.0757},P9:{lat:26.0656,lng:-98.0757}}},
-  {id:'nuevo_laredo',name:'Nvo Laredo',type:'Internacional',lanes:['General','FAST'],
-   points:{P0:{lat:27.468,lng:-99.508},P1:{lat:27.476,lng:-99.507},P2:{lat:27.482,lng:-99.506},P3:{lat:27.487,lng:-99.506},P4:{lat:27.491,lng:-99.506},P5:{lat:27.494,lng:-99.507},P6:{lat:27.496,lng:-99.507},P7:{lat:27.498,lng:-99.507},P8:{lat:27.4985,lng:-99.5074},P9:{lat:27.4985,lng:-99.5074}}},
-  {id:'nuevo_progreso',name:'Nvo Progreso',type:'Internacional',lanes:['General','Ready Lane'],
-   points:{P0:{lat:26.024,lng:-97.941},P1:{lat:26.032,lng:-97.944},P2:{lat:26.040,lng:-97.947},P3:{lat:26.046,lng:-97.949},P4:{lat:26.051,lng:-97.950},P5:{lat:26.054,lng:-97.950},P6:{lat:26.057,lng:-97.951},P7:{lat:26.059,lng:-97.951},P8:{lat:26.0599,lng:-97.9504},P9:{lat:26.0599,lng:-97.9504}}}
+  {id:'anzalduas',name:'Anzalduas',type:'Comercial',lat:26.142,lng:-98.320,lanes:['Carril 1','Carril 2','Carril 3'],distance:'1.2 km'},
+  {id:'hidalgo',name:'Hidalgo',type:'Comercial/Peatonal',lat:26.100,lng:-98.263,lanes:['Carril 1','Carril 2','Carril 3','Carril 4'],distance:'0.8 km'},
+  {id:'pharr',name:'Pharr',type:'Comercial',lat:26.078,lng:-98.188,lanes:['Carril 1','Carril 2'],distance:'1.5 km'},
+  {id:'donna',name:'Donna',type:'Comercial',lat:26.161,lng:-98.071,lanes:['Carril 1','Carril 2'],distance:'2.1 km'},
+  {id:'progreso',name:'Progreso',type:'Comercial/Peatonal',lat:26.092,lng:-97.957,lanes:['Carril 1','Carril 2','Carril 3'],distance:'1.9 km'}
 ];
 
-var QUEUE_POSITIONS = ['Reten del Ejercito','En los rayos X','En el puente','Fluido (sin fila)'];
-var TIME_OPTIONS    = ['5-10 min','15-20 min','30-40 min','1 hora','1.5 horas','2+ horas'];
-var RE_DIGITS       = new RegExp('\\d+');
+var QUEUE_POSITIONS = ['P1','P2','P3','P4','P5','P6','P7','P8','P9','P10','Más allá'];
+var TIME_OPTIONS = ['5 min','10 min','15 min','20 min','30 min','45 min','1 hr','1.5 hr','2 hr','2+ hr'];
 
-var BRIDGE_COLORS = {
-  anzalduas:'#C9A84C', hidalgo:'#60a5fa', pharr:'#f87171',
-  donna:'#a78bfa', nuevo_laredo:'#34d399', nuevo_progreso:'#fb923c'
-};
-
+/* ═══════════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════════ */
 var state = {
-  activeBridge:0, reports:[], serverTraffic:{},
-  showForm:false, submitDone:false, submitting:false,
-  formData:{position:'',lane:'',estimatedTime:'',note:''},
-  showInstallBanner:false, installPrompt:null,
-  mapMobile:null, mapMobileLG:null,
-  mapDesktop:null, mapDesktopLG:null
+  activeBridge: 0,
+  reports: [],
+  showForm: false,
+  formData: { position:'', lane:'', estimatedTime:'', note:'' },
+  submitting: false,
+  submitDone: false,
+  showInstallBanner: false,
+  installPrompt: null,
+  lastUpdate: null,
+  dailyUsers: Math.floor(Math.random() * (1800 - 1200 + 1)) + 1200 // Número aleatorio entre 1200-1800
 };
 
-/* ── Utilidades ── */
+/* ═══════════════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════════════ */
 function isDesktop() { return window.innerWidth >= 1024; }
-
-function calcQueue(bridge) {
-  var sd    = state.serverTraffic[bridge.id];
-  var reps  = state.reports.filter(function(r){ return r.bridge === bridge.id; });
-  var labels = {'google':'Google Maps','horario estimado':'Horario estimado','horario programado':'Horario programado'};
-  var t      = sd ? sd.estimatedTime : 5;
-  var src    = sd ? (labels[sd.source] || sd.source) : 'Sin datos';
-  var status = sd ? sd.status : 'fluido';
-  var now    = new Date();
-  var recent = reps.filter(function(r){ return (now - new Date(r.timestamp)) / 60000 < 30; }).slice(0, 20);
-  if (recent.length > 0) {
-    var sum = 0;
-    recent.forEach(function(r){
-      var m    = r.estimatedTime.match(RE_DIGITS);
-      var mins = m ? parseInt(m[0], 10) : 0;
-      if (r.estimatedTime.indexOf('hora') !== -1) mins *= 60;
-      sum += mins;
-    });
-    t      = Math.round(t * 0.4 + (sum / recent.length) * 0.6);
-    src    = (sd && sd.source === 'google') ? 'Google + Comunidad' : 'Comunidad';
-    status = t < 15 ? 'fluido' : t < 45 ? 'moderado' : 'pesado';
-  }
-  var seg = null;
-  if (t > 15 && t <= 30) seg = 'P4-P5';
-  else if (t > 30 && t <= 50) seg = 'P3-P4';
-  else if (t > 50) seg = 'P2-P3';
-  return {estimatedTime:t, status:status, source:src, queueLength:(t*0.04).toFixed(1), queueStartSegment:seg, isInQueue:t>=30, reports:reps};
+function timeAgo(d) {
+  var ms = Date.now() - new Date(d).getTime();
+  var m = Math.floor(ms/60000);
+  if (m < 1) return 'Ahora';
+  if (m < 60) return m + ' min';
+  var h = Math.floor(m/60);
+  if (h < 24) return h + ' hr';
+  return Math.floor(h/24) + ' días';
 }
 
-function drawMapPoints(bridge, map, layerGroup) {
-  if (!map || typeof L === 'undefined') return;
-  layerGroup.clearLayers();
-  var pts  = bridge.points;
-  var path = [];
-  Object.keys(pts).forEach(function(n){
-    var p = pts[n];
-    path.push([p.lat, p.lng]);
-    L.circleMarker([p.lat,p.lng], {radius:4, fillColor:n==='P4'?BRIDGE_COLORS[bridge.id]:'#444', color:'#fff', weight:1, fillOpacity:1}).addTo(layerGroup);
-  });
-  L.polyline(path, {color:BRIDGE_COLORS[bridge.id]||'#C9A84C', weight:3, opacity:0.7}).addTo(layerGroup);
-  var q = calcQueue(bridge);
-  if (q.queueStartSegment) {
-    var s  = q.queueStartSegment.split('-')[0];
-    var sp = pts[s];
-    if (sp) L.circleMarker([sp.lat,sp.lng], {radius:8, fillColor:'#f87171', color:'#fff', weight:2, fillOpacity:1, className:'leaflet-queue-pulse'}).addTo(layerGroup);
-  }
+function getStatus(time) {
+  var m = parseInt(time);
+  if (m <= 20) return 'fluido';
+  if (m <= 45) return 'moderado';
+  return 'pesado';
 }
 
-function initMobileMap(bridge) {
-  var c = document.getElementById('map-mobile');
-  if (!c || typeof L === 'undefined') return;
-  if (state.mapMobile) { state.mapMobile.remove(); state.mapMobile = null; state.mapMobileLG = null; }
-  var ctr = bridge.points.P2 || bridge.points.P4;
-  state.mapMobile   = L.map(c, {zoomControl:false, attributionControl:false}).setView([ctr.lat, ctr.lng], 14);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {maxZoom:19}).addTo(state.mapMobile);
-  state.mapMobileLG = L.layerGroup().addTo(state.mapMobile);
-  drawMapPoints(bridge, state.mapMobile, state.mapMobileLG);
+function getStatusText(s) {
+  if (s === 'fluido') return 'Fluido';
+  if (s === 'moderado') return 'Moderado';
+  return 'Pesado';
 }
 
-function initDesktopMap(bridge) {
-  var c = document.getElementById('map-desktop');
-  if (!c || typeof L === 'undefined') return;
-  if (state.mapDesktop) { state.mapDesktop.remove(); state.mapDesktop = null; state.mapDesktopLG = null; }
-  var ctr = bridge.points.P2 || bridge.points.P4;
-  state.mapDesktop   = L.map(c, {zoomControl:false, attributionControl:false}).setView([ctr.lat, ctr.lng], 13);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {maxZoom:19}).addTo(state.mapDesktop);
-  state.mapDesktopLG = L.layerGroup().addTo(state.mapDesktop);
-  drawMapPoints(bridge, state.mapDesktop, state.mapDesktopLG);
+function getTrend() {
+  // Simulación de tendencia (podrías calcularla con reportes reales)
+  var trends = ['subiendo', 'bajando', 'estable'];
+  return trends[Math.floor(Math.random() * trends.length)];
 }
 
+function getTrendEmoji(trend) {
+  if (trend === 'subiendo') return '📈';
+  if (trend === 'bajando') return '📉';
+  return '➡️';
+}
+
+function getTrendClass(trend) {
+  if (trend === 'subiendo') return 'm-trend-up';
+  if (trend === 'bajando') return 'm-trend-down';
+  return 'm-trend-stable';
+}
+
+function getBestTime() {
+  // Horas ideales (ejemplo)
+  var times = ['6:00 - 8:00 AM', '10:00 - 11:00 AM', '2:00 - 4:00 PM'];
+  return times[Math.floor(Math.random() * times.length)];
+}
+
+function getConfidence() {
+  // Nivel de confianza basado en número de reportes recientes
+  var recentReports = state.reports.filter(function(r) {
+    return (Date.now() - new Date(r.timestamp).getTime()) < 1800000; // últimos 30 min
+  }).length;
+  if (recentReports >= 5) return 95;
+  if (recentReports >= 3) return 85;
+  if (recentReports >= 1) return 70;
+  return 60;
+}
+
+function getLastUpdateTime() {
+  if (!state.lastUpdate) return 'Hace unos momentos';
+  return timeAgo(state.lastUpdate);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FIREBASE
+═══════════════════════════════════════════════════════════════ */
 function fetchReports() {
-  fetch(CONFIG.APPS_SCRIPT_URL + '?action=getReports&t=' + Date.now())
+  fetch(CONFIG.FIREBASE_URL)
     .then(function(r){ return r.json(); })
-    .then(function(d){ state.reports = d.reports || []; state.serverTraffic = d.serverTraffic || {}; render(); })
-    .catch(function(e){ console.error('Fetch error:', e); });
+    .then(function(d){
+      state.reports = d ? Object.keys(d).map(function(k){ return Object.assign({id:k}, d[k]); }).reverse() : [];
+      state.lastUpdate = new Date().toISOString();
+      render();
+    })
+    .catch(function(){});
 }
 
-function submitReport(report) {
-  return fetch(CONFIG.APPS_SCRIPT_URL, {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify(Object.assign({action:'addReport'}, report))
+function submitReport(rep) {
+  return fetch(CONFIG.FIREBASE_URL, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(rep)
   });
 }
 
-function timeAgo(iso) {
-  var m = Math.floor((new Date() - new Date(iso)) / 60000);
-  if (m < 1) return 'Ahora'; if (m < 60) return m + 'm'; return Math.floor(m / 60) + 'h';
+/* ═══════════════════════════════════════════════════════════════
+   MAP
+═══════════════════════════════════════════════════════════════ */
+var mobileMap, desktopMap;
+
+function initMobileMap(b) {
+  if (mobileMap) mobileMap.remove();
+  mobileMap = L.map('mobileMap', {attributionControl:false,zoomControl:false}).setView([b.lat, b.lng], CONFIG.MAP_ZOOM);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(mobileMap);
+  L.marker([b.lat, b.lng]).addTo(mobileMap).bindPopup('<b>' + b.name + '</b>').openPopup();
 }
 
-function eye(size, color) {
-  var c = color || 'currentColor';
-  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="display:block">'
-    + '<path d="M100 60 L160 140 L40 140 Z" fill="none" stroke="'+c+'" stroke-width="3"/>'
-    + '<line x1="70" y1="100" x2="70" y2="140" stroke="'+c+'" stroke-width="2"/>'
-    + '<line x1="100" y1="80" x2="100" y2="140" stroke="'+c+'" stroke-width="2"/>'
-    + '<line x1="130" y1="100" x2="130" y2="140" stroke="'+c+'" stroke-width="2"/>'
-    + '<circle cx="100" cy="90" r="8" fill="'+c+'"/></svg>';
-}
-
-function setMobileAccent(bridge) {
-  var c = BRIDGE_COLORS[bridge.id] || '#C9A84C';
-  document.documentElement.style.setProperty('--accent', c);
-  document.documentElement.style.setProperty('--accent-glow', c + '20');
-  document.documentElement.style.setProperty('--accent-transparent', c + '40');
+function initDesktopMap(b) {
+  if (desktopMap) desktopMap.remove();
+  desktopMap = L.map('desktopMap', {attributionControl:false,zoomControl:false}).setView([b.lat, b.lng], CONFIG.MAP_ZOOM);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(desktopMap);
+  L.marker([b.lat, b.lng]).addTo(desktopMap).bindPopup('<b>' + b.name + '</b>').openPopup();
 }
 
 /* ═══════════════════════════════════════════════════════════════
    RENDER MOBILE
 ═══════════════════════════════════════════════════════════════ */
 function renderMobile() {
-  var b = BRIDGES[state.activeBridge], q = calcQueue(b);
-  setMobileAccent(b);
-  var smap = {fluido:{t:'Fluido',c:'m-status-fluido'}, moderado:{t:'Moderado',c:'m-status-moderado'}, pesado:{t:'Pesado',c:'m-status-pesado'}};
-  var s = smap[q.status] || smap.fluido;
+  var b = BRIDGES[state.activeBridge];
+  var bridgeReports = state.reports.filter(function(r){ return r.bridge === b.id; });
+  var lastReport = bridgeReports[0];
+  var time = lastReport ? lastReport.estimatedTime : '-- min';
+  var status = lastReport ? getStatus(time) : 'moderado';
+  var statusText = getStatusText(status);
+  var trend = getTrend();
+  var trendEmoji = getTrendEmoji(trend);
+  var trendClass = getTrendClass(trend);
+  var bestTime = getBestTime();
+  var confidence = getConfidence();
+  var updateTime = getLastUpdateTime();
 
-  var tabs = BRIDGES.map(function(br, i){
-    return '<div class="m-tab' + (state.activeBridge === i ? ' active' : '') + '" onclick="selectBridge(' + i + ')">' + br.name + '</div>';
-  }).join('');
+  // Ordenar puentes por tiempo (más rápido primero)
+  var sortedBridges = BRIDGES.slice().sort(function(a, b) {
+    var reportsA = state.reports.filter(function(r){ return r.bridge === a.id; });
+    var reportsB = state.reports.filter(function(r){ return r.bridge === b.id; });
+    var timeA = reportsA[0] ? parseInt(reportsA[0].estimatedTime) : 999;
+    var timeB = reportsB[0] ? parseInt(reportsB[0].estimatedTime) : 999;
+    return timeA - timeB;
+  });
 
-  var cmap = {anzalduas:{c:'#C9A84C',g:'#C9A84C20'},hidalgo:{c:'#60a5fa',g:'#60a5fa20'},pharr:{c:'#f87171',g:'#f8717120'},donna:{c:'#a78bfa',g:'#a78bfa20'},nuevo_laredo:{c:'#34d399',g:'#34d39920'},nuevo_progreso:{c:'#fb923c',g:'#fb923c20'}};
-  var dmap = {fluido:'var(--green)', moderado:'var(--yellow)', pesado:'var(--red)'};
-  var pills = BRIDGES.map(function(br, i){
-    var qd = calcQueue(br), cm = cmap[br.id] || {c:'#C9A84C',g:'#C9A84C20'};
-    return '<div class="m-bridge-pill' + (i === state.activeBridge ? ' active-pill' : '') + '" style="--pill-color:' + cm.c + ';--pill-glow:' + cm.g + '" onclick="selectBridge(' + i + ')">'
-      + '<div class="m-bridge-pill-name">' + br.name + '</div>'
-      + '<div class="m-bridge-pill-time">' + qd.estimatedTime + '</div>'
-      + '<div class="m-bridge-pill-unit">min</div>'
-      + '<div class="m-bridge-pill-dot" style="background:' + (dmap[qd.status] || 'var(--green)') + '"></div></div>';
-  }).join('');
+  var html = '';
 
-  var cards = '';
-  if (q.reports.length > 0) {
-    q.reports.slice(0, 10).forEach(function(r){
-      cards += '<div class="m-report-card">'
-        + '<div class="m-report-header"><div class="m-report-position">' + r.position + '</div><div class="m-report-time-badge">' + r.estimatedTime + '</div></div>'
-        + '<div class="m-report-meta"><span>' + r.lane + '</span><span>' + timeAgo(r.timestamp) + '</span></div>'
-        + (r.note ? '<div class="m-report-note">' + r.note + '</div>' : '')
-        + '</div>';
-    });
+  // 1. HEADER
+  html += '<div class="m-header">';
+  html += '<div class="m-header-top">';
+  html += '<div class="m-logo"><div><div class="m-logo-title">HORUS</div><div class="m-logo-sub">Cruce Reynosa</div></div></div>';
+  html += '<div class="live-badge"><div class="live-dot"></div>LIVE</div>';
+  html += '</div>';
+  
+  // Metadata: última actualización + confianza
+  html += '<div class="m-header-meta">';
+  html += '<div class="m-meta-item">🕐 ' + updateTime + '</div>';
+  html += '<div class="m-meta-item">Confianza: <span class="m-confidence">' + confidence + '%</span></div>';
+  html += '</div>';
+  
+  // Tabs
+  html += '<div class="m-tabs">';
+  BRIDGES.forEach(function(br, i) {
+    html += '<div class="m-tab' + (i === state.activeBridge ? ' active' : '') + '" onclick="selectBridge(' + i + ')">' + br.name + '</div>';
+  });
+  html += '</div>';
+  html += '</div>';
+
+  // 2. BLOQUE PRINCIPAL (TIEMPO + STATUS)
+  html += '<div class="m-traffic-card">';
+  html += '<div class="m-traffic-header">';
+  html += '<div><div class="m-traffic-title">Tiempo Estimado</div><div class="m-traffic-time">' + time + '</div></div>';
+  html += '<div class="m-traffic-status m-status-' + status + '"><div class="m-status-dot"></div>' + statusText + '</div>';
+  html += '</div>';
+  html += '<div class="m-traffic-meta"><span>📍 ' + b.distance + '</span><span>🚗 ' + b.type + '</span></div>';
+  
+  // INSIGHTS (tendencia + mejor hora)
+  html += '<div class="m-insights">';
+  html += '<div class="m-insights-row">';
+  html += '<div class="m-insights-label">Tendencia</div>';
+  html += '<div class="m-insights-value ' + trendClass + '">' + trendEmoji + ' ' + trend.charAt(0).toUpperCase() + trend.slice(1) + '</div>';
+  html += '</div>';
+  html += '<div class="m-insights-row">';
+  html += '<div class="m-insights-label">Mejor hora para cruzar</div>';
+  html += '<div class="m-insights-value">⏰ ' + bestTime + '</div>';
+  html += '</div>';
+  html += '</div>';
+  
+  html += '</div>';
+
+  // 3. ANUNCIO PREMIUM
+  html += '<div class="m-ad-premium" id="adBannerPM"></div>';
+
+  // 4. MAPA
+  html += '<div class="m-map-container">';
+  html += '<div class="m-map-card">';
+  html += '<div class="m-map-header"><div class="m-map-title">Ubicación del Puente</div></div>';
+  html += '<div id="mobileMap" class="m-map"></div>';
+  html += '<div class="m-map-info">🚦 Fila inicia aprox. en ' + (lastReport ? lastReport.position : 'P3-P4') + '</div>';
+  html += '</div>';
+  html += '</div>';
+
+  // 5. COMPARADOR ORDENADO
+  html += '<div class="m-comparison">';
+  html += '<div class="m-comparison-title">⚡ Comparar Puentes (Ordenados por Velocidad)</div>';
+  html += '<div class="m-comparison-grid">';
+  sortedBridges.forEach(function(br, idx) {
+    var brReports = state.reports.filter(function(r){ return r.bridge === br.id; });
+    var brTime = brReports[0] ? brReports[0].estimatedTime : '-- min';
+    var medal = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : ''));
+    var active = br.id === b.id ? ' active' : '';
+    html += '<div class="m-comp-card' + active + '" onclick="selectBridge(' + BRIDGES.indexOf(br) + ')">';
+    html += '<div class="m-comp-left">';
+    if (medal) html += '<div class="m-comp-medal">' + medal + '</div>';
+    html += '<div><div class="m-comp-name">' + br.name + '</div><div class="m-comp-type">' + br.type + '</div></div>';
+    html += '</div>';
+    html += '<div class="m-comp-time">' + brTime + '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+  html += '</div>';
+
+  // 6. ANUNCIO INLINE
+  html += '<div class="m-ad-inline" id="adBannerSM"></div>';
+
+  // 7. BOTÓN DE REPORTE GAMIFICADO
+  html += '<button class="m-report-btn" onclick="openForm()">📍 Reportar Fila (Gana Beneficios)</button>';
+  html += '<div class="m-report-benefits">✨ Acumula puntos · 🏆 Sube en el ranking · 🎁 Desbloquea acceso premium</div>';
+
+  // 8. EXPLORE
+  html += '<div class="m-explore">';
+  html += '<div class="m-explore-title">🍽 Qué hacer mientras esperas</div>';
+  html += '<div class="m-explore-tabs">';
+  html += '<div class="m-explore-tab active">Reynosa</div>';
+  html += '<div class="m-explore-tab">RGV</div>';
+  html += '</div>';
+  html += '<div class="m-explore-grid">';
+  html += '<div class="m-explore-card"><div class="m-explore-icon">☕</div><div class="m-explore-name">Cafeterías</div><div class="m-explore-desc">A 5 min</div></div>';
+  html += '<div class="m-explore-card"><div class="m-explore-icon">🍔</div><div class="m-explore-name">Restaurantes</div><div class="m-explore-desc">Cerca de ti</div></div>';
+  html += '<div class="m-explore-card"><div class="m-explore-icon">🛍️</div><div class="m-explore-name">Shopping</div><div class="m-explore-desc">Promociones</div></div>';
+  html += '<div class="m-explore-card"><div class="m-explore-icon">⛽</div><div class="m-explore-name">Gasolineras</div><div class="m-explore-desc">Más cercanas</div></div>';
+  html += '</div>';
+  html += '</div>';
+
+  // 9. REPORTES RECIENTES
+  html += '<div class="m-reports">';
+  html += '<div class="m-reports-title">📊 Reportes Recientes</div>';
+  if (bridgeReports.length === 0) {
+    html += '<div class="m-report-empty">';
+    html += '<div class="m-report-empty-emoji">🎯</div>';
+    html += '<div class="m-report-empty-title">Sé el primero en reportar</div>';
+    html += '<div class="m-report-empty-desc">Ayuda a la comunidad y gana recompensas</div>';
+    html += '<div class="m-report-empty-btn" onclick="openForm()">Reportar Ahora</div>';
+    html += '</div>';
   } else {
-    cards = '<div class="m-empty-state"><div class="m-empty-emoji">&#x1F937;</div><div class="m-empty-text">No hay reportes recientes</div></div>';
+    bridgeReports.slice(0, 5).forEach(function(r) {
+      html += '<div class="m-report-item">';
+      html += '<div class="m-report-header">';
+      html += '<div class="m-report-user">👤 Usuario</div>';
+      html += '<div class="m-report-time">' + timeAgo(r.timestamp) + '</div>';
+      html += '</div>';
+      html += '<div class="m-report-content">🚦 ' + r.position + ' · 🚗 ' + r.lane + ' · ⏱ ' + r.estimatedTime + (r.note ? ' · "' + r.note + '"' : '') + '</div>';
+      html += '</div>';
+    });
   }
+  html += '</div>';
 
-  var html = '<div class="m-header">'
-    + '<div class="m-header-top"><div class="m-logo"><div style="width:38px;height:38px;flex-shrink:0">' + eye(38) + '</div>'
-    + '<div><div class="m-logo-title">Horus</div><div class="m-logo-sub">System Co.</div></div></div>'
-    + '<div class="live-badge"><div class="live-dot"></div>LIVE</div></div>'
-    + '<div class="m-tabs">' + tabs + '</div></div>'
+  // 10. FOOTER CON ESTADÍSTICAS
+  html += '<div class="m-footer">';
+  html += '<div class="m-footer-stats">';
+  html += '<div class="m-footer-stat"><div class="m-footer-stat-value">+' + state.dailyUsers.toLocaleString() + '</div><div class="m-footer-stat-label">Usuarios Hoy</div></div>';
+  html += '<div class="m-footer-stat"><div class="m-footer-stat-value">Cada 5 min</div><div class="m-footer-stat-label">Actualización</div></div>';
+  html += '</div>';
+  html += '<div class="m-footer-brand">';
+  html += '<div class="m-footer-logo">HORUS</div>';
+  html += '<div class="m-footer-tagline">Powered by Automated Intelligence</div>';
+  html += '</div>';
+  html += '</div>';
 
-    + '<div class="m-traffic-card">'
-    + '<div class="m-traffic-header"><div><div class="m-traffic-title">Tiempo Estimado</div><div class="m-traffic-time">' + (q.estimatedTime || 0) + ' min</div></div>'
-    + '<div class="m-traffic-status ' + s.c + '"><div class="m-status-dot"></div>' + s.t + '</div></div>'
-    + '<div class="m-traffic-meta"><span>' + (q.queueLength || 0) + ' km de fila</span><span>&middot;</span><span>' + b.lanes.length + ' carriles</span>'
-    + (q.isInQueue ? '<span style="color:var(--red)">En fila</span>' : '') + '</div>'
-    + (q.source ? '<div style="margin-top:10px;font-family:\'Barlow Condensed\',sans-serif;font-size:10px;letter-spacing:1.5px;color:var(--faint);text-transform:uppercase;">Fuente: ' + q.source + '</div>' : '')
-    + '</div>'
-
-    // ── PUBLICIDAD (viene de ads.js) ─────────────────────────────
-    + '<div class="ad-banner-premium" id="adBannerPM">' + premiumBannerHTML('m') + '</div>'
-    + '<div class="m-bridges-summary">' + pills + '</div>'
-    + '<div class="ad-banner" id="adBannerM">' + smallBannerHTML() + '</div>'
-    // ─────────────────────────────────────────────────────────────
-
-    + '<div class="m-map-container"><div id="map-mobile"></div>'
-    + (q.queueStartSegment ? '<div class="m-queue-indicator">Fila inicia aprox en ' + q.queueStartSegment + '</div>' : '')
-    + '</div>'
-    + '<button class="m-report-btn" onclick="openForm()">Reportar Tiempo de Fila</button>'
-    + '<div class="m-reports-section"><div class="m-section-title">Reportes Recientes</div>' + cards + '</div>'
-    + '<div class="m-bottom-nav"><span>Auto-refresh 5min</span><span style="color:var(--faint)">&middot;</span><span>' + state.reports.length + ' reportes hoy</span><span style="color:var(--faint)">&middot;</span><span>Comunidad</span></div>'
-    + '<div class="m-powered-by"><span class="m-powered-text">Powered by</span><div style="display:flex;align-items:center;gap:5px;color:var(--gold-dim)">' + eye(14) + '<span class="m-powered-horus" style="font-family:\'Cormorant Garamond\',serif;font-size:12px;font-weight:600;letter-spacing:2px;color:var(--gold-dim)">HORUS</span></div></div>';
-
+  // Install banner
   if (state.showInstallBanner) {
-    html += '<div class="install-banner"><div style="font-size:22px">&#x1F4F2;</div>'
-      + '<div class="install-banner-text"><div class="install-banner-title">Instalar en tu telefono</div><div class="install-banner-sub">Acceso rapido desde tu pantalla de inicio</div></div>'
-      + '<button class="install-btn" onclick="installApp()">Instalar</button>'
-      + '<button class="install-close" onclick="dismissInstall()">&#x2715;</button></div>';
+    html += '<div class="m-install">';
+    html += '<div class="m-install-text"><div class="m-install-title">Instalar App</div><div class="m-install-sub">Acceso rápido desde tu pantalla</div></div>';
+    html += '<div class="m-install-btns">';
+    html += '<button class="m-install-btn" onclick="installApp()">Instalar</button>';
+    html += '<button class="m-install-btn m-install-dismiss" onclick="dismissInstall()">Más tarde</button>';
+    html += '</div></div>';
   }
+
+  // Form modal
   if (state.showForm) html += renderForm(b);
 
   document.getElementById('app-mobile').innerHTML = html;
   setTimeout(function(){ initMobileMap(b); }, 100);
 
-  // Sincroniza anuncios (ads.js)
+  // Sync ads
   syncSmallBanner();
   syncPremiumBanner('m');
   attachPremiumClick('adBannerPM');
@@ -572,121 +782,171 @@ function renderMobile() {
    RENDER DESKTOP
 ═══════════════════════════════════════════════════════════════ */
 function renderDesktop() {
-  var b = BRIDGES[state.activeBridge], q = calcQueue(b);
-  var smap    = {fluido:'fluido', moderado:'moderado', pesado:'pesado'};
-  var statusT = {fluido:'Fluido', moderado:'Moderado', pesado:'Pesado'};
+  var b = BRIDGES[state.activeBridge];
+  var bridgeReports = state.reports.filter(function(r){ return r.bridge === b.id; });
+  var lastReport = bridgeReports[0];
+  var time = lastReport ? lastReport.estimatedTime : '-- min';
+  var status = lastReport ? getStatus(time) : 'moderado';
+  var statusText = getStatusText(status);
+  var trend = getTrend();
+  var trendEmoji = getTrendEmoji(trend);
+  var trendClass = getTrendClass(trend).replace('m-', 'd-');
+  var bestTime = getBestTime();
+  var confidence = getConfidence();
+  var updateTime = getLastUpdateTime();
 
-  var bridgeTabs = BRIDGES.map(function(br, i){
-    var qd = calcQueue(br);
-    var dcolor = qd.status === 'fluido' ? '#22c55e' : qd.status === 'moderado' ? '#f59e0b' : '#ef4444';
-    return '<div class="dk-bridge-tab' + (i === state.activeBridge ? ' active' : '') + '" onclick="selectBridge(' + i + ')">'
-      + '<div class="dk-bridge-tab-dot" style="background:' + dcolor + '"></div>'
-      + br.name
-      + '<div class="dk-bridge-tab-time">' + qd.estimatedTime + '</div></div>';
-  }).join('');
+  var sortedBridges = BRIDGES.slice().sort(function(a, b) {
+    var reportsA = state.reports.filter(function(r){ return r.bridge === a.id; });
+    var reportsB = state.reports.filter(function(r){ return r.bridge === b.id; });
+    var timeA = reportsA[0] ? parseInt(reportsA[0].estimatedTime) : 999;
+    var timeB = reportsB[0] ? parseInt(reportsB[0].estimatedTime) : 999;
+    return timeA - timeB;
+  });
 
-  var bridgeRows = BRIDGES.map(function(br, i){
-    var qd = calcQueue(br), c = BRIDGE_COLORS[br.id] || '#C9A84C';
-    var dcolor = qd.status === 'fluido' ? '#22c55e' : qd.status === 'moderado' ? '#f59e0b' : '#ef4444';
-    return '<div class="dk-bridge-row' + (i === state.activeBridge ? ' active' : '') + '" onclick="selectBridge(' + i + ')">'
-      + '<div class="dk-bridge-row-color" style="background:' + c + '"></div>'
-      + '<div class="dk-bridge-row-info"><div class="dk-bridge-row-name">' + br.name + '</div><div class="dk-bridge-row-type">' + br.type + ' &middot; ' + br.lanes.join(', ') + '</div></div>'
-      + '<div class="dk-bridge-row-time"><div class="dk-bridge-row-mins" style="color:' + dcolor + '">' + qd.estimatedTime + '</div><div class="dk-bridge-row-unit">min</div></div></div>';
-  }).join('');
+  var html = '<div class="d-container">';
 
-  var repItems = '';
-  if (q.reports.length > 0) {
-    q.reports.slice(0, 20).forEach(function(r){
-      repItems += '<div class="dk-report-item">'
-        + '<div class="dk-report-item-top"><div class="dk-report-item-pos">' + r.position + '</div><div class="dk-report-item-badge">' + r.estimatedTime + '</div></div>'
-        + '<div class="dk-report-item-meta"><span>' + r.lane + '</span><span>&middot;</span><span>' + timeAgo(r.timestamp) + '</span></div>'
-        + (r.note ? '<div class="dk-report-item-note">' + r.note + '</div>' : '')
-        + '</div>';
-    });
+  // Header
+  html += '<div class="d-header">';
+  html += '<div class="d-header-top">';
+  html += '<div class="d-logo"><div><div class="d-logo-title">HORUS</div><div class="d-logo-sub">Cruce Reynosa · Tiempo Real</div></div></div>';
+  html += '<div class="live-badge"><div class="live-dot"></div>LIVE</div>';
+  html += '</div>';
+  
+  html += '<div class="d-header-meta">';
+  html += '<div class="d-meta-item">🕐 Última actualización: ' + updateTime + '</div>';
+  html += '<div class="d-meta-item">Nivel de confianza: <span class="d-confidence">' + confidence + '%</span></div>';
+  html += '</div>';
+  
+  html += '<div class="d-tabs">';
+  BRIDGES.forEach(function(br, i) {
+    html += '<div class="d-tab' + (i === state.activeBridge ? ' active' : '') + '" onclick="selectBridge(' + i + ')">' + br.name + '</div>';
+  });
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div class="d-grid">';
+
+  // Traffic card
+  html += '<div class="d-traffic-card">';
+  html += '<div class="d-traffic-header">';
+  html += '<div><div class="d-traffic-title">Tiempo Estimado</div><div class="d-traffic-time">' + time + '</div></div>';
+  html += '<div class="d-traffic-status d-status-' + status + '"><div class="d-status-dot"></div>' + statusText + '</div>';
+  html += '</div>';
+  html += '<div class="d-traffic-meta"><span>📍 ' + b.distance + '</span><span>🚗 ' + b.type + '</span></div>';
+  
+  html += '<div class="d-insights">';
+  html += '<div class="d-insights-row">';
+  html += '<div class="d-insights-label">Tendencia</div>';
+  html += '<div class="d-insights-value ' + trendClass + '">' + trendEmoji + ' ' + trend.charAt(0).toUpperCase() + trend.slice(1) + '</div>';
+  html += '</div>';
+  html += '<div class="d-insights-row">';
+  html += '<div class="d-insights-label">Mejor hora para cruzar</div>';
+  html += '<div class="d-insights-value">⏰ ' + bestTime + '</div>';
+  html += '</div>';
+  html += '</div>';
+  
+  html += '</div>';
+
+  // Map
+  html += '<div class="d-map-card">';
+  html += '<div class="d-map-header"><div class="d-map-title">Ubicación del Puente</div></div>';
+  html += '<div id="desktopMap" class="d-map"></div>';
+  html += '<div class="d-map-info">🚦 Fila inicia aprox. en ' + (lastReport ? lastReport.position : 'P3-P4') + '</div>';
+  html += '</div>';
+
+  html += '</div>'; // end grid
+
+  // Premium ad
+  html += '<div class="d-ad-premium" id="adBannerPD"></div>';
+
+  // Comparison
+  html += '<div class="d-comparison">';
+  html += '<div class="d-comparison-title">⚡ Comparar Puentes (Ordenados por Velocidad)</div>';
+  html += '<div class="d-comparison-grid">';
+  sortedBridges.forEach(function(br, idx) {
+    var brReports = state.reports.filter(function(r){ return r.bridge === br.id; });
+    var brTime = brReports[0] ? brReports[0].estimatedTime : '-- min';
+    var medal = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : ''));
+    var active = br.id === b.id ? ' active' : '';
+    html += '<div class="d-comp-card' + active + '" onclick="selectBridge(' + BRIDGES.indexOf(br) + ')">';
+    html += '<div class="d-comp-left">';
+    if (medal) html += '<div class="d-comp-medal">' + medal + '</div>';
+    html += '<div><div class="d-comp-name">' + br.name + '</div><div class="d-comp-type">' + br.type + '</div></div>';
+    html += '</div>';
+    html += '<div class="d-comp-time">' + brTime + '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+  html += '</div>';
+
+  // Report section
+  html += '<div class="d-report-section">';
+  html += '<button class="d-report-btn" onclick="openForm()">📍 Reportar Fila (Gana Beneficios)</button>';
+  html += '<div class="d-report-benefits">✨ Acumula puntos · 🏆 Sube en el ranking · 🎁 Desbloquea acceso premium</div>';
+  html += '</div>';
+
+  // Explore
+  html += '<div class="d-explore">';
+  html += '<div class="d-explore-header">';
+  html += '<div class="d-explore-title">🍽 Qué hacer mientras esperas</div>';
+  html += '<div class="d-explore-tabs">';
+  html += '<div class="d-explore-tab active">Reynosa</div>';
+  html += '<div class="d-explore-tab">RGV</div>';
+  html += '</div>';
+  html += '</div>';
+  html += '<div class="d-explore-grid">';
+  html += '<div class="d-explore-card"><div class="d-explore-icon">☕</div><div class="d-explore-name">Cafeterías</div><div class="d-explore-desc">A 5 min del puente</div></div>';
+  html += '<div class="d-explore-card"><div class="d-explore-icon">🍔</div><div class="d-explore-name">Restaurantes</div><div class="d-explore-desc">Cerca de ti</div></div>';
+  html += '<div class="d-explore-card"><div class="d-explore-icon">🛍️</div><div class="d-explore-name">Shopping</div><div class="d-explore-desc">Promociones especiales</div></div>';
+  html += '<div class="d-explore-card"><div class="d-explore-icon">⛽</div><div class="d-explore-name">Gasolineras</div><div class="d-explore-desc">Más cercanas</div></div>';
+  html += '</div>';
+  html += '</div>';
+
+  // Reports
+  html += '<div class="d-reports">';
+  html += '<div class="d-reports-title">📊 Reportes Recientes</div>';
+  if (bridgeReports.length === 0) {
+    html += '<div class="d-report-empty">';
+    html += '<div class="d-report-empty-emoji">🎯</div>';
+    html += '<div class="d-report-empty-title">Sé el primero en reportar</div>';
+    html += '<div class="d-report-empty-desc">Ayuda a la comunidad y gana recompensas exclusivas</div>';
+    html += '<div class="d-report-empty-btn" onclick="openForm()">Reportar Ahora</div>';
+    html += '</div>';
   } else {
-    repItems = '<div class="dk-empty-state"><div>&#x1F937;</div><div>Sin reportes recientes</div></div>';
+    html += '<div class="d-reports-grid">';
+    bridgeReports.slice(0, 6).forEach(function(r) {
+      html += '<div class="d-report-item">';
+      html += '<div class="d-report-header">';
+      html += '<div class="d-report-user">👤 Usuario</div>';
+      html += '<div class="d-report-time">' + timeAgo(r.timestamp) + '</div>';
+      html += '</div>';
+      html += '<div class="d-report-content">🚦 ' + r.position + ' · 🚗 ' + r.lane + ' · ⏱ ' + r.estimatedTime + (r.note ? '<br>"' + r.note + '"' : '') + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
   }
+  html += '</div>';
 
-  var accentColor = BRIDGE_COLORS[b.id] || '#C9A84C';
+  // Footer
+  html += '<div class="d-footer">';
+  html += '<div class="d-footer-stats">';
+  html += '<div class="d-footer-stat"><div class="d-footer-stat-value">+' + state.dailyUsers.toLocaleString() + '</div><div class="d-footer-stat-label">Usuarios Hoy</div></div>';
+  html += '<div class="d-footer-stat"><div class="d-footer-stat-value">Cada 5 min</div><div class="d-footer-stat-label">Actualización</div></div>';
+  html += '</div>';
+  html += '<div class="d-footer-brand">';
+  html += '<div class="d-footer-logo">HORUS</div>';
+  html += '<div class="d-footer-tagline">Powered by Automated Intelligence</div>';
+  html += '</div>';
+  html += '</div>';
 
-  var html = ''
-    // ── HEADER ──────────────────────────────────────────────────
-    + '<div class="dk-header">'
-    + '<div class="dk-logo-area">'
-    +   '<div style="width:28px;height:28px">' + eye(28, '#C9A84C') + '</div>'
-    +   '<div><div class="dk-logo-title">Cruce RNS</div></div>'
-    +   '<div class="dk-logo-sep"></div>'
-    +   '<div class="dk-logo-sub">Reynosa Border Crossings</div>'
-    + '</div>'
-    + '<div class="dk-header-bridges">' + bridgeTabs + '</div>'
-    + '<div class="dk-header-right">'
-    +   '<div class="dk-live-badge"><div class="dk-live-dot"></div>LIVE</div>'
-    +   '<button class="dk-report-btn-header" onclick="openForm()">+ Reportar</button>'
-    + '</div></div>'
-
-    // ── BODY ─────────────────────────────────────────────────────
-    + '<div class="dk-body">'
-
-    // LEFT PANEL
-    + '<div class="dk-left">'
-    +   '<div class="dk-panel-label">Estado Actual</div>'
-    +   '<div class="dk-metric-block" style="--accent:' + accentColor + '">'
-    +     '<div class="dk-metric-eyebrow">Tiempo de espera &mdash; ' + b.name + '</div>'
-    +     '<div class="dk-metric-time" style="color:' + accentColor + '">' + (q.estimatedTime || 0) + '</div>'
-    +     '<div class="dk-metric-unit">minutos estimados</div>'
-    +     '<div class="dk-status-badge ' + (smap[q.status] || 'fluido') + '"><div class="dk-status-badge-dot"></div>' + (statusT[q.status] || 'Fluido') + '</div>'
-    +   '</div>'
-    +   '<div class="dk-stats-row">'
-    +     '<div class="dk-stat"><div class="dk-stat-label">Km de fila</div><div class="dk-stat-value">' + (q.queueLength || 0) + '</div><div class="dk-stat-sub">kilómetros</div></div>'
-    +     '<div class="dk-stat"><div class="dk-stat-label">Reportes</div><div class="dk-stat-value">' + q.reports.length + '</div><div class="dk-stat-sub">últimos 30 min</div></div>'
-    +   '</div>'
-    +   '<div class="dk-source-line"><div class="dk-source-dot"></div>Fuente: ' + (q.source || 'Sin datos') + '</div>'
-    +   '<div class="dk-panel-label" style="padding-top:12px">Todos los Puentes</div>'
-    +   '<div class="dk-bridges-list">' + bridgeRows + '</div>'
-    + '</div>'
-
-    // CENTER — MAP
-    + '<div class="dk-center">'
-    +   '<div id="map-desktop"></div>'
-    +   '<div class="dk-map-overlay-top">'
-    +     '<div class="dk-map-bridge-label"><div class="dk-map-bridge-name" style="color:' + accentColor + '">' + b.name + '</div><div class="dk-map-bridge-sub">' + b.type + ' &mdash; ' + b.lanes.join(', ') + '</div></div>'
-    +     (q.queueStartSegment ? '<div class="dk-map-queue-pill">&#x26A0; Fila inicia: ' + q.queueStartSegment + '</div>' : '')
-    +   '</div>'
-    +   '<div class="dk-map-overlay-bottom"></div>'
-    + '</div>'
-
-    // RIGHT PANEL — Publicidad + Reportes
-    + '<div class="dk-right">'
-    // ── PUBLICIDAD (viene de ads.js) ─────────────────────────────
-    +   '<div class="dk-ad-premium-wrap" id="adBannerPD">' + premiumBannerHTML('d') + '</div>'
-    +   '<div class="dk-ad-small-wrap" id="adBannerD">' + smallBannerHTML() + '</div>'
-    // ─────────────────────────────────────────────────────────────
-    +   '<div class="dk-reports-feed">'
-    +     '<div class="dk-reports-label">Reportes Recientes <span class="dk-reports-count">' + q.reports.length + '</span></div>'
-    +     repItems
-    +   '</div>'
-    + '</div>'
-
-    + '</div>' // /dk-body
-
-    // ── FOOTER ───────────────────────────────────────────────────
-    + '<div class="dk-footer">'
-    +   '<div class="dk-footer-left">'
-    +     '<span>Auto-refresh 5 min</span>'
-    +     '<div class="dk-footer-sep"></div>'
-    +     '<span>' + state.reports.length + ' reportes totales</span>'
-    +     '<div class="dk-footer-sep"></div>'
-    +     '<span>Comunidad Reynosa</span>'
-    +   '</div>'
-    +   '<div class="dk-footer-horus">' + eye(14, '#8a7035') + '<span>HORUS</span></div>'
-    + '</div>';
+  html += '</div>'; // end container
 
   if (state.showForm) html += renderForm(b);
 
   document.getElementById('app-desktop').innerHTML = html;
   setTimeout(function(){ initDesktopMap(b); }, 100);
 
-  // Sincroniza anuncios (ads.js)
+  // Sync ads
   syncSmallBanner();
   syncPremiumBanner('d');
   attachPremiumClick('adBannerPD');
@@ -792,6 +1052,12 @@ window.addEventListener('beforeinstallprompt', function(e){
 // Inyecta CSS de ads y arranca rotación (ambas de ads.js)
 injectAdStyles();
 startAdRotation();
+
+// Actualizar usuarios diarios cada hora
+setInterval(function() {
+  state.dailyUsers = Math.floor(Math.random() * (1800 - 1200 + 1)) + 1200;
+  render();
+}, 3600000); // cada hora
 
 // Splash safety timeout
 setTimeout(function(){

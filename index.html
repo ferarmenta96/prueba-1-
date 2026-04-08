@@ -128,7 +128,25 @@
 
     /* ── explore quick links ── */
     .m-explore-quick { display:flex; gap:8px; margin:0 18px 14px; }
-    .m-explore-quick-btn { flex:1; display:flex; align-items:center; justify-content:center; padding:8px 10px; border-radius:8px; border:1px solid; font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; text-decoration:none; cursor:pointer; transition:all 0.2s; }
+    .m-explore-quick-btn {
+      flex:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:13px 10px;
+      border-radius:10px;
+      border:1px solid;
+      font-family:'Barlow Condensed',sans-serif;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      text-decoration:none;
+      cursor:pointer;
+      transition:all 0.2s;
+      text-align:center;
+      line-height:1.3;
+    }
     .m-explore-quick-btn:active { transform:scale(0.97); }
     .m-explore-quick-btn.rns { border-color:#C9A84C40; color:#C9A84C; background:linear-gradient(135deg,#1a0a0010,#0f080008); }
     .m-explore-quick-btn.rns:hover { background:#C9A84C15; border-color:#C9A84C70; }
@@ -166,7 +184,7 @@
     .m-bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); max-width:480px; width:100%; background:var(--surface); border-top:1px solid var(--border); padding:10px 18px; display:flex; justify-content:center; align-items:center; gap:10px; font-family:'Barlow',sans-serif; font-size:11px; color:var(--muted); z-index:100; }
 
     /* ── contador usuarios ── */
-    .m-users-today { display:flex; align-items:center; gap:6px; font-family:'Barlow',sans-serif; font-size:11px; color:var(--faint); }
+    .m-users-today { display:flex; align-items:center; gap:5px; font-family:'Barlow',sans-serif; font-size:11px; color:var(--faint); }
     .m-users-today-dot { width:5px; height:5px; background:var(--green); border-radius:50%; animation:pulse 2s infinite; flex-shrink:0; }
     .m-users-today-num { font-family:'Barlow Condensed',sans-serif; font-weight:700; color:var(--muted); font-size:12px; }
 
@@ -626,9 +644,15 @@ function renderMobile() {
   var html = '<div class="m-header">'
     + '<div class="m-header-top"><div class="m-logo"><div style="width:38px;height:38px;flex-shrink:0">' + eye(38) + '</div>'
     + '<div><div class="m-logo-title">Horus</div><div class="m-logo-sub">System Co.</div></div></div>'
-    + '<div class="live-badge"><div class="live-dot"></div>LIVE</div></div>'
+    /* ── CONTADOR ARRIBA + LIVE BADGE ── */
+    + '<div style="display:flex;align-items:center;gap:8px;">'
+    + '<div class="m-users-today"><div class="m-users-today-dot"></div><span class="m-users-today-num">' + formatUserCount(usersToday) + '</span><span>hoy</span></div>'
+    + '<div class="live-badge"><div class="live-dot"></div>LIVE</div>'
+    + '</div>'
+    + '</div>'
     + '<div class="m-tabs">' + tabs + '</div></div>'
 
+    /* ── BOTONES EXPLORE QUICK MÁS GRANDES ── */
     + '<div class="m-explore-quick">'
     + '<a class="m-explore-quick-btn rns" href="/cruce-reynosa/que-hacer-reynosa.html">Qu\u00e9 hacer en Reynosa</a>'
     + '<a class="m-explore-quick-btn rgv" href="/cruce-reynosa/que-hacer-rgv.html">Qu\u00e9 hacer en RGV</a>'
@@ -677,10 +701,10 @@ function renderMobile() {
 
     + '<div class="m-reports-section"><div class="m-section-title">Reportes Recientes</div>' + cards + '</div>'
 
+    /* ── BOTTOM NAV SIN CONTADOR (ya está arriba) ── */
     + '<div class="m-bottom-nav">'
     + '<span>Auto-refresh 5min</span><span style="color:var(--faint)">&middot;</span>'
-    + '<span>' + state.reports.length + ' reportes hoy</span><span style="color:var(--faint)">&middot;</span>'
-    + '<div class="m-users-today"><div class="m-users-today-dot"></div><span class="m-users-today-num">' + formatUserCount(usersToday) + '</span><span>usuarios hoy</span></div>'
+    + '<span>' + state.reports.length + ' reportes hoy</span>'
     + '</div>'
 
     + '<div class="m-powered-by"><span class="m-powered-text">Powered by</span><div style="display:flex;align-items:center;gap:5px;color:var(--gold-dim)">' + eye(14) + '<span class="m-powered-horus" style="font-family:\'Cormorant Garamond\',serif;font-size:12px;font-weight:600;letter-spacing:2px;color:var(--gold-dim)">HORUS</span></div></div>';

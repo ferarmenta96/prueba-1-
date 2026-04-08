@@ -895,55 +895,123 @@ function renderForm(b) {
 /* ═══════════════════════════════════════════════════════════════
 ACCIONES GLOBALES
 ═══════════════════════════════════════════════════════════════ */
-window.selectBridge   = function(i){ state.activeBridge = i; state.showForm = false; render(); };
-window.openForm       = function(){ state.showForm = true; state.submitDone = false; state.formData = {position:’’,lane:’’,estimatedTime:’’,note:’’}; render(); };
-window.closeForm      = function(){ state.showForm = false; render(); };
-window.closeFormOuter = function(e){ if (e.target.classList.contains(‘modal-overlay’)) window.closeForm(); };
-window.setField       = function(k, v){ state.formData[k] = v; render(); };
-window.setNote        = function(v){ state.formData.note = v; };
+window.selectBridge = function(i){
+  state.activeBridge = i;
+  state.showForm = false;
+  render();
+};
+
+window.openForm = function(){
+  state.showForm = true;
+  state.submitDone = false;
+  state.formData = { position:'', lane:'', estimatedTime:'', note:'' };
+  render();
+};
+
+window.closeForm = function(){
+  state.showForm = false;
+  render();
+};
+
+window.closeFormOuter = function(e){
+  if (e.target.classList.contains('modal-overlay')) window.closeForm();
+};
+
+window.setField = function(k, v){
+  state.formData[k] = v;
+  render();
+};
+
+window.setNote = function(v){
+  state.formData.note = v;
+};
 
 window.handleSubmit = function() {
-if (!state.formData.position || !state.formData.lane || !state.formData.estimatedTime) return;
-state.submitting = true; render();
-var b      = BRIDGES[state.activeBridge];
-var report = Object.assign({bridge:b.id, bridgeName:b.name}, state.formData, {timestamp: new Date().toISOString()});
-submitReport(report)
-.then(function(){ state.submitDone = true; state.submitting = false; render(); setTimeout(function(){ fetchReports(); window.closeForm(); }, 1500); })
-.catch(function(){ state.submitting = false; state.submitDone = true; render(); setTimeout(window.closeForm, 2000); });
+  if (!state.formData.position || !state.formData.lane || !state.formData.estimatedTime) return;
+
+  state.submitting = true;
+  render();
+
+  var b = BRIDGES[state.activeBridge];
+
+  var report = Object.assign(
+    { bridge: b.id, bridgeName: b.name },
+    state.formData,
+    { timestamp: new Date().toISOString() }
+  );
+
+  submitReport(report)
+    .then(function(){
+      state.submitDone = true;
+      state.submitting = false;
+      render();
+
+      setTimeout(function(){
+        fetchReports();
+        window.closeForm();
+      }, 1500);
+    })
+    .catch(function(){
+      state.submitting = false;
+      state.submitDone = true;
+      render();
+
+      setTimeout(window.closeForm, 2000);
+    });
 };
 
 window.installApp = function() {
-if (!state.installPrompt) return;
-state.installPrompt.prompt();
-state.installPrompt.userChoice.then(function(r){
-if (r.outcome === ‘accepted’) state.showInstallBanner = false;
-state.installPrompt = null; render();
-});
+  if (!state.installPrompt) return;
+
+  state.installPrompt.prompt();
+
+  state.installPrompt.userChoice.then(function(r){
+    if (r.outcome === 'accepted') state.showInstallBanner = false;
+    state.installPrompt = null;
+    render();
+  });
 };
 
 window.dismissInstall = function() {
-state.showInstallBanner = false;
-try { localStorage.setItem(‘install-dismissed’, ‘1’); } catch(e) {}
-render();
+  state.showInstallBanner = false;
+
+  try {
+    localStorage.setItem('install-dismissed', '1');
+  } catch(e) {}
+
+  render();
 };
 
 /* ── Resize ── */
 var _resizeTimer;
-window.addEventListener(‘resize’, function(){
-clearTimeout(_resizeTimer);
-_resizeTimer = setTimeout(function(){ render(); }, 200);
+
+window.addEventListener('resize', function(){
+  clearTimeout(_resizeTimer);
+  _resizeTimer = setTimeout(function(){
+    render();
+  }, 200);
 });
 
 /* ── PWA ── */
-if (‘serviceWorker’ in navigator) {
-window.addEventListener(‘load’, function(){
-navigator.serviceWorker.register(’/cruce-reynosa/sw.js’)
-.then(function(r){ r.update(); }).catch(function(){});
-});
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function(){
+    navigator.serviceWorker
+      .register('/cruce-reynosa/sw.js')
+      .then(function(r){ r.update(); })
+      .catch(function(){});
+  });
 }
-window.addEventListener(‘beforeinstallprompt’, function(e){
-e.preventDefault(); state.installPrompt = e;
-try { if (!localStorage.getItem(‘install-dismissed’)) { state.showInstallBanner = true; render(); } } catch(ex) {}
+
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  state.installPrompt = e;
+
+  try {
+    if (!localStorage.getItem('install-dismissed')) {
+      state.showInstallBanner = true;
+      render();
+    }
+  } catch(ex) {}
 });
 
 /* ═══════════════════════════════════════════════════════════════

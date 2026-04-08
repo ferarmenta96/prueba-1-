@@ -16,13 +16,10 @@
   <title>Cruce Reynosa</title>
 
   <!-- Google Tag Manager -->
-
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-P2RPXZMN');</script>
 
   <!-- Google Analytics 4 -->
-
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-BD1YGC73WJ"></script>
-
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-BD1YGC73WJ');</script>
 
   <link rel="manifest" href="/cruce-reynosa/manifest.json" />
@@ -40,7 +37,6 @@
    Debe estar en la misma carpeta que index.html.
   ═══════════════════════════════════════════════════
   -->
-
   <script src="ads.js"></script>
 
   <style>
@@ -130,7 +126,7 @@
     .m-status-pesado { color:var(--red); } .m-status-pesado .m-status-dot { background:var(--red); }
     .m-traffic-meta { display:flex; gap:16px; font-family:'Barlow',sans-serif; font-size:13px; color:var(--text-dim); margin-top:12px; }
 
-    /* ── CAMBIO 2: explore quick links (encima del tiempo) — versión compacta sin puntos ── */
+    /* ── explore quick links ── */
     .m-explore-quick { display:flex; gap:8px; margin:0 18px 14px; }
     .m-explore-quick-btn { flex:1; display:flex; align-items:center; justify-content:center; padding:8px 10px; border-radius:8px; border:1px solid; font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; text-decoration:none; cursor:pointer; transition:all 0.2s; }
     .m-explore-quick-btn:active { transform:scale(0.97); }
@@ -142,7 +138,7 @@
     /* ── mobile map ── */
     .m-map-container { background:var(--surface2); border:1px solid var(--border); border-radius:12px; margin:0 18px 16px; overflow:hidden; height:280px; position:relative; z-index:1; }
 
-    /* ── CAMBIO 1: report btn — reubicado, nuevo texto ── */
+    /* ── report btn ── */
     .m-report-btn { background:linear-gradient(135deg,var(--accent) 0%,var(--gold-dim) 100%); border:1px solid var(--gold-bright); border-radius:12px; padding:14px 16px; margin:0 18px 14px; font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:800; letter-spacing:2px; color:#fff; text-transform:uppercase; cursor:pointer; transition:all 0.2s; box-shadow:0 4px 16px var(--gold-glow); width:calc(100% - 36px); display:flex; align-items:center; justify-content:center; gap:8px; }
     .m-report-btn:hover { transform:translateY(-2px); box-shadow:0 6px 24px var(--gold-glow-strong); }
     .m-report-btn-main { font-size:14px; font-weight:800; letter-spacing:2px; }
@@ -161,7 +157,7 @@
     .m-report-meta { display:flex; gap:12px; font-family:'Barlow',sans-serif; font-size:12px; color:var(--text-dim); margin-bottom:8px; }
     .m-report-note { font-family:'Barlow',sans-serif; font-size:13px; color:var(--muted); font-style:italic; line-height:1.4; padding:8px; background:var(--surface); border-left:2px solid var(--border-gold); border-radius:4px; }
 
-    /* ── CAMBIO 3: empty state mejorado ── */
+    /* ── empty state ── */
     .m-empty-state { text-align:center; padding:32px 20px 28px; color:var(--muted); }
     .m-empty-emoji { font-size:44px; margin-bottom:10px; }
     .m-empty-cta-title { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:800; letter-spacing:1px; color:#111111; text-transform:uppercase; margin-bottom:4px; }
@@ -169,7 +165,7 @@
 
     .m-bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); max-width:480px; width:100%; background:var(--surface); border-top:1px solid var(--border); padding:10px 18px; display:flex; justify-content:center; align-items:center; gap:10px; font-family:'Barlow',sans-serif; font-size:11px; color:var(--muted); z-index:100; }
 
-    /* ── CAMBIO 4: contador usuarios ── */
+    /* ── contador usuarios ── */
     .m-users-today { display:flex; align-items:center; gap:6px; font-family:'Barlow',sans-serif; font-size:11px; color:var(--faint); }
     .m-users-today-dot { width:5px; height:5px; background:var(--green); border-radius:50%; animation:pulse 2s infinite; flex-shrink:0; }
     .m-users-today-num { font-family:'Barlow Condensed',sans-serif; font-weight:700; color:var(--muted); font-size:12px; }
@@ -191,7 +187,7 @@
     @keyframes mapMarkerPulse { 0%{transform:scale(1)} 50%{transform:scale(1.5)} 100%{transform:scale(1)} }
     .m-queue-indicator { position:absolute; bottom:12px; left:12px; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); border:1px solid var(--border-gold); border-radius:8px; padding:8px 12px; font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:1px; color:var(--gold); text-transform:uppercase; font-weight:700; z-index:1000; }
 
-    /* ── explore section (debajo del mapa — se mantiene para el bloque completo) ── */
+    /* ── explore section ── */
     .m-explore-section { padding:0 18px 20px; }
     .m-explore-label { font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:3px; color:var(--muted); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:10px; }
     .m-explore-label::before,.m-explore-label::after { content:''; flex:1; height:1px; }
@@ -219,7 +215,7 @@
     .m-explore-btn.rns .m-explore-btn-stripe { background:linear-gradient(90deg,transparent,#C9A84C,transparent); }
     .m-explore-btn.rgv .m-explore-btn-stripe { background:linear-gradient(90deg,transparent,#60a5fa,transparent); }
 
-    /* ── desktop explore nav in header (sin puntos, más compacto) ── */
+    /* ── desktop explore nav ── */
     .dk-explore-nav { display:flex; gap:6px; margin-left:auto; flex-shrink:0; }
     .dk-explore-nav-btn { display:flex; align-items:center; justify-content:center; padding:5px 12px; border-radius:6px; border:1px solid; font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; text-decoration:none; cursor:pointer; transition:all 0.2s; }
     .dk-explore-nav-btn:hover { transform:translateY(-1px); }
@@ -287,7 +283,6 @@
       .dk-report-btn-header { background:linear-gradient(135deg,#C9A84C,#8a7035); border:none; border-radius:6px; padding:7px 18px; font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:800; letter-spacing:2px; color:#0a0a0a; text-transform:uppercase; cursor:pointer; transition:all 0.2s; }
       .dk-report-btn-header:hover { opacity:0.85; transform:translateY(-1px); }
 
-      /* desktop explore nav — sin puntos, más compacto */
       .dk-explore-nav-btn { padding:5px 11px; font-size:10px; }
 
       .dk-body { flex:1; display:grid; grid-template-columns:300px 1fr 300px; overflow:hidden; }
@@ -359,7 +354,7 @@
       .dk-report-item-meta { font-family:'Barlow',sans-serif; font-size:10px; color:var(--dk-muted); display:flex; gap:8px; }
       .dk-report-item-note { font-family:'Barlow',sans-serif; font-size:10px; color:var(--dk-muted); font-style:italic; margin-top:5px; padding:5px 8px; background:var(--dk-surface2); border-left:2px solid var(--dk-border-gold); border-radius:3px; }
 
-      /* CAMBIO 3 desktop empty state */
+      /* desktop empty state */
       .dk-empty-state { padding:30px 14px; text-align:center; color:var(--dk-muted); }
       .dk-empty-state div:first-child { font-size:36px; margin-bottom:8px; }
       .dk-empty-cta-title { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:var(--dk-text) !important; margin-bottom:4px; }
@@ -371,7 +366,7 @@
       .dk-footer-sep { width:1px; height:12px; background:var(--dk-border); }
       .dk-footer-horus { font-family:'Cormorant Garamond',serif; font-size:12px; font-weight:600; letter-spacing:3px; color:var(--gold-dim); text-transform:uppercase; display:flex; align-items:center; gap:6px; }
 
-      /* CAMBIO 4 desktop usuarios hoy en footer */
+      /* desktop usuarios hoy en footer */
       .dk-users-today { display:flex; align-items:center; gap:5px; }
       .dk-users-today-dot { width:4px; height:4px; background:#22c55e; border-radius:50%; animation:pulse 2s infinite; }
 
@@ -387,7 +382,6 @@
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P2RPXZMN" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- SPLASH -->
-
 <div id="splash">
   <svg class="splash-eye" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
     <path d="M100 60 L160 140 L40 140 Z" fill="none" stroke="#C9A84C" stroke-width="3"/>
@@ -408,11 +402,9 @@
 </div>
 
 <!-- MOBILE APP -->
-
 <div id="app-mobile" style="max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:#ffffff;"></div>
 
 <!-- DESKTOP APP -->
-
 <div id="app-desktop"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -463,21 +455,19 @@ var state = {
 /* ── Utilidades ── */
 function isDesktop() { return window.innerWidth >= 1024; }
 
-/* ── CAMBIO 4: Contador de usuarios pseudo-real basado en hora ── */
+/* ── Contador de usuarios pseudo-real basado en hora ── */
 function getDailyUserCount() {
   var now    = new Date();
   var hour   = now.getHours();
   var minute = now.getMinutes();
-  // Progresión lineal a lo largo del día: 0:00 → ~50, 23:59 → ~2500
-  var progress = (hour * 60 + minute) / (23 * 60 + 59); // 0.0 a 1.0
+  var progress = (hour * 60 + minute) / (23 * 60 + 59);
   var minCount = 50;
   var maxCount = 2500;
   var base = Math.round(minCount + (maxCount - minCount) * progress);
-  // Ruido pseudo-aleatorio fijo por minuto (seed = fecha+hora+min)
   var seed = now.getFullYear() * 100000 + (now.getMonth()+1) * 10000
            + now.getDate() * 100 + now.getHours() * 10 + now.getMinutes();
-  var noise = ((seed * 9301 + 49297) % 233280) / 233280; // 0.0-1.0
-  var jitter = Math.round((noise - 0.5) * 80); // ±40
+  var noise = ((seed * 9301 + 49297) % 233280) / 233280;
+  var jitter = Math.round((noise - 0.5) * 80);
   return Math.max(minCount, base + jitter);
 }
 
@@ -614,7 +604,6 @@ function renderMobile() {
       + '<div class="m-bridge-pill-dot" style="background:' + (dmap[qd.status] || 'var(--green)') + '"></div></div>';
   }).join('');
 
-  /* CAMBIO 3: empty state con CTA */
   var cards = '';
   if (q.reports.length > 0) {
     q.reports.slice(0, 10).forEach(function(r){
@@ -632,7 +621,6 @@ function renderMobile() {
       + '</div>';
   }
 
-  /* CAMBIO 4: usuarios hoy */
   var usersToday = getDailyUserCount();
 
   var html = '<div class="m-header">'
@@ -641,7 +629,6 @@ function renderMobile() {
     + '<div class="live-badge"><div class="live-dot"></div>LIVE</div></div>'
     + '<div class="m-tabs">' + tabs + '</div></div>'
 
-    /* CAMBIO 2: quick links encima del tiempo principal */
     + '<div class="m-explore-quick">'
     + '<a class="m-explore-quick-btn rns" href="/cruce-reynosa/que-hacer-reynosa.html">Qu\u00e9 hacer en Reynosa</a>'
     + '<a class="m-explore-quick-btn rgv" href="/cruce-reynosa/que-hacer-rgv.html">Qu\u00e9 hacer en RGV</a>'
@@ -655,11 +642,9 @@ function renderMobile() {
     + (q.source ? '<div style="margin-top:10px;font-family:\'Barlow Condensed\',sans-serif;font-size:10px;letter-spacing:1.5px;color:var(--faint);text-transform:uppercase;">Fuente: ' + q.source + '</div>' : '')
     + '</div>'
 
-    /* CAMBIO 1 + publicidad: banner premium → pills → btn reportar → 2do banner */
     + '<div class="ad-banner-premium" id="adBannerPM">' + premiumBannerHTML('m') + '</div>'
     + '<div class="m-bridges-summary">' + pills + '</div>'
 
-    /* CAMBIO 1: Botón reportar reubicado aquí, antes del 2do banner */
     + '<button class="m-report-btn" onclick="openForm()">'
     + '<span class="m-report-btn-main">Reportar Fila</span>'
     + '<span class="m-report-btn-sub">Gana Beneficios</span>'
@@ -692,7 +677,6 @@ function renderMobile() {
 
     + '<div class="m-reports-section"><div class="m-section-title">Reportes Recientes</div>' + cards + '</div>'
 
-    /* CAMBIO 4: bottom nav con contador usuarios */
     + '<div class="m-bottom-nav">'
     + '<span>Auto-refresh 5min</span><span style="color:var(--faint)">&middot;</span>'
     + '<span>' + state.reports.length + ' reportes hoy</span><span style="color:var(--faint)">&middot;</span>'
@@ -743,7 +727,6 @@ function renderDesktop() {
       + '<div class="dk-bridge-row-time"><div class="dk-bridge-row-mins" style="color:' + dcolor + '">' + qd.estimatedTime + '</div><div class="dk-bridge-row-unit">min</div></div></div>';
   }).join('');
 
-  /* CAMBIO 3 desktop: empty state con CTA */
   var repItems = '';
   if (q.reports.length > 0) {
     q.reports.slice(0, 20).forEach(function(r){
@@ -765,7 +748,6 @@ function renderDesktop() {
   var usersToday  = getDailyUserCount();
 
   var html = ''
-    /* ── HEADER ── */
     + '<div class="dk-header">'
     + '<div class="dk-logo-area">'
     +   '<div style="width:28px;height:28px">' + eye(28, '#C9A84C') + '</div>'
@@ -775,17 +757,14 @@ function renderDesktop() {
     + '</div>'
     + '<div class="dk-header-bridges">' + bridgeTabs + '</div>'
     + '<div class="dk-header-right">'
-    /* CAMBIO 2 desktop: sin puntos, más compactos */
     +   '<a class="dk-explore-nav-btn rns" href="/cruce-reynosa/que-hacer-reynosa.html">Qu\u00e9 hacer en Reynosa</a>'
     +   '<a class="dk-explore-nav-btn rgv" href="/cruce-reynosa/que-hacer-rgv.html">Qu\u00e9 hacer en RGV</a>'
     +   '<div class="dk-live-badge"><div class="dk-live-dot"></div>LIVE</div>'
     +   '<button class="dk-report-btn-header" onclick="openForm()">+ Reportar</button>'
     + '</div></div>'
 
-    /* ── BODY ── */
     + '<div class="dk-body">'
 
-    /* LEFT PANEL */
     + '<div class="dk-left">'
     +   '<div class="dk-panel-label">Estado Actual</div>'
     +   '<div class="dk-metric-block" style="--accent:' + accentColor + '">'
@@ -803,7 +782,6 @@ function renderDesktop() {
     +   '<div class="dk-bridges-list">' + bridgeRows + '</div>'
     + '</div>'
 
-    /* CENTER — MAP */
     + '<div class="dk-center">'
     +   '<div id="map-desktop"></div>'
     +   '<div class="dk-map-overlay-top">'
@@ -813,7 +791,6 @@ function renderDesktop() {
     +   '<div class="dk-map-overlay-bottom"></div>'
     + '</div>'
 
-    /* RIGHT PANEL */
     + '<div class="dk-right">'
     +   '<div class="dk-ad-premium-wrap" id="adBannerPD">' + premiumBannerHTML('d') + '</div>'
     +   '<div class="dk-ad-small-wrap" id="adBannerD">' + smallBannerHTML() + '</div>'
@@ -823,16 +800,14 @@ function renderDesktop() {
     +   '</div>'
     + '</div>'
 
-    + '</div>' /* /dk-body */
+    + '</div>'
 
-    /* ── FOOTER con contador usuarios ── */
     + '<div class="dk-footer">'
     +   '<div class="dk-footer-left">'
     +     '<span>Auto-refresh 5 min</span>'
     +     '<div class="dk-footer-sep"></div>'
     +     '<span>' + state.reports.length + ' reportes totales</span>'
     +     '<div class="dk-footer-sep"></div>'
-    /* CAMBIO 4 desktop: usuarios hoy */
     +     '<div class="dk-users-today"><div class="dk-users-today-dot"></div><span>' + formatUserCount(usersToday) + ' usuarios hoy</span></div>'
     +   '</div>'
     +   '<div class="dk-footer-horus">' + eye(14, '#8a7035') + '<span>HORUS</span></div>'
@@ -883,17 +858,13 @@ function renderForm(b) {
     + '<div class="form-group"><label class="form-label">Tiempo estimado</label><div class="option-grid">' + tBtns + '</div></div>'
     + '<div class="form-group"><label class="form-label">Comentario (opcional)</label>'
     + '<textarea class="form-textarea" rows="2" placeholder="Ej: Estan revisando mucho..." oninput="setNote(this.value)">' + f.note + '</textarea></div>'
-
-```
-+ '<button class="submit-btn"' + (ok ? '' : ' disabled') + ' onclick="handleSubmit()">' + (state.submitting ? 'Enviando...' : 'Publicar Reporte') + '</button>'
-+ '<button onclick="closeForm()" style="width:100%;background:none;border:none;color:var(--muted);font-size:13px;letter-spacing:1px;margin-top:12px;cursor:pointer;padding:8px;font-family:\'Barlow Condensed\',sans-serif;text-transform:uppercase">Cancelar</button>'
-+ '</div></div>';
-```
-
+    + '<button class="submit-btn"' + (ok ? '' : ' disabled') + ' onclick="handleSubmit()">' + (state.submitting ? 'Enviando...' : 'Publicar Reporte') + '</button>'
+    + '<button onclick="closeForm()" style="width:100%;background:none;border:none;color:var(--muted);font-size:13px;letter-spacing:1px;margin-top:12px;cursor:pointer;padding:8px;font-family:\'Barlow Condensed\',sans-serif;text-transform:uppercase">Cancelar</button>'
+    + '</div></div>';
 }
 
 /* ═══════════════════════════════════════════════════════════════
-ACCIONES GLOBALES
+   ACCIONES GLOBALES
 ═══════════════════════════════════════════════════════════════ */
 window.selectBridge = function(i){
   state.activeBridge = i;
@@ -1015,16 +986,16 @@ window.addEventListener('beforeinstallprompt', function(e){
 });
 
 /* ═══════════════════════════════════════════════════════════════
-INICIO
+   INICIO
 ═══════════════════════════════════════════════════════════════ */
 injectAdStyles();
 startAdRotation();
 
 setTimeout(function(){
-var el = document.getElementById(‘splash’);
-if (!el || el.classList.contains(‘hidden’)) return;
-el.classList.add(‘hidden’);
-setTimeout(function(){ if (el.parentNode) el.parentNode.removeChild(el); }, 650);
+  var el = document.getElementById('splash');
+  if (!el || el.classList.contains('hidden')) return;
+  el.classList.add('hidden');
+  setTimeout(function(){ if (el.parentNode) el.parentNode.removeChild(el); }, 650);
 }, 3000);
 
 render();

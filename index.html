@@ -1481,7 +1481,7 @@ textarea.form-control{resize:vertical;min-height:80px}
 <script>
 // ─── CONFIG ──────────────────────────────────────────────
 // ⚠️ REEMPLAZAR con tu URL de Google Apps Script deployment
-const API_URL = 'https://script.google.com/macros/s/AKfycbzf3y2JvuOACrglVlM8gms3zQnVibDQPMXoCRChYVTHAdQfgLve63kUpPC3rbE9QTtglg/exec';
+const API_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID_HERE/exec';
 
 // Estado global
 const STATE = {
@@ -2914,7 +2914,7 @@ window.addEventListener('load', () => {
 // Versión: 1.0 — Horus System Co., McAllen TX
 // ============================================================
 // USO: Cargar este archivo DESPUÉS del frontend principal
-//   <script src="horus_erp_modules.js"></script>
+//   [script src="horus_erp_modules.js"]<\/script>
 //
 // Dependencias externas (agregar al <head>):
 //   jsPDF:    https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js
@@ -3589,7 +3589,7 @@ const HorusPDF = (() => {
   // ── API pública ───────────────────────────────────────────
   async function generate(type, data, autoDownload = true) {
     if (!window.jspdf) {
-      console.error('jsPDF not loaded. Add: <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>');
+      console.error('jsPDF not loaded. Add: ' + '<' + 'script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">'<\/script>');
       return null;
     }
 

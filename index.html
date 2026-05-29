@@ -405,7 +405,7 @@ span[data-en],span[data-es] { display: none; }
 ═══════════════════════════════ */
 .services { background: var(--bg-soft); border-top: 1px solid var(--border); }
 .services-inner { padding: 90px 5%; max-width: 1200px; margin: 0 auto; }
-.services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); margin-top: 56px; }
+.services-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1px; background: var(--border); margin-top: 56px; }
 .service-card {
   background: #fff; padding: 48px 36px;
   text-decoration: none; display: block; position: relative; overflow: hidden;
@@ -589,6 +589,7 @@ footer { border-top: 1px solid var(--border); background: var(--text); }
   .standards-bar-label { border-right: none; border-bottom: 1px solid var(--border); }
   .standard-item { border-right: none; border-bottom: 1px solid var(--border-soft); }
   .who-grid, .services-grid, .results-grid { grid-template-columns: 1fr !important; }
+
   .testimonials { grid-template-columns: 1fr !important; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .row2 { grid-template-columns: 1fr; }
@@ -873,15 +874,28 @@ footer { border-top: 1px solid var(--border); background: var(--text); }
 <section class="services" id="services">
   <div class="services-inner">
     <div class="reveal">
-      <div class="section-tag"><span data-en>What We Build</span><span data-es>Lo Que Construimos</span></div>
+      <div class="section-tag"><span data-en>Our Services</span><span data-es>Nuestros Servicios</span></div>
       <h2 class="section-title">
         <span data-en>If you ask us to implement,<br>here's what we deliver.</span>
         <span data-es>Si nos pides que implementemos,<br>esto es lo que entregamos.</span>
       </h2>
-      <p class="section-sub" data-en>HORUS has three specialized divisions that cover everything the diagnostic may surface — automation, custom software, and cybersecurity.</p>
-      <p class="section-sub" data-es>HORUS tiene tres divisiones especializadas que cubren todo lo que el diagnóstico pueda revelar — automatización, software a medida y ciberseguridad.</p>
+      <p class="section-sub" data-en>HORUS delivers four services that cover everything the diagnostic may surface — ISO 9001 consulting, AI automation, custom software, and cybersecurity.</p>
+      <p class="section-sub" data-es>HORUS entrega cuatro servicios que cubren todo lo que el diagnóstico pueda revelar — consultoría ISO 9001, automatización con IA, software a medida y ciberseguridad.</p>
     </div>
     <div class="services-grid reveal">
+      <a href="#contact" class="service-card">
+        <span class="service-tag">ISO 9001 <span data-en>Consulting</span><span data-es>Consultoría</span></span>
+        <h3>HORUS Quality</h3>
+        <p data-en>We guide your company through ISO 9001 certification — from gap analysis and process documentation to internal audits and full QMS implementation. We work alongside your team so the system fits how you actually operate, not the other way around.</p>
+        <p data-es>Guiamos a tu empresa a través de la certificación ISO 9001 — desde el análisis de brechas y la documentación de procesos hasta las auditorías internas y la implementación completa del SGC. Trabajamos junto a tu equipo para que el sistema se adapte a cómo realmente operas.</p>
+        <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-sub);"><span style="width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;display:inline-block;"></span><span data-en>Gap analysis vs. ISO 9001 requirements</span><span data-es>Análisis de brechas vs. requisitos ISO 9001</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-sub);"><span style="width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;display:inline-block;"></span><span data-en>Process documentation &amp; QMS design</span><span data-es>Documentación de procesos y diseño del SGC</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-sub);"><span style="width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;display:inline-block;"></span><span data-en>Internal audit training &amp; support</span><span data-es>Capacitación y apoyo en auditorías internas</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-sub);"><span style="width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;display:inline-block;"></span><span data-en>Certification preparation &amp; follow-up</span><span data-es>Preparación para la certificación y seguimiento</span></div>
+        </div>
+        <div class="service-link" style="margin-top:28px;"><span data-en>Talk to a Quality Consultant →</span><span data-es>Hablar con un Consultor de Calidad →</span></div>
+      </a>
       <a href="solutions/index.html" class="service-card">
         <span class="service-tag"><span data-en>AI &amp; Automation</span><span data-es>IA y Automatización</span></span>
         <h3>HORUS Growth</h3>

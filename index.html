@@ -6,7 +6,7 @@
 <link rel="canonical" href="https://www.horussystemco.com/">
 <title>Business Consulting for Engineering &amp; Technical Companies | HORUS System Co. — McAllen, TX</title>
 <meta name="description" content="HORUS System Co. helps engineering firms, system integrators, and technical B2B companies improve how their business runs. Business diagnostic, AI automation, custom software, and cybersecurity. McAllen, TX.">
-<meta name="keywords" content="business consulting McAllen TX, engineering firm consulting, system integrator consulting, technical B2B consulting, business diagnostic, AI automation Texas, cybersecurity McAllen, Rio Grande Valley consulting, operational efficiency engineering firms, HORUS System Co">
+<meta name="keywords" content="business consulting McAllen TX, engineering firm consulting, system integrator consulting, technical B2B consulting, business diagnostic, ISO 9001 consulting McAllen, ISO 9001 implementation Texas, quality management system engineering, AI automation Texas, cybersecurity McAllen, Rio Grande Valley consulting, operational efficiency engineering firms, HORUS System Co">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="author" content="HORUS System Co.">
 <meta name="geo.region" content="US-TX">
@@ -431,6 +431,30 @@ span[data-en],span[data-es] { display: none; }
   font-size: 11px; font-weight: 700; color: var(--gold);
   letter-spacing: 1px; text-transform: uppercase;
 }
+/* STANDARDS BAR */
+.standards-bar {
+  border: 1px solid var(--border); border-top: none;
+  display: flex; align-items: stretch; background: #fff;
+}
+.standards-bar-label {
+  padding: 20px 28px; background: var(--gold-faint);
+  border-right: 1px solid var(--border);
+  display: flex; align-items: center;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gold); white-space: nowrap;
+}
+.standards-items {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0;
+}
+.standard-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 20px 28px; border-right: 1px solid var(--border-soft);
+  transition: background .2s;
+}
+.standard-item:hover { background: var(--gold-faint); }
+.standard-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+.standard-item span { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: .3px; }
+.standard-item small { font-size: 11px; color: var(--text-sub); margin-left: 4px; font-weight: 400; }
 
 /* ═══════════════════════════════
    RESULTS
@@ -561,6 +585,9 @@ footer { border-top: 1px solid var(--border); background: var(--text); }
 }
 @media (max-width: 768px) {
   nav a:not(.nav-solid) { display: none; }
+  .standards-bar { flex-direction: column; }
+  .standards-bar-label { border-right: none; border-bottom: 1px solid var(--border); }
+  .standard-item { border-right: none; border-bottom: 1px solid var(--border-soft); }
   .who-grid, .services-grid, .results-grid { grid-template-columns: 1fr !important; }
   .testimonials { grid-template-columns: 1fr !important; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
@@ -776,10 +803,10 @@ footer { border-top: 1px solid var(--border); background: var(--text); }
         <div class="diag-area">
           <span class="diag-num">04</span>
           <div>
-            <h3 data-en>Cybersecurity: Data, Remote Access &amp; Compliance</h3>
-            <h3 data-es>Ciberseguridad: Datos, Acceso Remoto y Cumplimiento</h3>
-            <p data-en>What's exposed, what's at risk, and what's required for basic compliance in your industry.</p>
-            <p data-es>Qué está expuesto, qué está en riesgo y qué se requiere para cumplimiento básico en tu industria.</p>
+            <h3 data-en>Cybersecurity, Compliance &amp; ISO 9001 Readiness</h3>
+            <h3 data-es>Ciberseguridad, Cumplimiento y Preparación para ISO 9001</h3>
+            <p data-en>What's exposed, what's at risk, and where you stand on ISO 9001 quality management requirements and cybersecurity compliance for your industry.</p>
+            <p data-es>Qué está expuesto, qué está en riesgo y cómo te encuentras respecto a los requisitos de gestión de calidad ISO 9001 y el cumplimiento de ciberseguridad para tu industria.</p>
           </div>
         </div>
         <div class="diag-area">
@@ -876,6 +903,29 @@ footer { border-top: 1px solid var(--border); background: var(--text); }
         <p data-es>Protegemos tu negocio de los riesgos que el diagnóstico revela — monitoreo, respuesta a incidentes, acceso remoto seguro, gestión de identidades y alineación de cumplimiento.</p>
         <div class="service-link"><span data-en>Explore Cybersecurity →</span><span data-es>Explorar Ciberseguridad →</span></div>
       </a>
+    </div>
+
+    <!-- STANDARDS STRIP -->
+    <div class="standards-bar reveal">
+      <div class="standards-bar-label"><span data-en>Standards We Work With</span><span data-es>Estándares con los que Trabajamos</span></div>
+      <div class="standards-items">
+        <div class="standard-item">
+          <span class="standard-dot"></span>
+          <span>ISO 9001</span><small><span data-en>Quality Management</span><span data-es>Gestión de Calidad</span></small>
+        </div>
+        <div class="standard-item">
+          <span class="standard-dot"></span>
+          <span>ISO 27001</span><small><span data-en>Information Security</span><span data-es>Seguridad de la Información</span></small>
+        </div>
+        <div class="standard-item">
+          <span class="standard-dot"></span>
+          <span>NIST CSF</span><small><span data-en>Cybersecurity Framework</span><span data-es>Marco de Ciberseguridad</span></small>
+        </div>
+        <div class="standard-item">
+          <span class="standard-dot"></span>
+          <span>SOC 2</span><small><span data-en>Data Security &amp; Privacy</span><span data-es>Seguridad y Privacidad de Datos</span></small>
+        </div>
+      </div>
     </div>
   </div>
 </section>

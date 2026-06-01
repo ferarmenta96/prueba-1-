@@ -1,568 +1,545 @@
-import { useState, useEffect, useRef } from "react";
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PersonaFinder — OSINT Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00ffb4;
+    --green-dim: rgba(0,255,180,0.15);
+    --green-faint: rgba(0,255,180,0.06);
+    --bg: #050a0f;
+    --text: #cce8e0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
-const PLATFORMS = [
-  {
-    id: "google",
-    name: "Google",
-    icon: "G",
-    color: "#4285F4",
-    bg: "#0d1f3c",
-    getUrl: (q) => `https://www.google.com/search?q="${encodeURIComponent(q)}"`,
-    desc: "Búsqueda general",
-  },
-  {
-    id: "google_news",
-    name: "Google News",
-    icon: "📰",
-    color: "#34A853",
-    bg: "#0d2a1a",
-    getUrl: (q) => `https://news.google.com/search?q="${encodeURIComponent(q)}"`,
-    desc: "Noticias",
-  },
-  {
-    id: "twitter",
-    name: "X / Twitter",
-    icon: "𝕏",
-    color: "#e7e9ea",
-    bg: "#111",
-    getUrl: (q) => `https://x.com/search?q="${encodeURIComponent(q)}"&src=typed_query&f=top`,
-    desc: "Publicaciones & menciones",
-  },
-  {
-    id: "facebook",
-    name: "Facebook",
-    icon: "f",
-    color: "#1877F2",
-    bg: "#0d1f3c",
-    getUrl: (q) => `https://www.facebook.com/search/top?q=${encodeURIComponent(q)}`,
-    desc: "Perfiles & publicaciones",
-  },
-  {
-    id: "linkedin",
-    name: "LinkedIn",
-    icon: "in",
-    color: "#0A66C2",
-    bg: "#051525",
-    getUrl: (q) => `https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(q)}`,
-    desc: "Perfil profesional",
-  },
-  {
-    id: "instagram",
-    name: "Instagram",
-    icon: "◉",
-    color: "#E1306C",
-    bg: "#2a0d1a",
-    getUrl: (q) => `https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent(q)}`,
-    desc: "Fotos & videos",
-  },
-  {
-    id: "youtube",
-    name: "YouTube",
-    icon: "▶",
-    color: "#FF0000",
-    bg: "#1a0000",
-    getUrl: (q) => `https://www.youtube.com/results?search_query="${encodeURIComponent(q)}"`,
-    desc: "Videos & canales",
-  },
-  {
-    id: "tiktok",
-    name: "TikTok",
-    icon: "♪",
-    color: "#69C9D0",
-    bg: "#001a1c",
-    getUrl: (q) => `https://www.tiktok.com/search?q=${encodeURIComponent(q)}`,
-    desc: "Videos cortos",
-  },
-  {
-    id: "reddit",
-    name: "Reddit",
-    icon: "👽",
-    color: "#FF4500",
-    bg: "#1a0a00",
-    getUrl: (q) => `https://www.reddit.com/search/?q="${encodeURIComponent(q)}"`,
-    desc: "Foros & debates",
-  },
-  {
-    id: "pipl",
-    name: "Pipl",
-    icon: "🔍",
-    color: "#a855f7",
-    bg: "#1a0a2a",
-    getUrl: (q) => `https://pipl.com/search/?q=${encodeURIComponent(q)}`,
-    desc: "Directorio de personas",
-  },
-  {
-    id: "truepeoplesearch",
-    name: "TruePeopleSearch",
-    icon: "👤",
-    color: "#22d3ee",
-    bg: "#001a1f",
-    getUrl: (q) => `https://www.truepeoplesearch.com/results?name=${encodeURIComponent(q)}`,
-    desc: "Registros públicos (USA)",
-  },
-  {
-    id: "github",
-    name: "GitHub",
-    icon: "⬡",
-    color: "#f0f6fc",
-    bg: "#0d1117",
-    getUrl: (q) => `https://github.com/search?q=${encodeURIComponent(q)}&type=users`,
-    desc: "Desarrolladores",
-  },
-];
+  body {
+    background: var(--bg);
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--green);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-const GOOGLE_DORKS = (name) => [
-  { label: 'Exacto en web', query: `"${name}"` },
-  { label: 'En redes sociales', query: `"${name}" site:facebook.com OR site:twitter.com OR site:instagram.com OR site:linkedin.com` },
-  { label: 'Correos electrónicos', query: `"${name}" email OR correo "@gmail.com" OR "@hotmail.com" OR "@yahoo.com"` },
-  { label: 'Teléfonos / contacto', query: `"${name}" teléfono OR phone OR contacto OR contact` },
-  { label: 'Documentos PDF', query: `"${name}" filetype:pdf` },
-  { label: 'Noticias / prensa', query: `"${name}" site:nytimes.com OR site:bbc.com OR site:cnn.com OR site:milenio.com OR site:reforma.com` },
-  { label: 'Imágenes de Google', query: `https://www.google.com/search?tbm=isch&q=${encodeURIComponent('"' + name + '"')}` },
-];
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(0,255,180,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,180,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+  /* Scanlines */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,255,180,0.012) 2px, rgba(0,255,180,0.012) 4px
+    );
+    pointer-events: none;
+  }
 
-function TypewriterText({ text, speed = 18 }) {
-  const [displayed, setDisplayed] = useState("");
-  useEffect(() => {
-    setDisplayed("");
-    let i = 0;
-    const iv = setInterval(() => {
-      if (i < text.length) {
-        setDisplayed(text.slice(0, i + 1));
-        i++;
-      } else clearInterval(iv);
-    }, speed);
-    return () => clearInterval(iv);
-  }, [text]);
-  return <span>{displayed}<span className="cursor">█</span></span>;
-}
+  .wrap {
+    position: relative; z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+  }
 
-function ScanLine() {
-  return (
-    <div style={{
-      position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
-      background: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,180,0.015) 2px, rgba(0,255,180,0.015) 4px)",
-      pointerEvents: "none", zIndex: 0,
-    }} />
-  );
-}
+  /* ── HEADER ── */
+  .header { text-align: center; margin-bottom: 44px; }
+  .header-sub {
+    font-size: 10px; letter-spacing: 7px;
+    color: rgba(0,255,180,0.45); margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(30px, 8vw, 68px);
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #fff;
+    text-shadow: 0 0 40px rgba(0,255,180,0.35);
+    line-height: 1;
+  }
+  .header h1 span { color: var(--green); }
+  .header-tagline {
+    font-size: 11px; letter-spacing: 5px;
+    color: rgba(0,255,180,0.4); margin-top: 10px;
+  }
 
-export default function PersonaFinder() {
-  const [query, setQuery] = useState("");
-  const [searched, setSearched] = useState("");
-  const [aiAnalysis, setAiAnalysis] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState("platforms");
-  const [openedPlatforms, setOpenedPlatforms] = useState({});
-  const [glitch, setGlitch] = useState(false);
-  const inputRef = useRef();
+  /* ── SEARCH BOX ── */
+  .search-box {
+    background: var(--green-faint);
+    border: 1px solid rgba(0,255,180,0.2);
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .search-label {
+    font-size: 10px; letter-spacing: 5px;
+    color: rgba(0,255,180,0.5); margin-bottom: 14px;
+  }
+  .search-row {
+    display: flex; gap: 12px; flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1; min-width: 200px;
+    background: rgba(0,255,180,0.05);
+    border: 1px solid rgba(0,255,180,0.3);
+    color: var(--green);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 17px;
+    padding: 14px 18px;
+    outline: none;
+    border-radius: 2px;
+    letter-spacing: 2px;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: var(--green); }
+  .search-input::placeholder { color: rgba(0,255,180,0.3); }
+  .btn-search {
+    background: rgba(0,255,180,0.12);
+    border: 1px solid var(--green);
+    color: var(--green);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px; letter-spacing: 4px;
+    padding: 14px 28px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    min-width: 140px;
+  }
+  .btn-search:hover { background: rgba(0,255,180,0.22); }
+  .search-status {
+    margin-top: 14px; font-size: 11px;
+    color: rgba(0,255,180,0.5); letter-spacing: 1px;
+  }
+  .search-status strong { color: var(--green); }
 
-  const triggerGlitch = () => {
-    setGlitch(true);
-    setTimeout(() => setGlitch(false), 400);
-  };
+  /* ── TABS ── */
+  .tabs {
+    display: flex; border-bottom: 1px solid rgba(0,255,180,0.12);
+    margin-bottom: 24px; gap: 0;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    background: transparent;
+    border: none; border-bottom: 2px solid transparent;
+    color: rgba(0,255,180,0.4);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px; letter-spacing: 3px;
+    padding: 11px 22px; cursor: pointer;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .tab-btn.active {
+    color: var(--green);
+    border-bottom-color: var(--green);
+    background: rgba(0,255,180,0.07);
+  }
+  .tab-btn:hover:not(.active) { color: rgba(0,255,180,0.7); }
 
-  const handleSearch = async () => {
-    if (!query.trim()) return;
-    triggerGlitch();
-    setSearched(query.trim());
-    setOpenedPlatforms({});
-    setAiAnalysis("");
-    setLoading(true);
-    setActiveTab("platforms");
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
 
-    try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          system: `Eres un experto en OSINT (Open Source Intelligence) y búsqueda de personas en internet. 
-Cuando el usuario busque un nombre, proporciona:
-1. Un análisis breve de qué tipo de información pública podría existir sobre ese nombre
-2. Las 3 mejores estrategias de búsqueda para encontrar a esa persona
-3. Señales de alerta o consideraciones éticas importantes
-4. Variaciones del nombre que podrían ser útiles buscar
-Sé conciso, profesional y usa lenguaje técnico. Responde en español. Usa emojis sparingly. Formato: párrafos cortos con encabezados simples en mayúsculas.`,
-          messages: [{ role: "user", content: `Analiza cómo buscar a esta persona en internet: "${query.trim()}". Dame estrategias OSINT específicas.` }],
-        }),
-      });
-      const data = await res.json();
-      const text = data.content?.map(b => b.text || "").join("") || "Sin análisis disponible.";
-      setAiAnalysis(text);
-    } catch (e) {
-      setAiAnalysis("⚠ Error conectando con el módulo de análisis IA.");
-    }
-    setLoading(false);
-  };
+  /* ── OPEN ALL BTN ── */
+  .btn-all {
+    display: block; margin-left: auto; margin-bottom: 16px;
+    background: rgba(255,100,0,0.08);
+    border: 1px solid rgba(255,100,0,0.45);
+    color: #ff7030;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px; letter-spacing: 3px;
+    padding: 9px 20px; cursor: pointer;
+    border-radius: 2px; transition: all 0.2s;
+  }
+  .btn-all:hover { background: rgba(255,100,0,0.18); }
 
-  const openPlatform = (platform) => {
-    const url = platform.getUrl(searched);
-    window.open(url, "_blank");
-    setOpenedPlatforms(p => ({ ...p, [platform.id]: true }));
-  };
+  /* ── PLATFORM GRID ── */
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+  }
+  .platform-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 4px;
+    padding: 15px 17px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 14px;
+    transition: all 0.18s;
+    text-decoration: none;
+  }
+  .platform-card:hover {
+    background: rgba(0,255,180,0.06);
+    transform: translateY(-2px);
+  }
+  .platform-card.opened {
+    background: rgba(0,255,180,0.07);
+    border-color: rgba(0,255,180,0.35);
+  }
+  .p-icon {
+    width: 42px; height: 42px;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: bold;
+    flex-shrink: 0;
+  }
+  .p-info { flex: 1; min-width: 0; }
+  .p-name { color: #fff; font-size: 13px; font-weight: bold; letter-spacing: 1px; }
+  .p-desc { color: rgba(255,255,255,0.4); font-size: 11px; margin-top: 3px; }
+  .p-status { font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.25); flex-shrink: 0; }
+  .platform-card.opened .p-status { color: var(--green); }
 
-  const openAllPlatforms = () => {
-    PLATFORMS.forEach((p, i) => {
-      setTimeout(() => {
-        window.open(p.getUrl(searched), "_blank");
-        setOpenedPlatforms(prev => ({ ...prev, [p.id]: true }));
-      }, i * 200);
-    });
-  };
+  /* ── DORKS ── */
+  .dork-label {
+    font-size: 10px; letter-spacing: 4px;
+    color: rgba(0,255,180,0.45); margin-bottom: 14px;
+  }
+  .dork-row {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(0,255,180,0.09);
+    border-radius: 3px;
+    padding: 13px 17px;
+    margin-bottom: 9px;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 170px 1fr 60px;
+    gap: 12px; align-items: center;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+  .dork-row:hover {
+    background: rgba(0,255,180,0.06);
+    border-color: rgba(0,255,180,0.28);
+  }
+  .dork-title { color: var(--green); font-size: 12px; }
+  .dork-code {
+    color: rgba(255,255,255,0.55); font-size: 11px;
+    background: rgba(0,0,0,0.3); padding: 4px 10px;
+    border-radius: 2px; overflow: hidden;
+    text-overflow: ellipsis; white-space: nowrap;
+    display: block;
+  }
+  .dork-open { color: rgba(255,255,255,0.25); font-size: 11px; text-align: right; }
 
-  const dorks = searched ? GOOGLE_DORKS(searched) : [];
+  /* ── AI ANALYSIS ── */
+  .ai-box {
+    background: rgba(0,255,180,0.03);
+    border: 1px solid rgba(0,255,180,0.14);
+    border-radius: 4px; padding: 24px; min-height: 200px;
+  }
+  .ai-header {
+    font-size: 10px; letter-spacing: 5px;
+    color: rgba(0,255,180,0.45); margin-bottom: 16px;
+  }
+  #ai-content {
+    color: var(--text); font-size: 13px;
+    line-height: 1.85; white-space: pre-wrap;
+    letter-spacing: 0.3px;
+  }
+  .cursor-blink {
+    display: inline-block;
+    animation: blink 1s step-end infinite;
+    color: var(--green); margin-left: 2px;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-  return (
-    <div style={{
-      minHeight: "100vh",
-      background: "#050a0f",
-      fontFamily: "'Courier New', monospace",
-      color: "#00ffb4",
-      position: "relative",
-      overflow: "hidden",
-    }}>
-      <ScanLine />
+  /* ── NOTICE ── */
+  .notice {
+    margin-top: 18px;
+    background: rgba(255,200,0,0.04);
+    border: 1px solid rgba(255,200,0,0.14);
+    border-radius: 4px; padding: 13px 17px;
+    font-size: 11px; color: rgba(255,200,0,0.6);
+    letter-spacing: 0.5px; line-height: 1.6;
+  }
 
-      {/* Animated grid background */}
-      <div style={{
-        position: "fixed", inset: 0, zIndex: 0,
-        backgroundImage: `
-          linear-gradient(rgba(0,255,180,0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(0,255,180,0.03) 1px, transparent 1px)
-        `,
-        backgroundSize: "40px 40px",
-        pointerEvents: "none",
-      }} />
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 50px;
+    border-top: 1px solid rgba(0,255,180,0.08);
+    padding-top: 20px; text-align: center;
+    font-size: 10px; letter-spacing: 4px;
+    color: rgba(0,255,180,0.2);
+  }
 
-      <div style={{ position: "relative", zIndex: 1, maxWidth: 900, margin: "0 auto", padding: "32px 20px" }}>
+  /* ── HIDDEN INITIALLY ── */
+  #results { display: none; }
 
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{
-            fontSize: 11, letterSpacing: 8, color: "#00ffb480", marginBottom: 8,
-            fontFamily: "monospace",
-          }}>
-            ◈ HORUS SYSTEM CO. ◈ OSINT MODULE v2.1 ◈
-          </div>
-          <h1 style={{
-            fontSize: "clamp(32px, 7vw, 64px)",
-            fontFamily: "'Georgia', serif",
-            fontWeight: 400,
-            letterSpacing: 4,
-            color: "#fff",
-            textShadow: glitch
-              ? "4px 0 #ff0066, -4px 0 #00ffb4"
-              : "0 0 40px rgba(0,255,180,0.3)",
-            margin: 0,
-            transition: "text-shadow 0.1s",
-          }}>
-            PERSONA<span style={{ color: "#00ffb4" }}>FINDER</span>
-          </h1>
-          <div style={{ color: "#00ffb460", fontSize: 12, marginTop: 8, letterSpacing: 3 }}>
-            BÚSQUEDA OSINT MULTI-PLATAFORMA
-          </div>
-        </div>
+  /* ── GLITCH ── */
+  .glitch {
+    text-shadow: 4px 0 #ff0066, -4px 0 #00ffb4 !important;
+    transition: text-shadow 0s !important;
+  }
 
-        {/* Search box */}
-        <div style={{
-          background: "rgba(0,255,180,0.03)",
-          border: "1px solid rgba(0,255,180,0.2)",
-          borderRadius: 4,
-          padding: 24,
-          marginBottom: 32,
-          position: "relative",
-        }}>
-          <div style={{ fontSize: 10, color: "#00ffb460", letterSpacing: 4, marginBottom: 12 }}>
-            ▸ OBJETIVO / TARGET
-          </div>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <input
-              ref={inputRef}
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              onKeyDown={e => e.key === "Enter" && handleSearch()}
-              placeholder="Ingresa nombre completo..."
-              style={{
-                flex: 1,
-                minWidth: 200,
-                background: "rgba(0,255,180,0.05)",
-                border: "1px solid rgba(0,255,180,0.3)",
-                color: "#00ffb4",
-                fontSize: 18,
-                padding: "14px 18px",
-                fontFamily: "'Courier New', monospace",
-                outline: "none",
-                borderRadius: 2,
-                letterSpacing: 2,
-              }}
-            />
-            <button
-              onClick={handleSearch}
-              style={{
-                background: loading ? "rgba(0,255,180,0.1)" : "rgba(0,255,180,0.15)",
-                border: "1px solid #00ffb4",
-                color: "#00ffb4",
-                padding: "14px 32px",
-                fontFamily: "'Courier New', monospace",
-                fontSize: 13,
-                letterSpacing: 4,
-                cursor: loading ? "not-allowed" : "pointer",
-                borderRadius: 2,
-                transition: "all 0.2s",
-                minWidth: 140,
-              }}
-            >
-              {loading ? "SCANNING..." : "⬡ BUSCAR"}
-            </button>
-          </div>
-          {searched && (
-            <div style={{ marginTop: 16, fontSize: 12, color: "#00ffb480" }}>
-              ✓ OBJETIVO ACTIVO: <span style={{ color: "#00ffb4", fontWeight: "bold" }}>"{searched}"</span>
-              &nbsp;·&nbsp; {PLATFORMS.length} PLATAFORMAS DISPONIBLES
-              &nbsp;·&nbsp; {Object.keys(openedPlatforms).length} CONSULTADAS
-            </div>
-          )}
-        </div>
+  @media (max-width: 600px) {
+    .dork-row { grid-template-columns: 1fr; }
+    .dork-open { display: none; }
+    .platform-grid { grid-template-columns: 1fr 1fr; }
+    .tabs { gap: 0; }
+    .tab-btn { padding: 10px 14px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
 
-        {searched && (
-          <>
-            {/* Tabs */}
-            <div style={{ display: "flex", gap: 0, marginBottom: 24, borderBottom: "1px solid rgba(0,255,180,0.15)" }}>
-              {["platforms", "dorks", "analysis"].map(tab => (
-                <button key={tab} onClick={() => setActiveTab(tab)} style={{
-                  background: activeTab === tab ? "rgba(0,255,180,0.1)" : "transparent",
-                  border: "none",
-                  borderBottom: activeTab === tab ? "2px solid #00ffb4" : "2px solid transparent",
-                  color: activeTab === tab ? "#00ffb4" : "#00ffb450",
-                  padding: "10px 24px",
-                  fontFamily: "'Courier New', monospace",
-                  fontSize: 11,
-                  letterSpacing: 3,
-                  cursor: "pointer",
-                  textTransform: "uppercase",
-                }}>
-                  {tab === "platforms" ? `⬡ PLATAFORMAS (${PLATFORMS.length})` :
-                   tab === "dorks" ? "⌬ GOOGLE DORKS" :
-                   "◈ ANÁLISIS IA"}
-                </button>
-              ))}
-            </div>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-sub">◈ HORUS SYSTEM CO. ◈ OSINT MODULE v2.1 ◈</div>
+    <h1 id="title">PERSONA<span>FINDER</span></h1>
+    <div class="header-tagline">BÚSQUEDA OSINT MULTI-PLATAFORMA</div>
+  </div>
 
-            {/* PLATFORMS TAB */}
-            {activeTab === "platforms" && (
-              <>
-                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 16 }}>
-                  <button onClick={openAllPlatforms} style={{
-                    background: "rgba(255,100,0,0.1)",
-                    border: "1px solid rgba(255,100,0,0.5)",
-                    color: "#ff6400",
-                    padding: "8px 20px",
-                    fontFamily: "'Courier New', monospace",
-                    fontSize: 11,
-                    letterSpacing: 3,
-                    cursor: "pointer",
-                    borderRadius: 2,
-                  }}>
-                    ⚡ ABRIR TODAS LAS PLATAFORMAS
-                  </button>
-                </div>
-
-                <div style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-                  gap: 12,
-                }}>
-                  {PLATFORMS.map((p, i) => (
-                    <div key={p.id}
-                      onClick={() => openPlatform(p)}
-                      style={{
-                        background: openedPlatforms[p.id]
-                          ? "rgba(0,255,180,0.08)"
-                          : "rgba(255,255,255,0.02)",
-                        border: `1px solid ${openedPlatforms[p.id] ? "rgba(0,255,180,0.4)" : "rgba(255,255,255,0.08)"}`,
-                        borderRadius: 4,
-                        padding: "16px 18px",
-                        cursor: "pointer",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 14,
-                        transition: "all 0.2s",
-                        position: "relative",
-                        overflow: "hidden",
-                        animationDelay: `${i * 0.05}s`,
-                      }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.background = "rgba(0,255,180,0.06)";
-                        e.currentTarget.style.borderColor = `${p.color}66`;
-                        e.currentTarget.style.transform = "translateY(-1px)";
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.background = openedPlatforms[p.id] ? "rgba(0,255,180,0.08)" : "rgba(255,255,255,0.02)";
-                        e.currentTarget.style.borderColor = openedPlatforms[p.id] ? "rgba(0,255,180,0.4)" : "rgba(255,255,255,0.08)";
-                        e.currentTarget.style.transform = "translateY(0)";
-                      }}
-                    >
-                      <div style={{
-                        width: 40, height: 40,
-                        background: `${p.color}20`,
-                        border: `1px solid ${p.color}40`,
-                        borderRadius: 4,
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        fontSize: 16, color: p.color, fontWeight: "bold",
-                        flexShrink: 0,
-                      }}>{p.icon}</div>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ color: "#fff", fontSize: 14, fontWeight: "bold", letterSpacing: 1 }}>{p.name}</div>
-                        <div style={{ color: "#ffffff50", fontSize: 11, marginTop: 2 }}>{p.desc}</div>
-                      </div>
-                      <div style={{
-                        fontSize: 10,
-                        color: openedPlatforms[p.id] ? "#00ffb4" : "#ffffff30",
-                        letterSpacing: 2,
-                      }}>
-                        {openedPlatforms[p.id] ? "✓ ABIERTA" : "→ ABRIR"}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div style={{
-                  marginTop: 20,
-                  padding: "14px 18px",
-                  background: "rgba(255,200,0,0.05)",
-                  border: "1px solid rgba(255,200,0,0.15)",
-                  borderRadius: 4,
-                  fontSize: 11,
-                  color: "#ffcc0080",
-                  letterSpacing: 1,
-                }}>
-                  ⚠ AVISO LEGAL: Esta herramienta abre búsquedas públicas en cada plataforma. Toda la información mostrada pertenece a las respectivas redes sociales. Úsala de forma ética y responsable conforme a las leyes de privacidad aplicables.
-                </div>
-              </>
-            )}
-
-            {/* GOOGLE DORKS TAB */}
-            {activeTab === "dorks" && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <div style={{ fontSize: 11, color: "#00ffb460", letterSpacing: 3, marginBottom: 8 }}>
-                  ▸ BÚSQUEDAS AVANZADAS GOOGLE DORKS PARA: "{searched}"
-                </div>
-                {dorks.map((d, i) => (
-                  <div key={i}
-                    onClick={() => {
-                      const url = d.query.startsWith("http") ? d.query : `https://www.google.com/search?q=${encodeURIComponent(d.query)}`;
-                      window.open(url, "_blank");
-                    }}
-                    style={{
-                      background: "rgba(255,255,255,0.02)",
-                      border: "1px solid rgba(0,255,180,0.1)",
-                      borderRadius: 4,
-                      padding: "14px 18px",
-                      cursor: "pointer",
-                      display: "grid",
-                      gridTemplateColumns: "180px 1fr auto",
-                      gap: 12,
-                      alignItems: "center",
-                      transition: "all 0.15s",
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.background = "rgba(0,255,180,0.06)";
-                      e.currentTarget.style.borderColor = "rgba(0,255,180,0.3)";
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.background = "rgba(255,255,255,0.02)";
-                      e.currentTarget.style.borderColor = "rgba(0,255,180,0.1)";
-                    }}
-                  >
-                    <span style={{ color: "#00ffb4", fontSize: 12, letterSpacing: 1 }}>{d.label}</span>
-                    <code style={{
-                      color: "#ffffff70",
-                      fontSize: 11,
-                      background: "rgba(0,0,0,0.3)",
-                      padding: "4px 10px",
-                      borderRadius: 2,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                      display: "block",
-                    }}>
-                      {d.query.length > 80 ? d.query.slice(0, 80) + "..." : d.query}
-                    </code>
-                    <span style={{ color: "#ffffff30", fontSize: 11 }}>→ ABRIR</span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* AI ANALYSIS TAB */}
-            {activeTab === "analysis" && (
-              <div style={{
-                background: "rgba(0,255,180,0.03)",
-                border: "1px solid rgba(0,255,180,0.15)",
-                borderRadius: 4,
-                padding: 24,
-                minHeight: 200,
-              }}>
-                <div style={{ fontSize: 10, color: "#00ffb460", letterSpacing: 4, marginBottom: 16 }}>
-                  ◈ ANÁLISIS IA — MÓDULO OSINT
-                </div>
-                {loading ? (
-                  <div style={{ color: "#00ffb480", fontSize: 13, letterSpacing: 2 }}>
-                    <TypewriterText text="ANALIZANDO OBJETIVO... PROCESANDO DATOS OSINT..." speed={40} />
-                  </div>
-                ) : aiAnalysis ? (
-                  <div style={{
-                    color: "#cce8e0",
-                    fontSize: 13,
-                    lineHeight: 1.8,
-                    letterSpacing: 0.5,
-                    whiteSpace: "pre-wrap",
-                  }}>
-                    <TypewriterText text={aiAnalysis} speed={8} />
-                  </div>
-                ) : (
-                  <div style={{ color: "#00ffb430", fontSize: 13 }}>
-                    Sin análisis disponible.
-                  </div>
-                )}
-              </div>
-            )}
-          </>
-        )}
-
-        {/* Footer */}
-        <div style={{
-          marginTop: 48,
-          textAlign: "center",
-          fontSize: 10,
-          color: "#00ffb425",
-          letterSpacing: 4,
-          borderTop: "1px solid rgba(0,255,180,0.08)",
-          paddingTop: 20,
-        }}>
-          HORUS SYSTEM CO. ◈ PERSONAFINDER ◈ OSINT MODULE ◈ USE RESPONSIBLY
-        </div>
-      </div>
-
-      <style>{`
-        * { box-sizing: border-box; }
-        .cursor {
-          display: inline-block;
-          animation: blink 1s step-end infinite;
-          margin-left: 2px;
-          opacity: 0.7;
-        }
-        @keyframes blink {
-          0%, 100% { opacity: 0.7; }
-          50% { opacity: 0; }
-        }
-        input::placeholder { color: rgba(0,255,180,0.3); }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #050a0f; }
-        ::-webkit-scrollbar-thumb { background: rgba(0,255,180,0.3); border-radius: 2px; }
-      `}</style>
+  <!-- SEARCH -->
+  <div class="search-box">
+    <div class="search-label">▸ OBJETIVO / TARGET</div>
+    <div class="search-row">
+      <input id="q" class="search-input" type="text" placeholder="Escribe el nombre completo..." autocomplete="off" />
+      <button class="btn-search" id="btnSearch">⬡ BUSCAR</button>
     </div>
-  );
+    <div class="search-status" id="status" style="display:none"></div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="platforms">⬡ PLATAFORMAS (12)</button>
+      <button class="tab-btn" data-tab="dorks">⌬ GOOGLE DORKS</button>
+      <button class="tab-btn" data-tab="analysis">◈ ANÁLISIS IA</button>
+    </div>
+
+    <!-- TAB: PLATFORMS -->
+    <div class="tab-panel active" id="tab-platforms">
+      <button class="btn-all" id="btnAll">⚡ ABRIR TODAS LAS PLATAFORMAS</button>
+      <div class="platform-grid" id="platformGrid"></div>
+      <div class="notice">
+        ⚠ AVISO LEGAL: Esta herramienta abre búsquedas en plataformas públicas. Puede requerir inicio de sesión en cada red. Úsala de forma ética y responsable conforme a las leyes de privacidad vigentes.
+      </div>
+    </div>
+
+    <!-- TAB: DORKS -->
+    <div class="tab-panel" id="tab-dorks">
+      <div class="dork-label">▸ BÚSQUEDAS AVANZADAS PARA: <span id="dorkTarget" style="color:var(--green)"></span></div>
+      <div id="dorkList"></div>
+    </div>
+
+    <!-- TAB: AI -->
+    <div class="tab-panel" id="tab-analysis">
+      <div class="ai-box">
+        <div class="ai-header">◈ ANÁLISIS IA — MÓDULO OSINT</div>
+        <div id="ai-content"><span style="color:rgba(0,255,180,0.35)">Ejecuta una búsqueda para activar el análisis.</span></div>
+      </div>
+    </div>
+
+  </div><!-- /results -->
+
+  <div class="footer">HORUS SYSTEM CO. ◈ PERSONAFINDER ◈ OSINT MODULE ◈ USE RESPONSIBLY</div>
+</div>
+
+<script>
+const PLATFORMS = [
+  { id:"google",    name:"Google",          icon:"G",   color:"#4285F4", getUrl: q => `https://www.google.com/search?q="${encodeURIComponent(q)}"`,                                          desc:"Búsqueda general" },
+  { id:"gnews",     name:"Google News",     icon:"📰",  color:"#34A853", getUrl: q => `https://news.google.com/search?q="${encodeURIComponent(q)}"`,                                         desc:"Noticias & prensa" },
+  { id:"twitter",   name:"X / Twitter",     icon:"𝕏",   color:"#e7e9ea", getUrl: q => `https://x.com/search?q="${encodeURIComponent(q)}"&f=top`,                                             desc:"Publicaciones & menciones" },
+  { id:"facebook",  name:"Facebook",        icon:"f",   color:"#1877F2", getUrl: q => `https://www.facebook.com/search/top?q=${encodeURIComponent(q)}`,                                     desc:"Perfiles & publicaciones" },
+  { id:"linkedin",  name:"LinkedIn",        icon:"in",  color:"#0A66C2", getUrl: q => `https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(q)}`,                     desc:"Perfil profesional" },
+  { id:"instagram", name:"Instagram",       icon:"◉",   color:"#E1306C", getUrl: q => `https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent(q)}`,                       desc:"Fotos & videos" },
+  { id:"youtube",   name:"YouTube",         icon:"▶",   color:"#FF0000", getUrl: q => `https://www.youtube.com/results?search_query="${encodeURIComponent(q)}"`,                             desc:"Videos & canales" },
+  { id:"tiktok",    name:"TikTok",          icon:"♪",   color:"#69C9D0", getUrl: q => `https://www.tiktok.com/search?q=${encodeURIComponent(q)}`,                                           desc:"Videos cortos" },
+  { id:"reddit",    name:"Reddit",          icon:"👽",  color:"#FF4500", getUrl: q => `https://www.reddit.com/search/?q="${encodeURIComponent(q)}"`,                                         desc:"Foros & debates" },
+  { id:"pipl",      name:"Pipl",            icon:"🔍",  color:"#a855f7", getUrl: q => `https://pipl.com/search/?q=${encodeURIComponent(q)}`,                                                 desc:"Directorio de personas" },
+  { id:"tps",       name:"TruePeopleSearch",icon:"👤",  color:"#22d3ee", getUrl: q => `https://www.truepeoplesearch.com/results?name=${encodeURIComponent(q)}`,                              desc:"Registros públicos USA" },
+  { id:"github",    name:"GitHub",          icon:"⬡",   color:"#f0f6fc", getUrl: q => `https://github.com/search?q=${encodeURIComponent(q)}&type=users`,                                    desc:"Desarrolladores" },
+];
+
+function getDorks(name) {
+  return [
+    { label:"Exacto en web",       query:`"${name}"` },
+    { label:"En redes sociales",   query:`"${name}" site:facebook.com OR site:x.com OR site:instagram.com OR site:linkedin.com` },
+    { label:"Correos electrónicos",query:`"${name}" email "@gmail.com" OR "@hotmail.com" OR "@yahoo.com"` },
+    { label:"Teléfonos / contacto",query:`"${name}" teléfono OR phone OR contacto` },
+    { label:"Documentos PDF",      query:`"${name}" filetype:pdf` },
+    { label:"Noticias / prensa",   query:`"${name}" site:milenio.com OR site:reforma.com OR site:bbc.com OR site:cnn.com` },
+    { label:"Imágenes",            query:`https://www.google.com/search?tbm=isch&q="${encodeURIComponent(name)}"` },
+  ];
 }
+
+// State
+let currentQuery = "";
+let openedMap = {};
+
+// DOM refs
+const qInput    = document.getElementById("q");
+const btnSearch = document.getElementById("btnSearch");
+const statusEl  = document.getElementById("status");
+const resultsEl = document.getElementById("results");
+const gridEl    = document.getElementById("platformGrid");
+const dorkListEl= document.getElementById("dorkList");
+const dorkTarget= document.getElementById("dorkTarget");
+const aiContent = document.getElementById("ai-content");
+const titleEl   = document.getElementById("title");
+
+// Tabs
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+  });
+});
+
+// Search button
+btnSearch.addEventListener("click", doSearch);
+qInput.addEventListener("keydown", e => { if (e.key === "Enter") doSearch(); });
+
+document.getElementById("btnAll").addEventListener("click", () => {
+  PLATFORMS.forEach((p, i) => {
+    setTimeout(() => {
+      window.open(p.getUrl(currentQuery), "_blank");
+      markOpened(p.id);
+    }, i * 220);
+  });
+});
+
+function doSearch() {
+  const val = qInput.value.trim();
+  if (!val) return;
+  currentQuery = val;
+  openedMap = {};
+
+  // Glitch title
+  titleEl.classList.add("glitch");
+  setTimeout(() => titleEl.classList.remove("glitch"), 400);
+
+  // Show results
+  resultsEl.style.display = "block";
+
+  // Status
+  statusEl.style.display = "block";
+  statusEl.innerHTML = `✓ OBJETIVO: <strong>"${val}"</strong> &nbsp;·&nbsp; ${PLATFORMS.length} PLATAFORMAS &nbsp;·&nbsp; <span id="openCount">0</span> ABIERTAS`;
+
+  // Reset tab to platforms
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+  document.querySelector('[data-tab="platforms"]').classList.add("active");
+  document.getElementById("tab-platforms").classList.add("active");
+
+  buildGrid();
+  buildDorks();
+  runAI();
+}
+
+function buildGrid() {
+  gridEl.innerHTML = "";
+  PLATFORMS.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "platform-card";
+    card.id = "card-" + p.id;
+    card.innerHTML = `
+      <div class="p-icon" style="background:${p.color}20;border:1px solid ${p.color}40;color:${p.color}">${p.icon}</div>
+      <div class="p-info">
+        <div class="p-name">${p.name}</div>
+        <div class="p-desc">${p.desc}</div>
+      </div>
+      <div class="p-status" id="status-${p.id}">→ ABRIR</div>
+    `;
+    card.addEventListener("click", () => {
+      window.open(p.getUrl(currentQuery), "_blank");
+      markOpened(p.id);
+    });
+    // hover border color
+    card.addEventListener("mouseenter", () => { card.style.borderColor = p.color + "55"; });
+    card.addEventListener("mouseleave", () => { card.style.borderColor = openedMap[p.id] ? "rgba(0,255,180,0.35)" : "rgba(255,255,255,0.07)"; });
+    gridEl.appendChild(card);
+  });
+}
+
+function markOpened(id) {
+  openedMap[id] = true;
+  const card = document.getElementById("card-" + id);
+  if (card) card.classList.add("opened");
+  const st = document.getElementById("status-" + id);
+  if (st) st.textContent = "✓ ABIERTA";
+  const c = document.getElementById("openCount");
+  if (c) c.textContent = Object.keys(openedMap).length;
+}
+
+function buildDorks() {
+  dorkTarget.textContent = `"${currentQuery}"`;
+  dorkListEl.innerHTML = "";
+  getDorks(currentQuery).forEach(d => {
+    const isFullUrl = d.query.startsWith("http");
+    const url = isFullUrl ? d.query : `https://www.google.com/search?q=${encodeURIComponent(d.query)}`;
+    const row = document.createElement("a");
+    row.className = "dork-row";
+    row.href = url;
+    row.target = "_blank";
+    row.rel = "noopener";
+    row.innerHTML = `
+      <span class="dork-title">${d.label}</span>
+      <code class="dork-code">${d.query.length > 75 ? d.query.slice(0,75)+"…" : d.query}</code>
+      <span class="dork-open">→ ABRIR</span>
+    `;
+    dorkListEl.appendChild(row);
+  });
+}
+
+async function runAI() {
+  aiContent.innerHTML = `<span style="color:rgba(0,255,180,0.5)">INICIALIZANDO MÓDULO IA...<span class="cursor-blink">█</span></span>`;
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        system: `Eres un experto en OSINT (Open Source Intelligence) y búsqueda de personas en internet. Cuando el usuario busque un nombre, proporciona:
+1. Análisis rápido del nombre (común, raro, variaciones posibles)
+2. Top 3 estrategias de búsqueda más efectivas
+3. Plataformas más probables donde encontrar a esa persona
+4. Consideraciones éticas importantes
+Sé conciso y profesional. Responde en español. Usa encabezados en MAYÚSCULAS. Máximo 300 palabras.`,
+        messages: [{ role: "user", content: `Analiza búsqueda OSINT para: "${currentQuery}"` }]
+      })
+    });
+    const data = await res.json();
+    const text = (data.content || []).map(b => b.text || "").join("") || "Sin respuesta disponible.";
+    typeWriter(text);
+  } catch (e) {
+    aiContent.textContent = "⚠ Error conectando con el módulo de análisis IA.";
+  }
+}
+
+function typeWriter(text) {
+  aiContent.textContent = "";
+  let i = 0;
+  const cursor = document.createElement("span");
+  cursor.className = "cursor-blink";
+  cursor.textContent = "█";
+  aiContent.appendChild(cursor);
+
+  const iv = setInterval(() => {
+    if (i < text.length) {
+      aiContent.insertBefore(document.createTextNode(text[i]), cursor);
+      i++;
+    } else {
+      clearInterval(iv);
+      cursor.remove();
+    }
+  }, 10);
+}
+</script>
+</body>
+</html>
